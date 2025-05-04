@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\User;
 
@@ -38,9 +38,14 @@ class AdminController extends Controller
     }
 
     // Logout admin
-    public function logout()
+    public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
+        
+        // Invalidate session dan regenerate CSRF token untuk keamanan
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+        
         return redirect('/');  // Redirect ke halaman depan setelah logout
     }
 
@@ -51,5 +56,3 @@ class AdminController extends Controller
         return $admin !== null;  // Jika admin ditemukan
     }
 }
-
-

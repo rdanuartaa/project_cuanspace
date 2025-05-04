@@ -113,7 +113,16 @@
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-              <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Sign Out</a>
+              
+              <form method="POST" action="{{ route('logout') }}">
+                @csrf
+                <button type="submit" class="dropdown-item">
+                  <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Keluar
+                </button>
+              </form>
+            </div>
+          </li>
+
             </div>
           </li>
         </ul>
@@ -346,7 +355,19 @@
             </a>
           </li>
         </ul>
+
+              <li class="nav-item">
+            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+              @csrf
+              <button type="submit" class="nav-link btn btn-link" style="background: none; border: none; width: 100%; text-align: left;">
+                <i class="menu-icon mdi mdi-logout"></i>
+                <span class="menu-title">Logout</span>
+              </button>
+            </form>
+          </li>
+        </ul>
       </nav>
+      
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">

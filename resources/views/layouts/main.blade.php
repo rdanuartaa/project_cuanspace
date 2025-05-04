@@ -14,7 +14,11 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
 </head>
+
 
 <body>
     <div class="modal fade" id="myModal" role="dialog">
@@ -69,9 +73,9 @@
                                         </li>
                                         <!-- Logout -->
                                         <li class="level2">
-                                            <form method="POST" action="{{ route('logout') }}" style="display: inline;">
+                                            <form method="POST" action="{{ route('logout') }}">
                                                 @csrf
-                                                <button type="submit" class="dropdown-item" style="background: none; border: none; padding: 0;">Logout</button>
+                                                <button type="submit" class="logout-btn">Keluar</button>
                                             </form>
                                         </li>
                                     </ul>
@@ -81,7 +85,7 @@
                             @guest
                                 <!-- Hanya tampil jika pengguna belum login -->
                                 <li class="level1 active dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="pointer-events: none; opacity: 0.6;">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="icon-user f-15"></i>
                                     </a>
                                     <span class="plus js-plus-icon"></span>
@@ -105,7 +109,7 @@
                 </div>
                 <!--end topbar-left-->
                 <div class="logo hidden-xs hidden-sm">
-                    <a href="" title="home-logo"><img src="img/cosre.png" alt="logo" class="img-reponsive"></a>
+                    <a href="{{ url('/') }}" title="home-logo"><img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive"></a>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-option">
@@ -125,7 +129,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="logo-mobile hidden-lg hidden-md">
-                            <a href="" title="home-logo"><img src="img/cosre.png" alt="logo" class="img-reponsive"></a>
+                            <a href="{{ url('/') }}" title="home-logo"><img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive"></a>
                         </div>
                         <!--end logo-->
                         <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse" data-target="#myNavbar">
@@ -141,7 +145,7 @@
                                         <a href="#">About</a>
                                     </li>
                                     <li class="level1 active dropdown">
-                                        <a href="#">Home</a>
+                                        <a href="{{ url('/') }}">Home</a>
                                     </li>
                                     <li class="level1 active dropdown">
                                         <a href="#">Fitur Kami</a>
@@ -164,6 +168,19 @@
                                                 <li class="level2"><a href="{{ route('seller.register') }}" title="Seller Register">Gabung sebagai Seller</a></li>
                                             </ul>
                                         </li>
+                                        <!-- Tombol logout yang berfungsi yang lebih jelas -->
+                                        <li class="level1 active dropdown">
+                                            <a href="#"><i class="fas fa-sign-out-alt"></i> Keluar</a>
+                                            <span class="plus js-plus-icon"></span>
+                                            <ul class="dropdown-menu menu-level-1">
+                                                <li class="level2">
+                                                    <form method="POST" action="{{ route('logout') }}">
+                                                        @csrf
+                                                        <button type="submit" class="logout-btn">Logout Akun</button>
+                                                    </form>
+                                                </li>
+                                            </ul>
+                                        </li>
                                     @endauth
                                 </ul>
                             </div>
@@ -173,7 +190,30 @@
             </div>
         </div>
     </header>
- @yield('content')
+    
+    <!-- Flash Messages -->
+    <div class="container mt-4">
+        @if (session('status'))
+            <div class="alert alert-success alert-dismissible" role="alert">
+                {{ session('status') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+
+        @if (session('error'))
+            <div class="alert alert-danger alert-dismissible" role="alert">
+                {{ session('error') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+        @endif
+    </div>
+    
+    @yield('content')
+    
     <footer>
         <div class="container container-42">
             <div class="row">
@@ -220,12 +260,27 @@
         </div>
     </footer>
     <a href="#" class="scroll_top">SCROLL TO TOP<span></span></a>
-    <script src="js/jquery.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/bootstrap-slider.min.js"></script>
-    <script src="js/slick.min.js"></script>
-    <script src="js/masonry.pkgd.min.js"></script>
-    <script src="js/main.js"></script>
+    <script src="{{ asset('js/jquery.js') }}"></script>
+    <script src="{{ asset('js/bootstrap.js') }}"></script>
+    <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+    <script src="{{ asset('js/bootstrap-slider.min.js') }}"></script>
+    <script src="{{ asset('js/slick.min.js') }}"></script>
+    <script src="{{ asset('js/masonry.pkgd.min.js') }}"></script>
+    <script src="{{ asset('js/main.js') }}"></script>
+    <!-- Script untuk memastikan logout berfungsi dengan benar -->
+    <script>
+        $(document).ready(function() {
+            // Tambahkan konfirmasi logout jika diinginkan
+            $('.logout-btn').click(function(e) {
+                if (confirm('Apakah Anda yakin ingin keluar?')) {
+                    // Lanjutkan dengan logout
+                    return true;
+                } else {
+                    e.preventDefault();
+                    return false;
+                }
+            });
+        });
+    </script>
 </body>
 </html>

@@ -1,6 +1,5 @@
 <?php
 
-// app/Http/Middleware/SellerMiddleware.php
 namespace App\Http\Middleware;
 
 use Closure;
@@ -14,8 +13,11 @@ class SellerMiddleware
         if (Auth::check() && Auth::user()->seller && Auth::user()->seller->status === 'active') {
             return $next($request);
         }
-
-        return redirect()->route('main.home'); // Jika status seller belum aktif, redirect ke halaman home
+        
+        if (Auth::check() && Auth::user()->seller && Auth::user()->seller->status === 'pending') {
+            return redirect()->route('main.home')->with('status', 'Akun seller Anda sedang dalam proses verifikasi. Mohon tunggu konfirmasi dari admin.');
+        }
+        
+        return redirect()->route('main.home')->with('status', 'Anda perlu mendaftar sebagai seller terlebih dahulu.');
     }
 }
-

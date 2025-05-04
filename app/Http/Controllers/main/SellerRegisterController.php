@@ -1,29 +1,44 @@
 <?php
-// app/Http/Controllers/Main/SellerRegisterController.php
 
 namespace App\Http\Controllers\Main;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use App\Models\Seller;
 
 class SellerRegisterController extends Controller
 {
+    /**
+     * Show the seller registration form.
+     *
+     * @return \Illuminate\View\View
+     */
     public function showForm()
     {
-        // Cek apakah user sudah terdaftar sebagai seller
+        // Check if user is already authenticated
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu untuk mendaftar sebagai seller.');
+        }
+
+        // Check if user already registered as seller
         $user = Auth::user();
         if ($user->seller) {
-            return redirect()->route('seller.dashboard')->with('status', 'You are already a seller!');
+            if ($user->seller->status === 'active') {
+                return redirect()->route('seller.dashboard')->with('status', 'Anda sudah terdaftar sebagai seller aktif.');
+            } else {
+                return redirect()->route('main.home')->with('status', 'Pendaftaran seller Anda sedang dalam proses verifikasi. Mohon tunggu konfirmasi dari admin.');
+            }
         }
 
         return view('main.seller_register');
     }
 
+
     public function register(Request $request)
     {
-        // Validasi input pendaftaran seller
+        // Validate the registration input
         $request->validate([
             'brand_name' => 'required|string|max:100',
             'description' => 'required|string|max:1000',
@@ -33,18 +48,22 @@ class SellerRegisterController extends Controller
             'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
+        // Check if user is authenticated
         $user = Auth::user();
-
-        // Cek jika user sudah menjadi seller
-        if ($user->seller) {
-            return redirect()->route('main.home')->with('status', 'You are already a seller!');
+        if (!$user) {
+            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu untuk mendaftar sebagai seller.');
         }
 
-        // Mengambil file gambar
+        // Check if user already registered as seller
+        if ($user->seller) {
+            return redirect()->route('main.home')->with('status', 'Anda sudah terdaftar sebagai seller.');
+        }
+
+        // Store image files
         $profile_image_path = $request->file('profile_image')->store('public/profile_images');
         $banner_image_path = $request->file('banner_image')->store('public/banner_images');
 
-        // Simpan data seller ke tabel sellers
+        // Create new seller record
         $seller = new Seller();
         $seller->user_id = $user->id;
         $seller->brand_name = $request->brand_name;
@@ -53,12 +72,9 @@ class SellerRegisterController extends Controller
         $seller->contact_whatsapp = $request->contact_whatsapp;
         $seller->profile_image = $profile_image_path;
         $seller->banner_image = $banner_image_path;
-        $seller->status = 'pending'; // Status awal seller adalah 'pending'
+        $seller->status = 'pending'; // Default status for new sellers
         $seller->save();
 
-        return redirect()->route('main.home')->with('status', 'You have registered as a seller. Your status is pending.');
+        return redirect()->route('main.home')->with('status', 'Pendaftaran seller berhasil! Status Anda saat ini adalah pending. Mohon tunggu verifikasi dari admin.');
     }
 }
-
-
-

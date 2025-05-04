@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use App\Models\Admin;
+use App\Models\User;
 
 class AuthenticatedSessionController extends Controller
 {
@@ -39,6 +40,13 @@ class AuthenticatedSessionController extends Controller
             // Jika user biasa, coba login dengan guard 'web'
             if (Auth::guard('web')->attempt($credentials)) {
                 $request->session()->regenerate();
+                
+                // Check if user is a seller and active
+                $user = User::where('email', $request->email)->first();
+                if ($user && $user->seller && $user->seller->status === 'active') {
+                    return redirect()->intended(route('seller.dashboard')); // Redirect to seller dashboard
+                }
+                
                 return redirect()->intended(route('main.home')); // Redirect ke halaman home untuk user
             }
         }
@@ -73,4 +81,3 @@ class AuthenticatedSessionController extends Controller
         return Admin::where('email', $email)->exists(); // Cek apakah email milik admin
     }
 }
-
