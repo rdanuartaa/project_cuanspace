@@ -3,6 +3,13 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Admin\SellerController;
+use App\Http\Controllers\Admin\KategoriController;
+use App\Http\Controllers\Main\SellerRegisterController;
+
+// ---------------- HALAMAN DEPAN / USER ----------------
+
+// Halaman depan (guest)
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
 use App\Http\Controllers\Main\SellerRegisterController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
@@ -14,12 +21,12 @@ Route::get('/', function () {
     return view('main.home');
 })->name('home');
 
-// Halaman home untuk user biasa setelah login
+// Halaman home setelah login user biasa
 Route::get('/home', function () {
     return view('main.home');
 })->middleware(['auth', 'verified'])->name('main.home');
 
-// Profil untuk pengguna biasa
+// Profil user biasa
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
@@ -30,11 +37,16 @@ Route::middleware('auth')->group(function () {
     Route::post('/seller-register', [SellerRegisterController::class, 'register'])->name('seller.register.submit');
 });
 
+
+// ---------------- ADMIN ----------------
+
 // Rute untuk admin
 Route::prefix('admin')->name('admin.')->group(function () {
+    // Login admin
     // Halaman login untuk admin (tanpa middleware)
     Route::get('login', [AdminController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminController::class, 'login'])->name('login.submit');
+
 
     // Logout admin (tanpa middleware)
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
