@@ -8,10 +8,8 @@ use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Main\SellerRegisterController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
-
 // Halaman depan (guest)
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
-use App\Http\Controllers\Main\SellerRegisterController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
