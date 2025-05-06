@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
-use App\Http\Controllers\Main\SellerRegisterController; 
+use App\Http\Controllers\Main\SellerRegisterController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
@@ -24,7 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-    
+
     // Halaman register sebagai seller
     Route::get('/seller-register', [SellerRegisterController::class, 'showForm'])->name('seller.register');
     Route::post('/seller-register', [SellerRegisterController::class, 'register'])->name('seller.register.submit');
@@ -35,7 +35,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Halaman login untuk admin (tanpa middleware)
     Route::get('login', [AdminController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminController::class, 'login'])->name('login.submit');
-    
+
     // Logout admin (tanpa middleware)
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
 
