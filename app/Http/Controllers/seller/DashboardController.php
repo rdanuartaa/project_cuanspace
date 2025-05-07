@@ -1,5 +1,7 @@
 <?php
 
+// app/Http/Controllers/Seller/DashboardController.php
+
 namespace App\Http\Controllers\Seller;
 
 use App\Http\Controllers\Controller;
@@ -15,10 +17,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        // Pastikan user sudah login
         $user = Auth::user();
-        
-        // Untuk sementara, bisa langsung menampilkan view dashboard
-        return view('seller.dashboard');
+        $seller = $user->seller;
+
+        return view('seller.dashboard', compact('seller'));
     }
 }
