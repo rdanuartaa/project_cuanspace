@@ -5,8 +5,13 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\KategoriController;
-use App\Http\Controllers\Admin\SellerController as AdminSellerController;
 use App\Http\Controllers\Main\SellerRegisterController;
+use App\Http\Controllers\Seller\ProductController; // Added this import
+
+// ---------------- HALAMAN DEPAN / USER ----------------
+
+// Halaman depan (guest)
+use App\ttp\Controllers\Admin\SellerController as AdminSellerController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
@@ -29,6 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
 
     Route::get('/seller-register', [SellerRegisterController::class, 'showForm'])->name('seller.register');
     Route::post('/seller-register', [SellerRegisterController::class, 'register'])->name('seller.register.submit');
@@ -73,6 +79,24 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // ---------------- SELLER ----------------
 
+
+Route::middleware(['auth'])->prefix('seller')->group(function () {
+    // Dashboard
+    Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
+    
+    // Produk management - WITHOUT using name('seller.') in the group
+    Route::get('produk', [ProductController::class, 'index'])->name('seller.produk');
+    Route::get('produk/create', [ProductController::class, 'create'])->name('seller.produk.create');
+    Route::post('produk', [ProductController::class, 'store'])->name('seller.produk.store');
+    Route::get('produk/{id}/edit', [ProductController::class, 'edit'])->name('seller.produk.edit');
+    Route::put('produk/{id}', [ProductController::class, 'update'])->name('seller.produk.update');
+    Route::delete('produk/{id}', [ProductController::class, 'destroy'])->name('seller.produk.destroy');
+});
+
+// ---------------- AUTENTIKASI USER BIASA ----------------
+
+require __DIR__.'/auth.php';
+=======
 Route::middleware(['auth', 'seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
 
