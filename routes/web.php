@@ -10,6 +10,7 @@ use App\Http\Controllers\Main\SellerRegisterController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
+use App\Http\Controllers\Admin\UserController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
@@ -61,6 +62,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
         Route::put('kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
         Route::delete('kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy');
+
+        // Kelola Pengguna
+        Route::get('users', [UserController::class, 'index'])->name('user.index');
+        Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('users/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
     });
 });
 
