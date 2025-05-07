@@ -1,4 +1,5 @@
 <?php
+// app/Http/Middleware/SellerMiddleware.php
 
 namespace App\Http\Middleware;
 

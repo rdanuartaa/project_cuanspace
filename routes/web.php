@@ -6,20 +6,18 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Admin\SellerController;
 use App\Http\Controllers\Admin\KategoriController;
 use App\Http\Controllers\Main\SellerRegisterController;
+use App\Http\Controllers\Seller\ProductController; // Added this import
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
 // Halaman depan (guest)
 use App\Http\Controllers\Admin\SellerController as AdminSellerController;
-use App\Http\Controllers\Main\SellerRegisterController;
 use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
 
 // Halaman utama (tanpa login)
 Route::get('/', function () {
-    return view('main.home');
-});
     return view('main.home');
 })->name('home');
 
@@ -35,8 +33,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Register sebagai seller
-
-    // Halaman register sebagai seller
     Route::get('/seller-register', [SellerRegisterController::class, 'showForm'])->name('seller.register');
     Route::post('/seller-register', [SellerRegisterController::class, 'register'])->name('seller.register.submit');
 });
@@ -78,29 +74,18 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
 // ---------------- SELLER ----------------
 
-Route::middleware(['auth', 'seller'])->prefix('seller')->name('seller.')->group(function () {
-    Route::get('dashboard', function () {
-        return view('seller.dashboard');
-    })->name('dashboard');
-
-    // Dashboard admin dan rute-rute yang membutuhkan autentikasi admin
-    Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::get('dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
-
-        // Halaman untuk mengelola seller yang mendaftar
-        Route::get('sellers', [AdminSellerController::class, 'index'])->name('sellers.index');
-        Route::post('sellers/{id}/verify', [AdminSellerController::class, 'verify'])->name('sellers.verify');
-    });
+Route::middleware(['auth'])->prefix('seller')->group(function () {
+    // Dashboard
+    Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
+    
+    // Produk management - WITHOUT using name('seller.') in the group
+    Route::get('produk', [ProductController::class, 'index'])->name('seller.produk');
+    Route::get('produk/create', [ProductController::class, 'create'])->name('seller.produk.create');
+    Route::post('produk', [ProductController::class, 'store'])->name('seller.produk.store');
+    Route::get('produk/{id}/edit', [ProductController::class, 'edit'])->name('seller.produk.edit');
+    Route::put('produk/{id}', [ProductController::class, 'update'])->name('seller.produk.update');
+    Route::delete('produk/{id}', [ProductController::class, 'destroy'])->name('seller.produk.destroy');
 });
-
-// Rute untuk seller
-Route::prefix('seller')->name('seller.')->middleware(['auth'])->group(function () {
-    // Dashboard untuk seller yang sudah aktif
-    Route::get('dashboard', [App\Http\Controllers\Seller\DashboardController::class, 'index'])->name('dashboard');
-});
-
 
 // ---------------- AUTENTIKASI USER BIASA ----------------
 
