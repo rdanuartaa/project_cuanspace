@@ -1,65 +1,62 @@
 <?php
+// app/Http/Controllers/Admin/UserController.php
 
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Tampilkan daftar semua pengguna.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
+        // Ambil semua pengguna
+        $users = User::all();
+        return view('admin.users.index', compact('users'));
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Tampilkan form untuk mengedit pengguna.
      */
-    public function create()
+    public function edit($id)
     {
-        //
+        $user = User::findOrFail($id);
+        return view('admin.users.edit', compact('user'));
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Update data pengguna.
      */
-    public function store(Request $request)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+        ]);
+
+        $user = User::findOrFail($id);
+        $user->update([
+            'name' => $request->input('name'),
+            'email' => $request->input('email'),
+            // Update password hanya jika diisi
+            'password' => $request->filled('password') ? bcrypt($request->input('password')) : $user->password,
+        ]);
+
+        return redirect()->route('admin.users.index')->with('status', 'User updated successfully!');
     }
 
     /**
-     * Display the specified resource.
+     * Hapus pengguna.
      */
-    public function show(string $id)
+    public function destroy($id)
     {
-        //
-    }
+        $user = User::findOrFail($id);
+        $user->delete();
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
+        return redirect()->route('admin.users.index')->with('status', 'User deleted successfully!');
     }
 }

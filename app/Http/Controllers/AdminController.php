@@ -1,21 +1,28 @@
 <?php
+
 // app/Http/Controllers/AdminController.php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Seller;
 
 class AdminController extends Controller
 {
-    // Menampilkan form login
+    /**
+     * Menampilkan form login
+     */
     public function showLoginForm()
     {
-        return view('main.login');  // Menampilkan form login
+        return view('main.login');
     }
 
-    // Proses login
+    /**
+     * Proses login
+     */
     public function login(Request $request)
     {
         $credentials = $request->only('email', 'password');
@@ -37,22 +44,36 @@ class AdminController extends Controller
         return back()->withErrors(['email' => 'Invalid credentials']);
     }
 
-    // Logout admin
+    /**
+     * Logout admin
+     */
     public function logout(Request $request)
     {
         Auth::guard('admin')->logout();
-        
+
         // Invalidate session dan regenerate CSRF token untuk keamanan
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        
-        return redirect('/');  // Redirect ke halaman depan setelah logout
+
+        return redirect('/');
     }
 
-    // Mengecek apakah email admin
+    /**
+     * Mengecek apakah email admin
+     */
     private function isAdmin($email)
     {
         $admin = Admin::where('email', $email)->first();
-        return $admin !== null;  // Jika admin ditemukan
+        return $admin !== null;
+    }
+
+    /**
+     * Menampilkan dashboard admin
+     */
+    public function dashboard()
+    {
+        $sellers = Seller::all();
+        $topSellers = Seller::where('status', 'active')->orderBy('updated_at', 'desc')->take(5)->get();
+        return view('admin.dashboard', compact('sellers', 'topSellers'));
     }
 }

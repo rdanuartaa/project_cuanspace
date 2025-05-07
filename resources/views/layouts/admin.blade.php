@@ -311,7 +311,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="#">
+            <a class="nav-link" href="{{ route('admin.users.index') }}">
               <i class="menu-icon mdi mdi-account-check"></i>
               <span class="menu-title">Kelola Pengguna</span>
             </a>
