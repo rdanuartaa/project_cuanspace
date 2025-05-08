@@ -83,7 +83,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth'])->prefix('seller')->group(function () {
     // Dashboard
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('seller.dashboard');
-    
+
     // Produk management - WITHOUT using name('seller.') in the group
     Route::get('produk', [ProductController::class, 'index'])->name('seller.produk');
     Route::get('produk/create', [ProductController::class, 'create'])->name('seller.produk.create');
@@ -96,7 +96,6 @@ Route::middleware(['auth'])->prefix('seller')->group(function () {
 // ---------------- AUTENTIKASI USER BIASA ----------------
 
 require __DIR__.'/auth.php';
-=======
 Route::middleware(['auth', 'seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
 
