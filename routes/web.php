@@ -71,9 +71,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Kelola Pengguna
         Route::get('users', [UserController::class, 'index'])->name('user.index');
+
     Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
     Route::put('users/{id}', [UserController::class, 'update'])->name('user.update');
     Route::delete('users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+        Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('users/{id}', [UserController::class, 'update'])->name('user.update');
+        Route::delete('users/{id}', [UserController::class, 'destroy'])->name('user.destroy');
+
     });
 });
 
@@ -96,7 +101,7 @@ Route::middleware(['auth'])->prefix('seller')->group(function () {
 // ---------------- AUTENTIKASI USER BIASA ----------------
 
 require __DIR__.'/auth.php';
-=======
+
 Route::middleware(['auth', 'seller'])->prefix('seller')->name('seller.')->group(function () {
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
 
