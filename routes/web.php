@@ -11,6 +11,7 @@ use App\Http\Controllers\Seller\DashboardController as SellerDashboardController
 use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
 use App\Http\Controllers\Admin\UserController;
+use App\Http\Controllers\Admin\UserController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
