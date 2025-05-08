@@ -305,18 +305,19 @@
       <!-- partial -->
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
+          <ul class="nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ route('seller.dashboard') }}">
+                <i class="mdi mdi-grid-large menu-icon"></i>
+                <span class="menu-title">Dashboard</span>
+              </a>
+            </li>
+            <li class="nav-item">
+            <a class="nav-link" href="{{ route('seller.produk') }}">
+              <i class="menu-icon mdi mdi-package-variant-closed"></i>
+              <span class="menu-title">Produk Saya</span>
             </a>
           </li>
-          <li class="nav-item">
-        <a class="nav-link" href="{{ route('seller.produk') }}">
-            <i class="menu-icon mdi mdi-package-variant-closed"></i>
-            <span class="menu-title">Produk Saya</span>
-        </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">
@@ -362,7 +363,7 @@
               <button type="submit" class="nav-link btn btn-link" style="background: none; border: none; width: 100%; text-align: left;">
                 <i class="menu-icon mdi mdi-logout"></i>
                 <span class="menu-title">Logout</span>
-              </button>
+        </button>
             </form>
           </li>
         </ul>
