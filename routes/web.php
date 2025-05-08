@@ -13,6 +13,7 @@ use App\Http\Middleware\AdminMiddleware;
 use App\Http\Middleware\SellerMiddleware;
 use App\Http\Controllers\Admin\UserController;
 
+
 // ---------------- HALAMAN DEPAN / USER ----------------
 
 // Halaman utama (tanpa login)
@@ -78,7 +79,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])->prefix('seller')->name('seller.')->group(function () {
     // Dashboard
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
-    
+
     // Produk management
     Route::get('produk', [ProductController::class, 'index'])->name('produk');
     Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
