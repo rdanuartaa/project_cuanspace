@@ -313,10 +313,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="seller.produk">
-              <i class="menu-icon mdi mdi-package-variant-closed"></i>
-              <span class="menu-title">Produk Saya</span>
-            </a>
+        <a class="nav-link" href="{{ route('seller.produk') }}">
+            <i class="menu-icon mdi mdi-package-variant-closed"></i>
+            <span class="menu-title">Produk Saya</span>
+        </a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">
