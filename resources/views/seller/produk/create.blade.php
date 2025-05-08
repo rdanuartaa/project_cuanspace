@@ -1,4 +1,4 @@
-{{-- resources/views/seller/tambah_produk.blade.php --}}
+{{-- resources/views/seller/produk/create.blade.php --}}
 @extends('layouts.seller')
 @section('title', 'Tambah Produk')
 @section('content')

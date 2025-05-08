@@ -1,4 +1,4 @@
-{{-- resources/views/seller/produk.blade.php --}}
+{{-- resources/views/seller/produk/index.blade.php --}}
 @extends('layouts.seller')
 @section('title', 'Produk Saya')
 @section('content')

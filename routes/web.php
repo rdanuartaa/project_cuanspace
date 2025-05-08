@@ -79,7 +79,8 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])->prefi
     // Dashboard
     Route::get('dashboard', [SellerDashboardController::class, 'index'])->name('dashboard');
     
-    // Produk management
+    // Produk management with dashboard
+    Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
     Route::get('produk', [ProductController::class, 'index'])->name('produk');
     Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
     Route::post('produk', [ProductController::class, 'store'])->name('produk.store');

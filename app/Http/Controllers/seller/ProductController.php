@@ -68,7 +68,8 @@ class ProductController extends Controller
                 Log::info('Full URL would be: ' . asset('storage/' . $sampleProduct->thumbnail));
             }
             
-            return view('seller.produk', compact('products', 'kategoris'));
+            // Updated view path to match new folder structure
+            return view('seller.produk.index', compact('products', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method index: ' . $e->getMessage());
             return redirect()->back()
@@ -92,7 +93,8 @@ class ProductController extends Controller
                     ->with('error', 'Tidak ada kategori tersedia. Hubungi admin untuk menambahkan kategori.');
             }
             
-            return view('seller.tambah_produk', compact('kategoris'));
+            // Updated view path to match new folder structure
+            return view('seller.produk.create', compact('kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method create: ' . $e->getMessage());
             return redirect()->back()
@@ -223,7 +225,8 @@ class ProductController extends Controller
             Log::info('Edit product, thumbnail path: ' . $product->thumbnail);
             Log::info('Full URL: ' . asset('storage/' . $product->thumbnail));
             
-            return view('seller.edit_produk', compact('product', 'kategoris'));
+            // Updated view path to match new folder structure
+            return view('seller.produk.edit', compact('product', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method edit: ' . $e->getMessage());
             return redirect()->route('seller.produk')
@@ -390,6 +393,40 @@ class ProductController extends Controller
             
             return redirect()->route('seller.produk')
                 ->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
+        }
+    }
+    
+    /**
+     * Display the dashboard for products.
+     */
+    public function dashboard()
+    {
+        $this->checkSeller();
+        
+        try {
+            $products = Product::where('seller_id', Auth::user()->seller->id)->get();
+            $productCount = $products->count();
+            $publishedCount = $products->where('status', 'published')->count();
+            $draftCount = $products->where('status', 'draft')->count();
+            $archivedCount = $products->where('status', 'archived')->count();
+            
+            // Get recent products
+            $recentProducts = Product::where('seller_id', Auth::user()->seller->id)
+                ->orderBy('created_at', 'desc')
+                ->take(5)
+                ->get();
+            
+            return view('seller.produk.dashboard', compact(
+                'productCount', 
+                'publishedCount', 
+                'draftCount', 
+                'archivedCount', 
+                'recentProducts'
+            ));
+        } catch (\Exception $e) {
+            Log::error('Error pada method dashboard: ' . $e->getMessage());
+            return redirect()->route('seller.produk')
+                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
         }
     }
 }

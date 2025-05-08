@@ -1,4 +1,4 @@
-{{-- resources/views/seller/edit_produk.blade.php --}}
+{{-- resources/views/seller/produk/edit.blade.php --}}
 @extends('layouts.seller')
 @section('title', 'Edit Produk')
 @section('content')
