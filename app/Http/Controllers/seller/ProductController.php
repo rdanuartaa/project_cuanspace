@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\File;
 
 class ProductController extends Controller
 {
@@ -24,11 +25,22 @@ class ProductController extends Controller
     }
 
     /**
+     * Check if storage link exists
+     */
+    private function checkStorageLink()
+    {
+        if (!File::exists(public_path('storage'))) {
+            Log::warning('Storage symlink not found. Run "php artisan storage:link"');
+        }
+    }
+
+    /**
      * Display a listing of the products.
      */
     public function index(Request $request)
     {
         $this->checkSeller();
+        $this->checkStorageLink();
         
         try {
             $query = Product::query();
@@ -49,6 +61,13 @@ class ProductController extends Controller
             $products = $query->latest()->paginate(10);
             $kategoris = Kategori::all();
             
+            // For debugging, log a few product thumbnails
+            if ($products->count() > 0) {
+                $sampleProduct = $products->first();
+                Log::info('Sample product thumbnail path: ' . $sampleProduct->thumbnail);
+                Log::info('Full URL would be: ' . asset('storage/' . $sampleProduct->thumbnail));
+            }
+            
             return view('seller.produk', compact('products', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method index: ' . $e->getMessage());
@@ -63,6 +82,7 @@ class ProductController extends Controller
     public function create()
     {
         $this->checkSeller();
+        $this->checkStorageLink();
         
         try {
             $kategoris = Kategori::all();
@@ -85,11 +105,12 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $this->checkSeller();
+        $this->checkStorageLink();
+        
         // Log untuk debugging
         Log::info('Method store dipanggil');
         Log::info('Request data:', $request->all());
-        
-        $this->checkSeller();
         
         try {
             // Validasi input
@@ -122,7 +143,11 @@ class ProductController extends Controller
                 throw new \Exception('Gagal mengupload thumbnail');
             }
             
+            // Convert storage path for display
+            $thumbnailDisplayPath = str_replace('public/', '', $thumbnailPath);
             Log::info('Thumbnail berhasil diupload: ' . $thumbnailPath);
+            Log::info('Thumbnail display path: ' . $thumbnailDisplayPath);
+            Log::info('Full URL akan menjadi: ' . asset('storage/' . $thumbnailDisplayPath));
             
             // Upload digital file
             if (!$request->hasFile('digital_file')) {
@@ -135,7 +160,9 @@ class ProductController extends Controller
                 throw new \Exception('Gagal mengupload file digital');
             }
             
+            $digitalFileDisplayPath = str_replace('public/', '', $digitalFilePath);
             Log::info('File digital berhasil diupload: ' . $digitalFilePath);
+            Log::info('Digital file display path: ' . $digitalFileDisplayPath);
 
             // Create product
             $product = new Product();
@@ -144,8 +171,8 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->price = $request->price;
             $product->kategori_id = $request->kategori_id;
-            $product->thumbnail = str_replace('public/', '', $thumbnailPath);
-            $product->digital_file = str_replace('public/', '', $digitalFilePath);
+            $product->thumbnail = $thumbnailDisplayPath; // Save path without 'public/' prefix
+            $product->digital_file = $digitalFileDisplayPath; // Save path without 'public/' prefix
             $product->status = $request->status;
             
             $saved = $product->save();
@@ -155,6 +182,7 @@ class ProductController extends Controller
             }
             
             Log::info('Produk berhasil disimpan dengan ID: ' . $product->id);
+            Log::info('Thumbnail path saved: ' . $product->thumbnail);
 
             DB::commit();
             
@@ -185,11 +213,15 @@ class ProductController extends Controller
     public function edit(string $id)
     {
         $this->checkSeller();
+        $this->checkStorageLink();
         
         try {
             $product = Product::where('seller_id', Auth::user()->seller->id)
                 ->findOrFail($id);
             $kategoris = Kategori::all();
+            
+            Log::info('Edit product, thumbnail path: ' . $product->thumbnail);
+            Log::info('Full URL: ' . asset('storage/' . $product->thumbnail));
             
             return view('seller.edit_produk', compact('product', 'kategoris'));
         } catch (\Exception $e) {
@@ -204,11 +236,12 @@ class ProductController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $this->checkSeller();
+        $this->checkStorageLink();
+        
         // Log untuk debugging
         Log::info('Method update dipanggil');
         Log::info('Request data:', $request->all());
-        
-        $this->checkSeller();
         
         try {
             $product = Product::where('seller_id', Auth::user()->seller->id)
@@ -243,14 +276,17 @@ class ProductController extends Controller
                     throw new \Exception('Gagal mengupload thumbnail baru.');
                 }
                 
+                $thumbnailDisplayPath = str_replace('public/', '', $thumbnailPath);
                 Log::info('Thumbnail baru berhasil diupload: ' . $thumbnailPath);
+                Log::info('Thumbnail display path: ' . $thumbnailDisplayPath);
                 
                 // Delete old thumbnail
                 if ($product->thumbnail) {
+                    Log::info('Menghapus thumbnail lama: public/' . $product->thumbnail);
                     Storage::delete('public/' . $product->thumbnail);
                 }
                 
-                $data['thumbnail'] = str_replace('public/', '', $thumbnailPath);
+                $data['thumbnail'] = $thumbnailDisplayPath;
             }
 
             // Handle digital file upload if provided
@@ -261,14 +297,17 @@ class ProductController extends Controller
                     throw new \Exception('Gagal mengupload file digital baru.');
                 }
                 
+                $digitalFileDisplayPath = str_replace('public/', '', $digitalFilePath);
                 Log::info('File digital baru berhasil diupload: ' . $digitalFilePath);
+                Log::info('Digital file display path: ' . $digitalFileDisplayPath);
                 
                 // Delete old file
                 if ($product->digital_file) {
+                    Log::info('Menghapus file digital lama: public/' . $product->digital_file);
                     Storage::delete('public/' . $product->digital_file);
                 }
                 
-                $data['digital_file'] = str_replace('public/', '', $digitalFilePath);
+                $data['digital_file'] = $digitalFileDisplayPath;
             }
 
             // Update product
@@ -278,6 +317,7 @@ class ProductController extends Controller
             }
             
             Log::info('Produk berhasil diperbarui dengan ID: ' . $product->id);
+            Log::info('Updated thumbnail path: ' . $product->thumbnail);
 
             DB::commit();
             
@@ -308,10 +348,10 @@ class ProductController extends Controller
      */
     public function destroy(string $id)
     {
+        $this->checkSeller();
+        
         // Log untuk debugging
         Log::info('Method destroy dipanggil untuk ID: ' . $id);
-        
-        $this->checkSeller();
         
         try {
             $product = Product::where('seller_id', Auth::user()->seller->id)
@@ -321,13 +361,13 @@ class ProductController extends Controller
             
             // Delete files
             if ($product->thumbnail) {
+                Log::info('Menghapus thumbnail: public/' . $product->thumbnail);
                 Storage::delete('public/' . $product->thumbnail);
-                Log::info('Thumbnail dihapus: ' . $product->thumbnail);
             }
             
             if ($product->digital_file) {
+                Log::info('Menghapus file digital: public/' . $product->digital_file);
                 Storage::delete('public/' . $product->digital_file);
-                Log::info('File digital dihapus: ' . $product->digital_file);
             }
             
             // Delete product

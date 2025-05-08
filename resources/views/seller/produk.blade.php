@@ -16,16 +16,18 @@
                     <select id="kategori-filter" class="form-select">
                         <option value="">Semua Kategori</option>
                         @foreach($kategoris as $kategori)
-                            <option value="{{ $kategori->id }}">{{ $kategori->nama_kategori }}</option>
+                            <option value="{{ $kategori->id }}" {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
+                                {{ $kategori->nama_kategori }}
+                            </option>
                         @endforeach
                     </select>
                 </div>
                 <div class="col-md-3">
                     <select id="status-filter" class="form-select">
                         <option value="">Semua Status</option>
-                        <option value="draft">Draft</option>
-                        <option value="published">Published</option>
-                        <option value="archived">Archived</option>
+                        <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                        <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published</option>
+                        <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived</option>
                     </select>
                 </div>
             </div>
@@ -42,6 +44,21 @@
                             alert.remove();
                         }, 1000);  // Menghapus notifikasi setelah animasi selesai
                     }, 3000);  // Hilang setelah 3 detik
+                </script>
+            @endif
+
+            @if(session('error'))
+                <div class="alert alert-danger rounded fade show" role="alert" style="transition: opacity 1s;">
+                    {{ session('error') }}
+                </div>
+                <script>
+                    setTimeout(function() {
+                        let alert = document.querySelector('.alert');
+                        alert.style.opacity = 0;
+                        setTimeout(function() {
+                            alert.remove();
+                        }, 1000);
+                    }, 5000);
                 </script>
             @endif
 
@@ -65,9 +82,9 @@
                                 <td>
                                     @if($product->thumbnail)
                                         <img src="{{ asset('storage/' . $product->thumbnail) }}" alt="{{ $product->name }}" 
-                                            style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
+                                            style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
                                     @else
-                                        <div style="width: 50px; height: 50px; background-color: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
+                                        <div style="width: 60px; height: 60px; background-color: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
                                             <span style="font-size: 10px;">No Image</span>
                                         </div>
                                     @endif

@@ -303,43 +303,37 @@
       <!-- partial -->
       <!-- partial:partials/_sidebar.html -->
       <nav class="sidebar sidebar-offcanvas" id="sidebar">
-        <ul class="nav">
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.dashboard') }}">
-              <i class="mdi mdi-grid-large menu-icon"></i>
-              <span class="menu-title">Dashboard</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.users.index') }}">
-              <i class="menu-icon mdi mdi-account-check"></i>
-              <span class="menu-title">Kelola Pengguna</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.sellers.index') }}">
-              <i class="menu-icon mdi mdi-shopping"></i>
-              <span class="menu-title">Kelola Seller</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="menu-icon mdi mdi-package-variant-closed"></i>
-              <span class="menu-title">Kelola Produk</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="{{ route('admin.kategori.index') }}" >
-              <i class="menu-icon mdi mdi-package-variant-closed"></i>
-              <span class="menu-title">Kelola Kategori</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
-              <i class="menu-icon mdi mdi-repeat"></i>
-              <span class="menu-title">Kelola Transaksi</span>
-            </a>
-          </li>
+  <ul class="nav">
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.dashboard') }}">
+        <i class="mdi mdi-grid-large menu-icon"></i>
+        <span class="menu-title">Dashboard</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.users.index') }}">
+        <i class="menu-icon mdi mdi-account-check"></i>
+        <span class="menu-title">Kelola Pengguna</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.sellers.index') }}">
+        <i class="menu-icon mdi mdi-shopping"></i>
+        <span class="menu-title">Kelola Seller</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="#">
+        <i class="menu-icon mdi mdi-package-variant-closed"></i>
+        <span class="menu-title">Kelola Produk</span>
+      </a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{{ route('admin.kategori.index') }}" >
+        <i class="menu-icon mdi mdi-package-variant-closed"></i>
+        <span class="menu-title">Kelola Kategori</span>
+      </a>
+    </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
               <i class="menu-icon mdi mdi-credit-card"></i>
