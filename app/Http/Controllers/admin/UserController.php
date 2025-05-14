@@ -1,7 +1,5 @@
 <?php
 
-// app/Http/Controllers/Admin/UserController.php
-
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -71,18 +69,25 @@ class UserController extends Controller
      * Remove the specified user from storage.
      */
     public function destroy(string $id)
-    {
+{
+    try {
         // Mencari user berdasarkan ID
         $user = User::findOrFail($id);
         
         // Cek apakah user memiliki akun seller yang terkait
         if ($user->seller) {
-            return redirect()->route('admin.users.index')->with('error', 'Cannot delete user with an associated seller account.');
+            return redirect()->route('admin.users.index')
+                ->with('error', 'Tidak dapat menghapus pengguna dengan akun seller terkait.');
         }
         
         // Hapus user
         $user->delete();
 
-        return redirect()->route('admin.user.index')->with('success', 'User deleted successfully.');
+        return redirect()->route('admin.users.index')
+            ->with('success', 'Pengguna berhasil dihapus');
+    } catch (\Exception $e) {
+        return redirect()->route('admin.users.index')
+            ->with('error', 'Gagal menghapus pengguna: ' . $e->getMessage());
     }
+}
 }

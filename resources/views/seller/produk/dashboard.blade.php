@@ -1,4 +1,4 @@
-
+{{-- resources/views/seller/produk/dashboard.blade.php --}}
 @extends('layouts.seller')
 @section('title', 'Dashboard Produk')
 @section('content')
@@ -71,7 +71,7 @@
                                                 @forelse($recentProducts as $product)
                                                     <tr>
                                                         <td>
-                                                            @if($product->thumbnail)
+                                                            @if($product->thumbnail && file_exists(public_path('storage/' . $product->thumbnail)))
                                                                 <img src="{{ asset('storage/' . $product->thumbnail) }}" alt="{{ $product->name }}" 
                                                                     style="width: 50px; height: 50px; object-fit: cover; border-radius: 4px;">
                                                             @else

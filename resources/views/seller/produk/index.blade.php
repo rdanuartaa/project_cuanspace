@@ -80,7 +80,7 @@
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
                                 <td>
-                                    @if($product->thumbnail)
+                                    @if($product->thumbnail && file_exists(public_path('storage/' . $product->thumbnail)))
                                         <img src="{{ asset('storage/' . $product->thumbnail) }}" alt="{{ $product->name }}" 
                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
                                     @else

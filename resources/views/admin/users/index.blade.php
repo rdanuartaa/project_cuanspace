@@ -57,7 +57,7 @@
                                 </td>
                                 <td>{{ $user->created_at->format('d M Y, H:i') }}</td>
                                 <td>
-                                    <a href="{{ route('admin.user.edit', $user->id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
                                     <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')

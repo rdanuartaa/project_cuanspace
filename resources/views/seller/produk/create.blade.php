@@ -5,7 +5,7 @@
 <div class="container py-4">
     <div class="card shadow rounded-4 border-0">
         <div class="card-body">
-            <h2 class="mb-4 text-center">ELEMEN FORM TAMBAH PRODUK</h2>
+            <h2 class="mb-4 text-center">TAMBAH PRODUK BARU</h2>
 
             @if (session('error'))
                 <div class="alert alert-danger">
@@ -74,6 +74,12 @@
                     @error('thumbnail')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
+                    
+                    {{-- Thumbnail Preview --}}
+                    <div id="thumbnailPreview" class="mt-2" style="display:none;">
+                        <img src="" alt="Thumbnail Preview" 
+                             style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 4px;">
+                    </div>
                 </div>
                 
                 <div class="mb-3">
@@ -113,6 +119,24 @@
         // Nonaktifkan tombol submit setelah diklik
         document.getElementById('btnSubmit').disabled = true;
         document.getElementById('btnSubmit').innerHTML = 'Menyimpan...';
+    });
+
+    // Thumbnail preview
+    document.querySelector('input[name="thumbnail"]').addEventListener('change', function(e) {
+        const file = e.target.files[0];
+        const preview = document.getElementById('thumbnailPreview');
+        const previewImg = preview.querySelector('img');
+
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                previewImg.src = event.target.result;
+                preview.style.display = 'block';
+            };
+            reader.readAsDataURL(file);
+        } else {
+            preview.style.display = 'none';
+        }
     });
 </script>
 @endpush

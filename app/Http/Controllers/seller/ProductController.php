@@ -15,6 +15,22 @@ use Illuminate\Support\Facades\File;
 class ProductController extends Controller
 {
     /**
+     * Debug image path
+     */
+    private function debugImagePath($path) {
+        $fullPath = public_path('storage/' . $path);
+        $exists = file_exists($fullPath);
+        
+        Log::info('Debug Image Path:');
+        Log::info('- Database path: ' . $path);
+        Log::info('- Full path: ' . $fullPath);
+        Log::info('- File exists: ' . ($exists ? 'Yes' : 'No'));
+        Log::info('- Public URL: ' . asset('storage/' . $path));
+        
+        return $exists;
+    }
+
+    /**
      * Check if the user is a seller
      */
     private function checkSeller()
@@ -30,6 +46,7 @@ class ProductController extends Controller
     private function checkStorageLink()
     {
         if (!File::exists(public_path('storage'))) {
+            // Jika symlink tidak ada, buat pesan warning tapi jangan buat error fatal
             Log::warning('Storage symlink not found. Run "php artisan storage:link"');
         }
     }
@@ -45,15 +62,15 @@ class ProductController extends Controller
         try {
             $query = Product::query();
             
-            // Always filter products by current seller
+            // Filter produk berdasarkan seller
             $query->where('seller_id', Auth::user()->seller->id);
             
-            // Apply kategori filter if set
+            // Filter berdasarkan kategori jika ada
             if ($request->has('kategori') && $request->kategori) {
                 $query->where('kategori_id', $request->kategori);
             }
             
-            // Apply status filter if set
+            // Filter berdasarkan status jika ada
             if ($request->has('status') && $request->status) {
                 $query->where('status', $request->status);
             }
@@ -61,14 +78,6 @@ class ProductController extends Controller
             $products = $query->latest()->paginate(10);
             $kategoris = Kategori::all();
             
-            // For debugging, log a few product thumbnails
-            if ($products->count() > 0) {
-                $sampleProduct = $products->first();
-                Log::info('Sample product thumbnail path: ' . $sampleProduct->thumbnail);
-                Log::info('Full URL would be: ' . asset('storage/' . $sampleProduct->thumbnail));
-            }
-            
-            // Updated view path to match new folder structure
             return view('seller.produk.index', compact('products', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method index: ' . $e->getMessage());
@@ -93,7 +102,6 @@ class ProductController extends Controller
                     ->with('error', 'Tidak ada kategori tersedia. Hubungi admin untuk menambahkan kategori.');
             }
             
-            // Updated view path to match new folder structure
             return view('seller.produk.create', compact('kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method create: ' . $e->getMessage());
@@ -135,36 +143,57 @@ class ProductController extends Controller
                 throw new \Exception('ID seller tidak ditemukan');
             }
             
-            // Upload thumbnail
+            // Upload thumbnail ke folder public
             if (!$request->hasFile('thumbnail')) {
                 throw new \Exception('File thumbnail tidak ditemukan');
             }
             
-            $thumbnailPath = $request->file('thumbnail')->store('public/thumbnails');
-            if (!$thumbnailPath) {
-                throw new \Exception('Gagal mengupload thumbnail');
+            // Simpan file thumbnail langsung ke public/storage folder
+            $thumbnailFile = $request->file('thumbnail');
+            $thumbnailName = time() . '_' . $thumbnailFile->getClientOriginalName();
+
+            // Pastikan direktori thumbnails ada
+            $thumbnailDir = public_path('storage/thumbnails');
+            if (!file_exists($thumbnailDir)) {
+                mkdir($thumbnailDir, 0777, true);
             }
+
+            // Pindahkan file secara langsung ke direktori public
+            $thumbnailFile->move($thumbnailDir, $thumbnailName);
+
+            // Simpan path relatif untuk diakses via web
+            $thumbnailPath = 'thumbnails/' . $thumbnailName;
+
+            // Debug log
+            Log::info('Thumbnail berhasil diupload ke: ' . $thumbnailDir . '/' . $thumbnailName);
+            Log::info('Path untuk database: ' . $thumbnailPath);
+
+            // Call debug function
+            $this->debugImagePath($thumbnailPath);
             
-            // Convert storage path for display
-            $thumbnailDisplayPath = str_replace('public/', '', $thumbnailPath);
-            Log::info('Thumbnail berhasil diupload: ' . $thumbnailPath);
-            Log::info('Thumbnail display path: ' . $thumbnailDisplayPath);
-            Log::info('Full URL akan menjadi: ' . asset('storage/' . $thumbnailDisplayPath));
-            
-            // Upload digital file
+            // Upload digital file ke folder public
             if (!$request->hasFile('digital_file')) {
                 throw new \Exception('File digital tidak ditemukan');
             }
             
-            $digitalFilePath = $request->file('digital_file')->store('public/digital_files');
-            if (!$digitalFilePath) {
-                Storage::delete($thumbnailPath);
-                throw new \Exception('Gagal mengupload file digital');
+            // Simpan file digital ke public/storage/digital_files
+            $digitalFile = $request->file('digital_file');
+            $digitalFileName = time() . '_' . $digitalFile->getClientOriginalName();
+            
+            // Pastikan direktori digital_files ada
+            $digitalDir = public_path('storage/digital_files');
+            if (!file_exists($digitalDir)) {
+                mkdir($digitalDir, 0777, true);
             }
             
-            $digitalFileDisplayPath = str_replace('public/', '', $digitalFilePath);
-            Log::info('File digital berhasil diupload: ' . $digitalFilePath);
-            Log::info('Digital file display path: ' . $digitalFileDisplayPath);
+            // Pindahkan file secara langsung ke direktori public
+            $digitalFile->move($digitalDir, $digitalFileName);
+            
+            // Simpan path relatif untuk diakses via web
+            $digitalFilePath = 'digital_files/' . $digitalFileName;
+            
+            Log::info('File digital berhasil diupload ke: ' . $digitalDir . '/' . $digitalFileName);
+            Log::info('Digital file display path: ' . $digitalFilePath);
 
             // Create product
             $product = new Product();
@@ -173,13 +202,16 @@ class ProductController extends Controller
             $product->description = $request->description;
             $product->price = $request->price;
             $product->kategori_id = $request->kategori_id;
-            $product->thumbnail = $thumbnailDisplayPath; // Save path without 'public/' prefix
-            $product->digital_file = $digitalFileDisplayPath; // Save path without 'public/' prefix
+            $product->thumbnail = $thumbnailPath; // Simpan path relatif
+            $product->digital_file = $digitalFilePath; // Simpan path relatif
             $product->status = $request->status;
             
             $saved = $product->save();
             
             if (!$saved) {
+                // Hapus file yang sudah diupload jika gagal menyimpan ke database
+                File::delete(public_path('storage/' . $thumbnailPath));
+                File::delete(public_path('storage/' . $digitalFilePath));
                 throw new \Exception('Gagal menyimpan produk ke database');
             }
             
@@ -224,8 +256,8 @@ class ProductController extends Controller
             
             Log::info('Edit product, thumbnail path: ' . $product->thumbnail);
             Log::info('Full URL: ' . asset('storage/' . $product->thumbnail));
+            Log::info('File exists: ' . (File::exists(public_path('storage/' . $product->thumbnail)) ? 'Yes' : 'No'));
             
-            // Updated view path to match new folder structure
             return view('seller.produk.edit', compact('product', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method edit: ' . $e->getMessage());
@@ -271,46 +303,64 @@ class ProductController extends Controller
                 'status' => $request->status,
             ];
 
-            // Handle thumbnail upload if provided
+            // Handle thumbnail upload jika ada
             if ($request->hasFile('thumbnail')) {
-                // Upload new thumbnail
-                $thumbnailPath = $request->file('thumbnail')->store('public/thumbnails');
-                if (!$thumbnailPath) {
-                    throw new \Exception('Gagal mengupload thumbnail baru.');
+                // Upload thumbnail baru ke folder public
+                $thumbnailFile = $request->file('thumbnail');
+                $thumbnailName = time() . '_' . $thumbnailFile->getClientOriginalName();
+                
+                // Pastikan direktori thumbnails ada
+                $thumbnailDir = public_path('storage/thumbnails');
+                if (!file_exists($thumbnailDir)) {
+                    mkdir($thumbnailDir, 0777, true);
                 }
                 
-                $thumbnailDisplayPath = str_replace('public/', '', $thumbnailPath);
-                Log::info('Thumbnail baru berhasil diupload: ' . $thumbnailPath);
-                Log::info('Thumbnail display path: ' . $thumbnailDisplayPath);
+                // Pindahkan file secara langsung ke direktori public
+                $thumbnailFile->move($thumbnailDir, $thumbnailName);
                 
-                // Delete old thumbnail
-                if ($product->thumbnail) {
-                    Log::info('Menghapus thumbnail lama: public/' . $product->thumbnail);
-                    Storage::delete('public/' . $product->thumbnail);
+                // Simpan path relatif untuk diakses via web
+                $thumbnailPath = 'thumbnails/' . $thumbnailName;
+                
+                Log::info('Thumbnail baru berhasil diupload ke: ' . $thumbnailDir . '/' . $thumbnailName);
+                Log::info('Thumbnail display path: ' . $thumbnailPath);
+                
+                // Hapus thumbnail lama jika ada
+                if ($product->thumbnail && File::exists(public_path('storage/' . $product->thumbnail))) {
+                    Log::info('Menghapus thumbnail lama: ' . public_path('storage/' . $product->thumbnail));
+                    File::delete(public_path('storage/' . $product->thumbnail));
                 }
                 
-                $data['thumbnail'] = $thumbnailDisplayPath;
+                $data['thumbnail'] = $thumbnailPath;
             }
 
-            // Handle digital file upload if provided
+            // Handle digital file upload jika ada
             if ($request->hasFile('digital_file')) {
-                // Upload new file
-                $digitalFilePath = $request->file('digital_file')->store('public/digital_files');
-                if (!$digitalFilePath) {
-                    throw new \Exception('Gagal mengupload file digital baru.');
+                // Upload file digital baru ke folder public
+                $digitalFile = $request->file('digital_file');
+                $digitalFileName = time() . '_' . $digitalFile->getClientOriginalName();
+                
+                // Pastikan direktori digital_files ada
+                $digitalDir = public_path('storage/digital_files');
+                if (!file_exists($digitalDir)) {
+                    mkdir($digitalDir, 0777, true);
                 }
                 
-                $digitalFileDisplayPath = str_replace('public/', '', $digitalFilePath);
-                Log::info('File digital baru berhasil diupload: ' . $digitalFilePath);
-                Log::info('Digital file display path: ' . $digitalFileDisplayPath);
+                // Pindahkan file secara langsung ke direktori public
+                $digitalFile->move($digitalDir, $digitalFileName);
                 
-                // Delete old file
-                if ($product->digital_file) {
-                    Log::info('Menghapus file digital lama: public/' . $product->digital_file);
-                    Storage::delete('public/' . $product->digital_file);
+                // Simpan path relatif untuk diakses via web
+                $digitalFilePath = 'digital_files/' . $digitalFileName;
+                
+                Log::info('File digital baru berhasil diupload ke: ' . $digitalDir . '/' . $digitalFileName);
+                Log::info('Digital file display path: ' . $digitalFilePath);
+                
+                // Hapus file digital lama jika ada
+                if ($product->digital_file && File::exists(public_path('storage/' . $product->digital_file))) {
+                    Log::info('Menghapus file digital lama: ' . public_path('storage/' . $product->digital_file));
+                    File::delete(public_path('storage/' . $product->digital_file));
                 }
                 
-                $data['digital_file'] = $digitalFileDisplayPath;
+                $data['digital_file'] = $digitalFilePath;
             }
 
             // Update product
@@ -362,18 +412,19 @@ class ProductController extends Controller
                 
             DB::beginTransaction();
             
-            // Delete files
-            if ($product->thumbnail) {
-                Log::info('Menghapus thumbnail: public/' . $product->thumbnail);
-                Storage::delete('public/' . $product->thumbnail);
+            // Hapus file thumbnail jika ada
+            if ($product->thumbnail && File::exists(public_path('storage/' . $product->thumbnail))) {
+                Log::info('Menghapus thumbnail: ' . public_path('storage/' . $product->thumbnail));
+                File::delete(public_path('storage/' . $product->thumbnail));
             }
             
-            if ($product->digital_file) {
-                Log::info('Menghapus file digital: public/' . $product->digital_file);
-                Storage::delete('public/' . $product->digital_file);
+            // Hapus file digital jika ada
+            if ($product->digital_file && File::exists(public_path('storage/' . $product->digital_file))) {
+                Log::info('Menghapus file digital: ' . public_path('storage/' . $product->digital_file));
+                File::delete(public_path('storage/' . $product->digital_file));
             }
             
-            // Delete product
+            // Hapus produk
             $deleted = $product->delete();
             if (!$deleted) {
                 throw new \Exception('Gagal menghapus produk dari database');
