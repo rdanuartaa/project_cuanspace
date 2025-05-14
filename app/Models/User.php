@@ -6,10 +6,15 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Sanctum\HasApiTokens;
+use Laravel\Sanctum\PersonalAccessToken;
 
+/**
+ * @method static \Illuminate\Database\Eloquent\Builder|User tokens()
+ */
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable;
 
     protected $fillable = [
         'name', 'email', 'password',
@@ -27,5 +32,6 @@ class User extends Authenticatable
     {
         return $this->hasOne(Seller::class);
     }
+
+    // Jangan tambahkan relasi tokens() manual, cukup gunakan trait HasApiTokens
 }
-// app/Models/Admin.php
