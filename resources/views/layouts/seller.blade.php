@@ -113,7 +113,7 @@
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-message-text-outline text-primary me-2"></i> Messages</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-calendar-check-outline text-primary me-2"></i> Activity</a>
               <a class="dropdown-item"><i class="dropdown-item-icon mdi mdi-help-circle-outline text-primary me-2"></i> FAQ</a>
-              
+
               <form method="POST" action="{{ route('logout') }}">
                 @csrf
                 <button type="submit" class="dropdown-item">
@@ -345,12 +345,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="">
-              <i class="menu-icon mdi mdi-chart-line"></i>
-              <span class="menu-title">Statistik</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="">
               <i class="menu-icon mdi mdi-settings"></i>
               <span class="menu-title">Pengaturan Akun`</span>
             </a>
@@ -368,7 +362,7 @@
           </li>
         </ul>
       </nav>
-      
+
       <!-- partial -->
       <div class="main-panel">
         <div class="content-wrapper">

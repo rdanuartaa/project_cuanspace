@@ -1,6 +1,8 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+// app/Http/Controllers/Admin/UserController.php
+
+namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -41,7 +43,7 @@ class UserController extends Controller
 
         // Mencari user berdasarkan ID
         $user = User::findOrFail($id);
-        
+
         // Menyiapkan data untuk update
         $userData = [
             'name' => $request->name,
@@ -69,25 +71,23 @@ class UserController extends Controller
      * Remove the specified user from storage.
      */
     public function destroy(string $id)
-{
-    try {
-        // Mencari user berdasarkan ID
-        $user = User::findOrFail($id);
-        
-        // Cek apakah user memiliki akun seller yang terkait
-        if ($user->seller) {
-            return redirect()->route('admin.users.index')
-                ->with('error', 'Tidak dapat menghapus pengguna dengan akun seller terkait.');
-        }
-        
-        // Hapus user
-        $user->delete();
+    {
+        try {
+            // Mencari user berdasarkan ID
+            $user = User::findOrFail($id);
 
-        return redirect()->route('admin.users.index')
-            ->with('success', 'Pengguna berhasil dihapus');
-    } catch (\Exception $e) {
-        return redirect()->route('admin.users.index')
-            ->with('error', 'Gagal menghapus pengguna: ' . $e->getMessage());
+            // Cek apakah user memiliki akun seller yang terkait
+            if ($user->seller) {
+                return redirect()->route('admin.users.index')
+                    ->with('error', 'Tidak dapat menghapus pengguna dengan akun seller terkait.');
+            }
+
+            // Hapus user
+            $user->delete();
+
+            return redirect()->route('admin.users.index')->with('success', 'User berhasil dihapus.');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.users.index')->with('error', 'Terjadi kesalahan saat menghapus user.');
+        }
     }
-}
 }

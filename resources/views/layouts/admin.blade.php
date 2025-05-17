@@ -360,12 +360,6 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="#">
-              <i class="menu-icon mdi mdi-chart-line"></i>
-              <span class="menu-title">Statistik</span>
-            </a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">
               <i class="menu-icon mdi mdi-settings"></i>
               <span class="menu-title">Pengaturan Platform</span>
             </a>

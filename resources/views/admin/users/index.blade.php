@@ -58,7 +58,7 @@
                                 <td>{{ $user->created_at->format('d M Y, H:i') }}</td>
                                 <td>
                                     <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
-                                    <form action="{{ route('admin.user.destroy', $user->id) }}" method="POST" class="d-inline">
+                                    <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
                                         <button onclick="return confirm('Yakin hapus pengguna?')" class="btn btn-outline-danger btn-sm">Hapus</button>

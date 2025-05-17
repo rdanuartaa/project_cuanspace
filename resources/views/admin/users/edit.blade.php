@@ -7,7 +7,7 @@
     <div class="card shadow-lg">
         <div class="card-body">
             <h4 class="card-title text-primary">Edit Pengguna</h4>
-            
+
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul class="mb-0">
@@ -21,17 +21,17 @@
             <form action="{{ route('admin.users.update', $user->id) }}" method="POST">
                 @csrf
                 @method('PUT')
-                
+
                 <div class="form-group">
                     <label for="name">Nama</label>
                     <input type="text" name="name" id="name" class="form-control" value="{{ old('name', $user->name) }}" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="email">Email</label>
                     <input type="email" name="email" id="email" class="form-control" value="{{ old('email', $user->email) }}" required>
                 </div>
-                
+
                 <div class="form-group">
                     <label for="status">Status</label>
                     <select name="status" id="status" class="form-control">

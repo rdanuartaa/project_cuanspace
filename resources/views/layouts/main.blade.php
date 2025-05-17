@@ -10,7 +10,7 @@
     <link rel="stylesheet" href="css/slick.css">
     <link rel="stylesheet" href="css/slick-theme.css">
     <link rel="stylesheet" href="css/owl.carousel.min.css">
-<link rel="shortcut icon" href="img/favicon.png" type="image/png">
+    <link rel="shortcut icon" href="img/favicon.png" type="image/png">
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
@@ -18,7 +18,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 
 </head>
-
 
 <body>
     <div class="modal fade" id="myModal" role="dialog">
@@ -139,16 +138,16 @@
                             <div class="collapse navbar-collapse" id="myNavbar">
                                 <ul class="nav navbar-nav js-menubar">
                                     <li class="level1 dropdown hassub">
-                                        <a href="#">FAQ</a>
+                                        <a href="{{ route('faq') }}">FAQ</a>
                                     </li>
                                     <li class="level1 active dropdown">
-                                        <a href="#">About</a>
+                                        <a href="{{ route('about') }}">About</a>
                                     </li>
                                     <li class="level1 active dropdown">
                                         <a href="{{ url('/') }}">Home</a>
                                     </li>
                                     <li class="level1 active dropdown">
-                                        <a href="#">Fitur Kami</a>
+                                        <a href="{{ route('teams') }}">Teams</a>
                                     </li>
                                     @guest
                                     <li class="level1 active dropdown">
@@ -190,7 +189,7 @@
             </div>
         </div>
     </header>
-    
+
     <!-- Flash Messages -->
     <div class="container mt-4">
         @if (session('status'))
@@ -211,9 +210,9 @@
             </div>
         @endif
     </div>
-    
+
     @yield('content')
-    
+
     <footer>
         <div class="container container-42">
             <div class="row">
