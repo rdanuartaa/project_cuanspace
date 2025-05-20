@@ -10,6 +10,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\FaqController;
 use App\Http\Controllers\AboutController;
 use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PenghasilanController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PenghasilanExport;
+use App\Http\Controllers\SaldoController;
+
 // ---------------- HALAMAN DEPAN / USER ----------------
 
 // Halaman utama (tanpa login)
@@ -69,13 +77,30 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
     ->name('seller.')
     ->group(function () {
         // Dashboard seller
-        Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard');
+        Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
 
         // Manajemen produk
         Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
         Route::resource('produk', ProductController::class)->except(['show']);
         Route::get('produk', [ProductController::class, 'index'])->name('produk');
-
+        Route::resource('penjualan', PenjualanController::class)->only(['index', 'show']);
+        Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo.index');
+        Route::post('/saldo/tarik', [SaldoController::class, 'tarikSaldo'])->name('saldo.tarik');
+        Route::get('penghasilan', [PenghasilanController::class, 'index'])->name('penghasilan.index');
+        Route::get('ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
+        Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+        Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
+Route::get('/seller/penghasilan/export', function () {
+    // Ambil filter dari request
+    $startDate = request('start_date');
+    $endDate = request('end_date');
 
+    // Query transaksi sesuai filter
+    $transactions = \App\Models\Transaction::whereBetween('created_at', [$startDate, $endDate])
+        ->with(['product', 'user'])
+        ->get();
+
+    return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
+})->name('seller.penghasilan.export');
 require __DIR__.'/auth.php';

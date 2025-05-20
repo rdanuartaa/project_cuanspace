@@ -31,7 +31,7 @@ class SellerController extends Controller
         $user = Auth::user();
         $seller = $user->seller;
 
-        return view('seller.dashboard', compact('seller'));
+        return view('seller.dashboard.index', compact('seller'));
     }
 
     public function verify($id)
@@ -77,7 +77,25 @@ class SellerController extends Controller
         $user = Auth::user();
         if ($user->seller) {
             if ($user->seller->status === 'active') {
-                return redirect()->route('seller.dashboard')->with('status', 'Anda sudah terdaftar sebagai seller aktif.');
+                return redirect()->route('main.home')->with('status', 'Anda sudah terdaftar sebagai seller aktif.');
+            } else {
+                return redirect()->route('main.home')->with('status', 'Pendaftaran seller Anda sedang dalam proses verifikasi.');
+            }
+        }
+
+        return view('main.seller_register');
+    }
+
+    public function showRegistrationForm()
+    {
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu untuk mendaftar sebagai seller.');
+        }
+
+        $user = Auth::user();
+        if ($user->seller) {
+            if ($user->seller->status === 'active') {
+                return redirect()->route('seller.dashboard.index')->with('status', 'Anda sudah terdaftar sebagai seller aktif.');
             } else {
                 return redirect()->route('main.home')->with('status', 'Pendaftaran seller Anda sedang dalam proses verifikasi.');
             }

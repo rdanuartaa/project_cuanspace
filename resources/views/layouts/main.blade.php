@@ -1,7 +1,5 @@
-
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -14,15 +12,11 @@
     <link rel="stylesheet" href="css/owl.theme.default.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-
 </head>
-
 <body>
     <div class="modal fade" id="myModal" role="dialog">
         <div class="modal-dialog">
-            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
@@ -34,7 +28,9 @@
                             <input type="hidden" name="type" value="product">
                             <input type="text" name="q" class="form-control control-search">
                             <span class="input-group-btn">
-                              <button class="btn btn-default button_search" type="button"><i data-toggle="dropdown" class="fa fa-search"></i></button>
+                                <button class="btn btn-default button_search" type="button">
+                                    <i data-toggle="dropdown" class="fa fa-search"></i>
+                                </button>
                             </span>
                         </form>
                     </div>
@@ -55,41 +51,33 @@
                     <div class="topbar-option">
                         <div class="topbar-account">
                             @auth
-                                <!-- Hanya tampil jika pengguna sudah login -->
                                 <li class="level1 active dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="icon-user f-15"></i>
                                     </a>
                                     <span class="plus js-plus-icon"></span>
                                     <ul class="dropdown-menu menu-level-1">
-                                        <!-- Edit Profil -->
                                         <li class="level2">
                                             <a href="{{ route('profile.edit') }}" title="Edit Profil">Edit Profil</a>
                                         </li>
-                                        <!-- Ubah Password -->
                                         <li class="level2">
-                                            <a href="{{ route('password.request') }}" class="lost-password">Ubah Password</a>
-                                        </li>
-                                        <!-- Logout -->
-                                        <li class="level2">
-                                            <form method="POST" action="{{ route('logout') }}">
-                                                @csrf
-                                                <button type="submit" class="logout-btn">Keluar</button>
-                                            </form>
+                                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="lost-password">
+                                                Keluar
+                                            </a>
                                         </li>
                                     </ul>
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                        @csrf
+                                    </form>
                                 </li>
                             @endauth
-
                             @guest
-                                <!-- Hanya tampil jika pengguna belum login -->
                                 <li class="level1 active dropdown">
                                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                         <i class="icon-user f-15"></i>
                                     </a>
                                     <span class="plus js-plus-icon"></span>
                                     <ul class="dropdown-menu menu-level-1">
-                                        <!-- Tampilkan pesan untuk login -->
                                         <li class="level2">
                                             <a href="{{ route('login') }}" title="Login">Login untuk mengakses</a>
                                         </li>
@@ -104,11 +92,11 @@
                             </a>
                         </div>
                     </div>
-                    <!--end topbar-option-->
                 </div>
-                <!--end topbar-left-->
                 <div class="logo hidden-xs hidden-sm">
-                    <a href="{{ url('/') }}" title="home-logo"><img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive"></a>
+                    <a href="{{ url('/') }}" title="home-logo">
+                        <img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive">
+                    </a>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-option">
@@ -118,9 +106,7 @@
                             </div>
                         </div>
                     </div>
-                    <!--end topbar-option-->
                 </div>
-                <!--end topbar-right-->
             </div>
         </div>
         <div class="header-top">
@@ -128,9 +114,10 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="logo-mobile hidden-lg hidden-md">
-                            <a href="{{ url('/') }}" title="home-logo"><img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive"></a>
+                            <a href="{{ url('/') }}" title="home-logo">
+                                <img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive">
+                            </a>
                         </div>
-                        <!--end logo-->
                         <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse" data-target="#myNavbar">
                             <span class="icon-menu"></span>
                         </button>
@@ -150,14 +137,14 @@
                                         <a href="{{ route('teams') }}">Teams</a>
                                     </li>
                                     @guest
-                                    <li class="level1 active dropdown">
-                                    <a href="#">Masuk</a>
-                                    <span class="plus js-plus-icon"></span>
-                                    <ul class="dropdown-menu menu-level-1">
-                                        <li class="level2"><a href="{{ route('login') }}" title="Login">Login</a></li>
-                                        <li class="level2"><a href="{{ route('register') }}" title="Register">Register</a></li>
-                                    </ul>
-                                    </li>
+                                        <li class="level1 active dropdown">
+                                            <a href="#">Masuk</a>
+                                            <span class="plus js-plus-icon"></span>
+                                            <ul class="dropdown-menu menu-level-1">
+                                                <li class="level2"><a href="{{ route('login') }}" title="Login">Login</a></li>
+                                                <li class="level2"><a href="{{ route('register') }}" title="Register">Register</a></li>
+                                            </ul>
+                                        </li>
                                     @endguest
                                     @auth
                                         <li class="level1 active dropdown">
@@ -165,19 +152,6 @@
                                             <span class="plus js-plus-icon"></span>
                                             <ul class="dropdown-menu menu-level-1">
                                                 <li class="level2"><a href="{{ route('seller.register') }}" title="Seller Register">Gabung sebagai Seller</a></li>
-                                            </ul>
-                                        </li>
-                                        <!-- Tombol logout yang berfungsi yang lebih jelas -->
-                                        <li class="level1 active dropdown">
-                                            <a href="#"><i class="fas fa-sign-out-alt"></i> Keluar</a>
-                                            <span class="plus js-plus-icon"></span>
-                                            <ul class="dropdown-menu menu-level-1">
-                                                <li class="level2">
-                                                    <form method="POST" action="{{ route('logout') }}">
-                                                        @csrf
-                                                        <button type="submit" class="logout-btn">Logout Akun</button>
-                                                    </form>
-                                                </li>
                                             </ul>
                                         </li>
                                     @endauth

@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Product extends Model
 {
     use HasFactory;
-    
+
     protected $fillable = [
         'seller_id',
         'kategori_id',
@@ -18,12 +18,12 @@ class Product extends Model
         'digital_file',
         'status'
     ];
-    
+
     public function kategori()
     {
         return $this->belongsTo(Kategori::class);
     }
-    
+
     public function seller()
     {
         return $this->belongsTo(Seller::class);
