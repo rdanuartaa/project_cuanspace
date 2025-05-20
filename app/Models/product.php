@@ -1,14 +1,11 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'seller_id',
         'kategori_id',
@@ -17,13 +14,13 @@ class Product extends Model
         'price',
         'thumbnail',
         'digital_file',
-        'status'
+        'status',
     ];
 
     // Relasi dengan kategori
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 
     // Relasi dengan seller
@@ -39,7 +36,7 @@ class Product extends Model
         if ($this->thumbnail && Storage::disk('public')->exists('thumbnails/' . $this->thumbnail)) {
             return asset('storage/thumbnails/' . $this->thumbnail);
         }
-        
+
         // Fallback ke placeholder jika tidak ada
         return asset('images/placeholder.png');
     }
@@ -51,7 +48,7 @@ class Product extends Model
         if ($this->digital_file && Storage::disk('public')->exists('digital_files/' . $this->digital_file)) {
             return asset('storage/digital_files/' . $this->digital_file);
         }
-        
+
         return null;
     }
 }
