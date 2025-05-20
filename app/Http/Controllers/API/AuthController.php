@@ -68,4 +68,18 @@ class AuthController extends Controller
             ]
         ], 200);
     }
+
+    public function logout(Request $request)
+    {
+        // Mendapatkan pengguna yang sedang login
+        $user = Auth::user();
+
+        // Menghapus semua token Sanctum pengguna
+        $user->tokens()->delete();
+
+        return response()->json([
+            'status' => 'success',
+            'message' => 'Successfully logged out',
+        ], 200);
+    }
 }
