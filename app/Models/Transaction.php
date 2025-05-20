@@ -28,4 +28,26 @@ class Transaction extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    
+    public function getThumbnailUrlAttribute()
+    {
+        // Pastikan file ada di storage
+        if ($this->thumbnail && Storage::disk('public')->exists('thumbnails/' . $this->thumbnail)) {
+            return asset('storage/thumbnails/' . $this->thumbnail);
+        }
+
+        // Fallback ke placeholder jika tidak ada
+        return asset('images/placeholder.png');
+    }
+
+    // Accessor untuk URL digital file
+    public function getDigitalFileUrlAttribute()
+    {
+        // Pastikan file ada di storage
+        if ($this->digital_file && Storage::disk('public')->exists('digital_files/' . $this->digital_file)) {
+            return asset('storage/digital_files/' . $this->digital_file);
+        }
+
+        return null;
+    }
 }
