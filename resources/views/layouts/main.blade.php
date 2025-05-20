@@ -95,7 +95,7 @@
                 </div>
                 <div class="logo hidden-xs hidden-sm">
                     <a href="{{ url('/') }}" title="home-logo">
-                        <img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive">
+                        <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" class="img-reponsive">
                     </a>
                 </div>
                 <div class="topbar-right">

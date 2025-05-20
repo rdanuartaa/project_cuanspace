@@ -1,14 +1,11 @@
 <?php
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
-    use HasFactory;
-
     protected $fillable = [
         'seller_id',
         'kategori_id',
@@ -17,18 +14,19 @@ class Product extends Model
         'price',
         'thumbnail',
         'digital_file',
-        'status'
+        'status',
     ];
 
     // Relasi dengan kategori
     public function kategori()
     {
-        return $this->belongsTo(Kategori::class);
+        return $this->belongsTo(Kategori::class, 'kategori_id');
     }
 
     // Relasi dengan seller
     public function seller()
     {
+
         return $this->belongsTo(Seller::class);
     }
 
