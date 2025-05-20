@@ -331,6 +331,24 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-cash-multiple"></i>
+                    <span class="menu-title">FAQ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-cash-multiple"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-cash-multiple"></i>
+                    <span class="menu-title">Teams</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
                     <i class="menu-icon mdi mdi-settings"></i>
                     <span class="menu-title">Pengaturan Platform</span>
                 </a>
