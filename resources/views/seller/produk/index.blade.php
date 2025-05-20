@@ -79,16 +79,17 @@
                         @forelse($products ?? [] as $product)
                             <tr>
                                 <td>{{ $loop->iteration }}</td>
-                                <td>
-                                    @if($product->thumbnail && file_exists(public_path('storage/' . $product->thumbnail)))
-                                        <img src="{{ asset('storage/' . $product->thumbnail) }}" alt="{{ $product->name }}" 
+                            <td>
+                                    @if($product->thumbnail)
+                                        <img src="{{ $product->thumbnailUrl }}" 
+                                            alt="{{ $product->name }}" 
                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px;">
                                     @else
                                         <div style="width: 60px; height: 60px; background-color: #f0f0f0; border-radius: 4px; display: flex; align-items: center; justify-content: center;">
                                             <span style="font-size: 10px;">No Image</span>
                                         </div>
                                     @endif
-                                </td>
+                            </td>
                                 <td>{{ $product->name }}</td>
                                 <td>{{ $product->kategori->nama_kategori ?? 'Tidak ada kategori' }}</td>
                                 <td>Rp {{ number_format($product->price, 0, ',', '.') }}</td>

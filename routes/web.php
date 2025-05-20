@@ -79,10 +79,17 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         // Dashboard seller
         Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
 
-        // Manajemen produk
+        // Manajemen produk - PERBAIKAN
         Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
-        Route::resource('produk', ProductController::class)->except(['show']);
+        
+        // Hapus baris Route::resource() dan ganti dengan route individual
         Route::get('produk', [ProductController::class, 'index'])->name('produk');
+        Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
+        Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
+        Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
+        Route::put('produk/{produk}', [ProductController::class, 'update'])->name('produk.update');
+        Route::delete('produk/{produk}', [ProductController::class, 'destroy'])->name('produk.destroy');
+  
         Route::resource('penjualan', PenjualanController::class)->only(['index', 'show']);
         Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo.index');
         Route::post('/saldo/tarik', [SaldoController::class, 'tarikSaldo'])->name('saldo.tarik');
