@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -19,55 +20,38 @@ class Product extends Model
         'status'
     ];
 
+    // Relasi dengan kategori
     public function kategori()
     {
         return $this->belongsTo(Kategori::class);
     }
 
+    // Relasi dengan seller
     public function seller()
     {
         return $this->belongsTo(Seller::class);
     }
 
-
-
-    /**
-     * Get the product reviews.
-     */
-    public function reviews()
+    // Accessor untuk URL thumbnail
+    public function getThumbnailUrlAttribute()
     {
-        return $this->hasMany(Review::class);
+        // Pastikan file ada di storage
+        if ($this->thumbnail && Storage::disk('public')->exists('thumbnails/' . $this->thumbnail)) {
+            return asset('storage/thumbnails/' . $this->thumbnail);
+        }
+        
+        // Fallback ke placeholder jika tidak ada
+        return asset('images/placeholder.png');
     }
 
-    /**
-     * Get the product transactions.
-     */
-    public function transactions()
+    // Accessor untuk URL digital file
+    public function getDigitalFileUrlAttribute()
     {
-        return $this->hasMany(Transaction::class);
-    }
-
-    /**
-     * Get the average rating.
-     */
-    public function getAverageRatingAttribute()
-    {
-        return $this->reviews()->avg('rating') ?: 0;
-    }
-
-    /**
-     * Get the total sales count.
-     */
-    public function getSalesAttribute()
-    {
-        return $this->transactions()->where('status', 'paid')->count();
-    }
-
-    /**
-     * Get the total revenue.
-     */
-    public function getRevenueAttribute()
-    {
-        return $this->transactions()->where('status', 'paid')->sum('amount');
+        // Pastikan file ada di storage
+        if ($this->digital_file && Storage::disk('public')->exists('digital_files/' . $this->digital_file)) {
+            return asset('storage/digital_files/' . $this->digital_file);
+        }
+        
+        return null;
     }
 }
