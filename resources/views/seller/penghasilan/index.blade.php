@@ -51,7 +51,7 @@
                 <div class="col-md-8">
                 </div>
                 <div class="col-md-4 d-flex align-items-end">
-                    <a href="{{ route('seller.penghasilan.export', request()->only(['start_date', 'end_date'])) }}"
+                    <a href="{{ route('seller.penghasilan.export', request()->all()) }}"
                         class="btn btn-success text-white ms-auto">
                         <i class="mdi mdi-download"></i> Unduh Laporan
                     </a>

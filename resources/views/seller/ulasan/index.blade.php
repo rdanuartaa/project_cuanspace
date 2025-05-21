@@ -58,17 +58,17 @@
                                 <td>{{ $loopIndex + 1 }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        @if ($review->product && $review->product->thumbnail)
-                                            <img src="{{ asset('storage/' . $review->product->thumbnail) }}"
+                                        @if ($review->product)
+                                            <img src="{{$review->product->thumbnail_url}}"
                                                 alt="{{ $review->product->name ?? 'Thumbnail' }}"
                                                 style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                                         @else
                                             <div
-                                                style="width: 40px; height: 40px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
+                                                style="width: 40px; height: 40px; background-color: #f0f0f0; display: flex; align-items: center; justify-content: center; border-radius: 4px; margin-right: 10px;">
                                                 <span style="font-size: 10px;">No Image</span>
                                             </div>
                                         @endif
-                                        {{ $review->product->name ?? 'Produk tidak tersedia' }}
+                                        {{ optional($review->product)->name ?? 'Produk Tidak Ditemukan' }}
                                     </div>
                                 </td>
                                 <td>{{ $review->user->name ?? 'User tidak tersedia' }}</td>

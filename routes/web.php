@@ -116,16 +116,32 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
-    
-Route::get('/seller/penghasilan/export', function () {
-    // Ambil filter dari request
-    $startDate = request('start_date');
-    $endDate = request('end_date');
 
-    // Query transaksi sesuai filter
-    $transactions = \App\Models\Transaction::whereBetween('created_at', [$startDate, $endDate])
-        ->with(['product', 'user'])
-        ->get();
+Route::get('/penghasilan/export', function () {
+    $filters = request()->all();
+
+    // Filter transaksi berdasarkan rentang tanggal
+    $query = \App\Models\Transaction::whereHas('product', function ($q) use ($filters) {
+        if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
+            $q->whereBetween('transactions.created_at', [
+                $filters['start_date'],
+                $filters['end_date']
+            ]);
+        }
+    });
+
+    // Tambahkan filter status jika ada
+    if (!empty($filters['status'])) {
+        $query->where('transactions.status', $filters['status']);
+    }
+
+    // Tambahkan filter product_id jika ada
+    if (!empty($filters['product_id'])) {
+        $query->where('product_id', $filters['product_id']);
+    }
+
+    // Eager load product & user
+    $transactions = $query->with(['product', 'user'])->get();
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
