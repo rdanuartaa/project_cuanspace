@@ -17,6 +17,7 @@ use App\Http\Controllers\PenghasilanController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
 use App\Http\Controllers\SaldoController;
+use App\Http\Controllers\AdminProductController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
@@ -68,7 +69,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+
+        Route::get('produk', [AdminProductController::class, 'index'])->name('produk.index');
+        Route::get('produk/{id}', [AdminProductController::class, 'show'])->name('produk.show');
+        Route::delete('produk/{id}', [AdminProductController::class, 'destroy'])->name('produk.destroy');
+     });
 });
 
 // ---------------- SELLER ----------------

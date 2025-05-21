@@ -293,8 +293,8 @@
                     <span class="menu-title">Kelola Seller</span>
                 </a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
+            <li class="nav-item {{ request()->routeIs('admin.produk.*') ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.produk.index') }}">
                     <i class="menu-icon mdi mdi-package-variant-closed"></i>
                     <span class="menu-title">Kelola Produk</span>
                 </a>
