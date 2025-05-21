@@ -18,6 +18,11 @@ use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
 use App\Http\Controllers\SaldoController;
 
+use App\Http\Controllers\AdminProductController;
+
+use App\Http\Controllers\AdminSaldoController;
+
+
 // ---------------- HALAMAN DEPAN / USER ----------------
 
 // Halaman utama (tanpa login)
@@ -68,7 +73,17 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-    });
+
+
+        Route::get('produk', [AdminProductController::class, 'index'])->name('produk.index');
+        Route::get('produk/{id}', [AdminProductController::class, 'show'])->name('produk.show');
+        Route::delete('produk/{id}', [AdminProductController::class, 'destroy'])->name('produk.destroy');
+     });
+
+        Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
+    Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
+    Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
+
 });
 
 // ---------------- SELLER ----------------
@@ -81,7 +96,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
 
         // Manajemen produk - PERBAIKAN
         Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
-        
+
         // Hapus baris Route::resource() dan ganti dengan route individual
         Route::get('produk', [ProductController::class, 'index'])->name('produk');
         Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
@@ -89,24 +104,42 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
         Route::put('produk/{produk}', [ProductController::class, 'update'])->name('produk.update');
         Route::delete('produk/{produk}', [ProductController::class, 'destroy'])->name('produk.destroy');
-  
+
         Route::resource('penjualan', PenjualanController::class)->only(['index', 'show']);
         Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo.index');
         Route::post('/saldo/tarik', [SaldoController::class, 'tarikSaldo'])->name('saldo.tarik');
+        Route::post('/saldo/update-bank', [SaldoController::class, 'updateBank'])->name('saldo.updateBank');
         Route::get('penghasilan', [PenghasilanController::class, 'index'])->name('penghasilan.index');
         Route::get('ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
         Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
-Route::get('/seller/penghasilan/export', function () {
-    // Ambil filter dari request
-    $startDate = request('start_date');
-    $endDate = request('end_date');
 
-    // Query transaksi sesuai filter
-    $transactions = \App\Models\Transaction::whereBetween('created_at', [$startDate, $endDate])
-        ->with(['product', 'user'])
-        ->get();
+Route::get('/penghasilan/export', function () {
+    $filters = request()->all();
+
+    // Filter transaksi berdasarkan rentang tanggal
+    $query = \App\Models\Transaction::whereHas('product', function ($q) use ($filters) {
+        if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
+            $q->whereBetween('transactions.created_at', [
+                $filters['start_date'],
+                $filters['end_date']
+            ]);
+        }
+    });
+
+    // Tambahkan filter status jika ada
+    if (!empty($filters['status'])) {
+        $query->where('transactions.status', $filters['status']);
+    }
+
+    // Tambahkan filter product_id jika ada
+    if (!empty($filters['product_id'])) {
+        $query->where('product_id', $filters['product_id']);
+    }
+
+    // Eager load product & user
+    $transactions = $query->with(['product', 'user'])->get();
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');

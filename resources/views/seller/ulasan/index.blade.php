@@ -58,9 +58,9 @@
                                 <td>{{ $loopIndex + 1 }}</td>
                                 <td>
                                     <div class="d-flex align-items-center">
-                                        @if ($review->product?->thumbnail && file_exists(public_path('storage/' . $review->product->thumbnail)))
-                                            <img src="{{ asset('storage/' . $review->product->thumbnail) }}"
-                                                alt="{{ $review->product->name }}"
+                                        @if ($review->product)
+                                            <img src="{{$review->product->thumbnail_url}}"
+                                                alt="{{ $review->product->name}}"
                                                 style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                                         @else
                                             <div

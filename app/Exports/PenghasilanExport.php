@@ -16,7 +16,10 @@ class PenghasilanExport implements FromView, ShouldAutoSize, WithStyles
 
     public function __construct($transactions)
     {
-        $this->transactions = $transactions;
+        $this->transactions = $transactions->filter(function ($t) {
+        return in_array($t->status, ['paid', 'berhasil']);
+    });
+
     }
 
     public function view(): View

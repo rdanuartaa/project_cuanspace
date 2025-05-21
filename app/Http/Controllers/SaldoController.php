@@ -4,74 +4,97 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
-use App\Models\Transaction;
 use App\Models\Withdraw;
-use Carbon\Carbon;
+use App\Models\Seller;
 
 class SaldoController extends Controller
 {
+    /**
+     * Tampilkan halaman saldo seller beserta riwayat penarikan
+     */
     public function index()
     {
-        $sellerId = Auth::user()->id;
+        // Ambil user & seller
+        $user = Auth::user();
+        $seller = Seller::where('user_id', $user->id)->firstOrFail();
 
-        // Hitung total penghasilan berhasil
-        $totalIncome = Transaction::whereHas('product', function ($query) use ($sellerId) {
-                $query->where('seller_id', $sellerId);
-            })
-            ->whereIn('status', ['berhasil', 'paid'])
-            ->sum('amount');
+        // Cek apakah seller sudah isi rekening bank
+        $sellerHasBank = !empty($seller->bank_name) && !empty($seller->bank_account);
 
-        // Hitung total yang sudah ditarik
-        $totalWithdrawn = Withdraw::where('seller_id', $sellerId)
-            ->where('status', 'disetujui') // status bisa disesuaikan
-            ->sum('amount');
+        // Ambil saldo dari kolom balance
+        $currentBalance = $seller->balance;
 
-        // Hitung saldo saat ini
-        $currentBalance = $totalIncome - $totalWithdrawn;
-
-        // Riwayat penarikan saldo
-        $withdrawHistory = Withdraw::where('seller_id', $sellerId)
+        // Riwayat penarikan
+        $withdrawHistory = Withdraw::where('seller_id', $seller->id)
             ->latest()
             ->paginate(10);
 
-        return view('seller.saldo.index', compact('currentBalance', 'withdrawHistory'));
+        return view('seller.saldo.index', compact(
+            'currentBalance',
+            'withdrawHistory',
+            'sellerHasBank'
+        ));
     }
 
+    /**
+     * Proses permintaan penarikan saldo
+     */
     public function tarikSaldo(Request $request)
-{
-    $sellerId = Auth::user()->id;
+    {
+        // Ambil seller yang login
+        $seller = Auth::user()->seller;
 
-    // Validasi form
-    $request->validate([
-        'amount' => 'required|numeric|min:10000',
-    ]);
+        // Validasi form
+        $request->validate([
+            'amount' => 'required|numeric|min:10000',
+        ]);
 
-    // Hitung saldo saat ini
-    $totalIncome = Transaction::whereHas('product', function ($query) use ($sellerId) {
-            $query->where('seller_id', $sellerId);
-        })
-        ->whereIn('status', ['berhasil', 'paid'])
-        ->sum('amount');
+        if (!$seller) {
+            return back()->with('error', 'Seller tidak ditemukan.');
+        }
 
-    $totalWithdrawn = Withdraw::where('seller_id', $sellerId)
-        ->where('status', 'disetujui')
-        ->sum('amount');
+        if (empty($seller->bank_name) || empty($seller->bank_account)) {
+            return back()->with('error', 'Silakan lengkapi informasi rekening bank terlebih dahulu.');
+        }
 
-    $currentBalance = $totalIncome - $totalWithdrawn;
+        // Hitung current balance dari database
+        $currentBalance = $seller->balance;
 
-    // Cek apakah saldo cukup
-    if ($request->amount > $currentBalance) {
-        return back()->with('error', 'Saldo tidak mencukupi untuk penarikan.');
+        if ($request->amount > $currentBalance) {
+            return back()->with('error', 'Saldo tidak mencukupi untuk penarikan.');
+        }
+
+        // Simpan penarikan
+        $seller->withdraws()->create([
+            'amount' => $request->amount,
+            'status' => 'pending',
+            'bank_account' => $seller->bank_account,
+            'bank_name' => $seller->bank_name,
+        ]);
+
+        return back()->with('success', 'Permintaan penarikan saldo berhasil dikirim.');
     }
 
-    // Simpan data penarikan
-    Withdraw::create([
-        'seller_id' => $sellerId,
-        'amount' => $request->amount,
-        'status' => 'pending',
-    ]);
+    /**
+     * Update informasi rekening bank seller
+     */
+    public function updateBank(Request $request)
+    {
+        // Ambil seller yang login
+        $seller = Auth::user()->seller;
 
-    return back()->with('success', 'Permintaan penarikan saldo berhasil dikirim.');
-}
+        // Validasi input
+        $request->validate([
+            'bank_name' => 'required|string|max:255',
+            'bank_account' => 'required|string|max:255',
+        ]);
 
+        // Update data bank
+        $seller->update([
+            'bank_name' => $request->bank_name,
+            'bank_account' => $request->bank_account,
+        ]);
+
+        return back()->with('success', 'Informasi rekening berhasil diperbarui.');
+    }
 }
