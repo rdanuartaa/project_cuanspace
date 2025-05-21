@@ -37,7 +37,6 @@
                     </div>
                 </div>
             </div>
-
             <form id="filterForm" method="GET" action="{{ route('seller.penghasilan.index') }}" class="row my-2 g-2">
                 <div class="col-md-3 ">
                     <label for="date_range" class="form-label ">Pilih Rentang Tanggal</label>
@@ -73,22 +72,22 @@
                         @forelse ($penghasilan as $item)
                             <tr>
                                 <td class="flex items-center gap-2">
-                                    @if ($item->product && $item->product->thumbnail)
-                                        <img src="{{ asset('storage/' . $item->product->thumbnail) }}" alt="Foto Produk"
+                                    @if ($item->product && $item->product->thumbnail_url)
+                                        <img src="{{ $item->product->thumbnail_url }}" alt="Foto Produk"
                                             class="w-10 h-10 rounded object-cover">
                                     @else
                                         <div
-                                            class="w-10 h-10 rounded bg-gray-200 flex items-center justify-center text-sm text-gray-500">
+                                            class="w-10 h-10 rounded bg-gray-200 flex items-center justify-content-center text-sm text-gray-500">
                                             N/A
                                         </div>
                                     @endif
-                                    <span>{{ $item->product->name ?? '-' }}</span>
+                                    <span>{{ optional($item->product)->name ?? '-' }}</span>
                                 </td>
                                 <td>{{ $item->user->name ?? '-' }}</td>
                                 <td>{{ $item->created_at->format('d M Y') }}</td>
                                 <td>
                                     @if ($item->status === 'paid' || $item->status === 'berhasil')
-                                        <span class="text-green-600 font-medium">Pembayaran Berhasil</span>
+                                        <span class="badge bg-success text-white">Pembayaran Berhasil</span>
                                     @else
                                         <span class="text-gray-500">{{ ucfirst($item->status) }}</span>
                                     @endif

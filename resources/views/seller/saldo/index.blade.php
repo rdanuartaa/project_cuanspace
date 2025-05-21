@@ -5,22 +5,54 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title mb-4">Saldo Saya</h4>
+
+            <!-- Saldo -->
             <div class="mb-4 text-center">
                 <strong>Saldo Saat Ini:</strong><br>
-                <span class="text-green-600 text-2xl font-bold">Rp{{ number_format($currentBalance, 0, ',', '.') }}</span>
+                <span class="text-green-600 text-2xl font-bold">
+                    Rp{{ number_format($currentBalance, 0, ',', '.') }}
+                </span>
             </div>
-            @if ($currentBalance > 0)
-                <form action="{{ route('seller.saldo.tarik') }}" method="POST"
-                    class="mb-4 d-flex justify-content-center gap-2">
+
+            <!-- Form Input Bank -->
+            @if (!$sellerHasBank)
+                <div class="alert alert-warning text-center mb-4">
+                    Silakan lengkapi informasi rekening bank terlebih dahulu sebelum menarik saldo.
+                </div>
+
+                <form action="{{ route('seller.saldo.updateBank') }}" method="POST" class="mb-4">
                     @csrf
-                    <div>
-                        <input type="number" name="amount" class="form-control text-center"
-                            placeholder="Masukkan nominal penarikan (min Rp10.000)" min="10000" required>
+                    <div class="row g-3 justify-content-center">
+                        <div class="col-md-5">
+                            <label for="bank_name" class="form-label">Nama Bank</label>
+                            <input type="text" name="bank_name" id="bank_name" class="form-control"
+                                placeholder="Contoh: BCA, BRI, Mandiri" required>
+                        </div>
+                        <div class="col-md-5">
+                            <label for="bank_account" class="form-label">Nomor Rekening</label>
+                            <input type="text" name="bank_account" id="bank_account" class="form-control"
+                                placeholder="Masukkan nomor rekening" required>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100">Simpan</button>
+                        </div>
                     </div>
-                    <button type="submit" class="btn btn-success text-white">Tarik Saldo</button>
                 </form>
+            @else
+                <!-- Form Tarik Saldo -->
+                @if ($currentBalance > 0)
+                    <form action="{{ route('seller.saldo.tarik') }}" method="POST" class="mb-4 d-flex justify-content-center gap-2">
+                        @csrf
+                        <div>
+                            <input type="number" name="amount" class="form-control text-center"
+                                placeholder="Masukkan nominal penarikan (min Rp10.000)" min="10000" required>
+                        </div>
+                        <button type="submit" class="btn btn-success text-white">Tarik Saldo</button>
+                    </form>
+                @endif
             @endif
 
+            <!-- Pesan Sukses / Error -->
             @if (session('success'))
                 <div class="alert alert-success text-center">{{ session('success') }}</div>
             @endif
@@ -28,6 +60,8 @@
             @if (session('error'))
                 <div class="alert alert-danger text-center">{{ session('error') }}</div>
             @endif
+
+            <!-- Riwayat Penarikan -->
             <h5 class="mt-5">Riwayat Penarikan</h5>
             <div class="table-responsive">
                 <table class="table">

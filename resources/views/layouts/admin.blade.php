@@ -312,7 +312,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.saldo.index') }}">
                     <i class="menu-icon mdi mdi-credit-card"></i>
                     <span class="menu-title">Kelola Penarikan Saldo</span>
                 </a>
