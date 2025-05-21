@@ -1,9 +1,5 @@
-<!-- resources/views/main/seller-register.blade.php -->
-
 @extends('layouts.main')
-
 @section('title', 'Seller Register')
-
 @section('content')
 <div class="main-content space-padding-tb-70">
     <div class="container">
@@ -21,9 +17,8 @@
                         </div>
                     @endif
 
-                    <form method="POST" action="{{ route('seller.register.submit') }}" enctype="multipart/form-data">
+                    <form method="POST" action="{{ route('seller.register.submit') }}" enctype="multipart/form-data" class="form-customer form-login">
                         @csrf
-
                         <!-- Brand Name -->
                         <div class="form-group">
                             <label for="brand_name">Brand Name *</label>

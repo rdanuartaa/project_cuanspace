@@ -3,105 +3,111 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\Admin\SellerController;
-use App\Http\Controllers\Admin\KategoriController;
-use App\Http\Controllers\Main\SellerRegisterController;
+use App\Http\Controllers\SellerController;
+use App\Http\Controllers\KategoriController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\FaqController;
+use App\Http\Controllers\AboutController;
+use App\Http\Controllers\TeamsController;
+use App\Http\Controllers\PenjualanController;
+use App\Http\Controllers\UlasanController;
+use App\Http\Controllers\PengaturanController;
+use App\Http\Controllers\PenghasilanController;
+use Maatwebsite\Excel\Facades\Excel;
+use App\Exports\PenghasilanExport;
+use App\Http\Controllers\SaldoController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
-// Halaman depan (guest)
-use App\Http\Controllers\Admin\SellerController as AdminSellerController;
-use App\Http\Controllers\Main\SellerRegisterController;
-use App\Http\Controllers\Seller\DashboardController as SellerDashboardController;
-use App\Http\Middleware\AdminMiddleware;
-use App\Http\Middleware\SellerMiddleware;
-
 // Halaman utama (tanpa login)
-Route::get('/', function () {
-    return view('main.home');
-});
-    return view('main.home');
-})->name('home');
+Route::get('/', fn () => view('main.home'))->name('home');
 
-// Halaman home setelah login user biasa
-Route::get('/home', function () {
-    return view('main.home');
-})->middleware(['auth', 'verified'])->name('main.home');
+// Halaman setelah login user biasa
+Route::get('/home', fn () => view('main.home'))
+    ->middleware(['auth', 'verified'])
+    ->name('main.home');
+Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
 
-// Profil user biasa
+// Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
+    // Pengelolaan profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Register sebagai seller
-
-    // Halaman register sebagai seller
-    Route::get('/seller-register', [SellerRegisterController::class, 'showForm'])->name('seller.register');
-    Route::post('/seller-register', [SellerRegisterController::class, 'register'])->name('seller.register.submit');
+    // Form & submit daftar jadi seller
+    Route::get('/seller-register', [SellerController::class, 'showRegistrationForm'])->name('seller.register');
+    Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit');
 });
-
 
 // ---------------- ADMIN ----------------
-
-// Rute untuk admin
 Route::prefix('admin')->name('admin.')->group(function () {
-    // Login admin
-    // Halaman login untuk admin (tanpa middleware)
+    // Login & logout admin
     Route::get('login', [AdminController::class, 'showLoginForm'])->name('login');
     Route::post('login', [AdminController::class, 'login'])->name('login.submit');
-
-    // Logout admin (tanpa middleware)
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
 
-    // Semua halaman admin setelah login
+    // Dashboard & manajemen (hanya untuk admin)
     Route::middleware('auth:admin')->group(function () {
-        // Dashboard admin
-        Route::get('dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
+        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
 
-        // Kelola Seller
+        // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
         Route::post('sellers/{id}/verify', [SellerController::class, 'verify'])->name('sellers.verify');
+        Route::post('sellers/{id}/deactivate', [SellerController::class, 'deactivate'])->name('sellers.deactivate');
+        Route::post('sellers/{id}/set-pending', [SellerController::class, 'setPending'])->name('sellers.setPending');
 
-        // ✅ Kelola Kategori
-        Route::get('kategori', [KategoriController::class, 'index'])->name('kategori.index');
-        Route::get('kategori/create', [KategoriController::class, 'create'])->name('kategori.create');
-        Route::post('kategori', [KategoriController::class, 'store'])->name('kategori.store');
-        Route::get('kategori/{id}/edit', [KategoriController::class, 'edit'])->name('kategori.edit');
-        Route::put('kategori/{id}', [KategoriController::class, 'update'])->name('kategori.update');
-        Route::delete('kategori/{id}', [KategoriController::class, 'destroy'])->name('kategori.destroy'); // ✅ ini yang sebelumnya error
+        // Kelola kategori
+        Route::resource('kategori', KategoriController::class)->except(['show']);
+
+        // Kelola pengguna
+        Route::get('users', [UserController::class, 'index'])->name('users.index');
+        Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+        Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+        Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
     });
 });
-
 
 // ---------------- SELLER ----------------
+Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
+    ->prefix('seller')
+    ->name('seller.')
+    ->group(function () {
+        // Dashboard seller
+        Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
 
-Route::middleware(['auth', 'seller'])->prefix('seller')->name('seller.')->group(function () {
-    Route::get('dashboard', function () {
-        return view('seller.dashboard');
-    })->name('dashboard');
-
-    // Dashboard admin dan rute-rute yang membutuhkan autentikasi admin
-    Route::middleware(AdminMiddleware::class)->group(function () {
-        Route::get('dashboard', function () {
-            return view('admin.dashboard');
-        })->name('dashboard');
-
-        // Halaman untuk mengelola seller yang mendaftar
-        Route::get('sellers', [AdminSellerController::class, 'index'])->name('sellers.index');
-        Route::post('sellers/{id}/verify', [AdminSellerController::class, 'verify'])->name('sellers.verify');
+        // Manajemen produk - PERBAIKAN
+        Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
+        
+        // Hapus baris Route::resource() dan ganti dengan route individual
+        Route::get('produk', [ProductController::class, 'index'])->name('produk');
+        Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
+        Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
+        Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
+        Route::put('produk/{produk}', [ProductController::class, 'update'])->name('produk.update');
+        Route::delete('produk/{produk}', [ProductController::class, 'destroy'])->name('produk.destroy');
+  
+        Route::resource('penjualan', PenjualanController::class)->only(['index', 'show']);
+        Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo.index');
+        Route::post('/saldo/tarik', [SaldoController::class, 'tarikSaldo'])->name('saldo.tarik');
+        Route::get('penghasilan', [PenghasilanController::class, 'index'])->name('penghasilan.index');
+        Route::get('ulasan', [UlasanController::class, 'index'])->name('ulasan.index');
+        Route::get('/pengaturan', [PengaturanController::class, 'index'])->name('pengaturan.index');
+        Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
-});
+Route::get('/seller/penghasilan/export', function () {
+    // Ambil filter dari request
+    $startDate = request('start_date');
+    $endDate = request('end_date');
 
-// Rute untuk seller
-Route::prefix('seller')->name('seller.')->middleware(['auth'])->group(function () {
-    // Dashboard untuk seller yang sudah aktif
-    Route::get('dashboard', [App\Http\Controllers\Seller\DashboardController::class, 'index'])->name('dashboard');
-});
+    // Query transaksi sesuai filter
+    $transactions = \App\Models\Transaction::whereBetween('created_at', [$startDate, $endDate])
+        ->with(['product', 'user'])
+        ->get();
 
-
-// ---------------- AUTENTIKASI USER BIASA ----------------
-
+    return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
+})->name('seller.penghasilan.export');
 require __DIR__.'/auth.php';

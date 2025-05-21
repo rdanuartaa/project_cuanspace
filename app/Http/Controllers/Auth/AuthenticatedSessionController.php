@@ -40,13 +40,13 @@ class AuthenticatedSessionController extends Controller
             // Jika user biasa, coba login dengan guard 'web'
             if (Auth::guard('web')->attempt($credentials)) {
                 $request->session()->regenerate();
-                
+
                 // Check if user is a seller and active
                 $user = User::where('email', $request->email)->first();
                 if ($user && $user->seller && $user->seller->status === 'active') {
-                    return redirect()->intended(route('seller.dashboard')); // Redirect to seller dashboard
+                    return redirect()->intended(route('main.home')); // Redirect to seller dashboard
                 }
-                
+
                 return redirect()->intended(route('main.home')); // Redirect ke halaman home untuk user
             }
         }

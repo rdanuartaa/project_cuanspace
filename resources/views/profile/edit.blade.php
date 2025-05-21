@@ -9,7 +9,7 @@
                     <div class="title-page">
                         <h3>Profile</h3>
                     </div>
-                           <form method="POST" action="{{ route('profile.update') }}">
+                           <form method="POST" action="{{ route('profile.update') }}"class="form-customer form-login">
                                 @csrf
                                 @method('PATCH')
 
