@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Storage;
 
 class SellerController extends Controller
 {
-
     public function Index(Request $request)
     {
         $query = Seller::query();
@@ -19,11 +18,28 @@ class SellerController extends Controller
             }
         }
 
-        $sort = $request->query('sort', 'latest');
-        $query->orderBy('created_at', $sort === 'latest' ? 'desc' : 'asc');
-
         $sellers = $query->get();
         return view('admin.sellers.index', compact('sellers'));
+    }
+
+    public function filter(Request $request)
+    {
+        $query = Seller::query();
+
+        // Apply status filter
+        if ($status = $request->query('status')) {
+            if (in_array($status, ['pending', 'active', 'inactive'])) {
+                $query->where('status', $status);
+            }
+        }
+
+        // Fetch sellers
+        $sellers = $query->get();
+
+        // Render the table body HTML
+        $html = view('admin.sellers._table_body', compact('sellers'))->render();
+
+        return response()->json(['html' => $html]);
     }
 
     public function dashboard()
@@ -61,13 +77,6 @@ class SellerController extends Controller
         return redirect()->route('admin.sellers.index')->with('status', 'Seller status set to pending!');
     }
 
-    // ----------------------
-    // Bagian untuk USER
-    // ----------------------
-
-    /**
-     * Tampilkan form pendaftaran seller untuk user.
-     */
     public function showRegisterForm()
     {
         if (!Auth::check()) {
@@ -104,9 +113,6 @@ class SellerController extends Controller
         return view('main.seller_register');
     }
 
-    /**
-     * Proses pendaftaran seller oleh user.
-     */
     public function register(Request $request)
     {
         $request->validate([

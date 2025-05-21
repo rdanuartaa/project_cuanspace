@@ -60,6 +60,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
         // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
+        Route::get('sellers/filter', [SellerController::class, 'filter'])->name('sellers.filter');
         Route::post('sellers/{id}/verify', [SellerController::class, 'verify'])->name('sellers.verify');
         Route::post('sellers/{id}/deactivate', [SellerController::class, 'deactivate'])->name('sellers.deactivate');
         Route::post('sellers/{id}/set-pending', [SellerController::class, 'setPending'])->name('sellers.setPending');
@@ -83,7 +84,19 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
     Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
 
-});
+    // Kelola FAQ
+        Route::prefix('faq')->name('faq.')->group(function () {
+            Route::get('/', [FaqController::class, 'adminIndex'])->name('index');
+            Route::get('/create', [FaqController::class, 'create'])->name('create');
+            Route::post('/', [FaqController::class, 'store'])->name('store');
+            Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
+            Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
+            Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
+        });
+    });
+
+
+
 
 // ---------------- SELLER ----------------
 Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
