@@ -13,6 +13,9 @@
     <link rel="stylesheet" type="text/css" href="css/bootstrap-slider.css">
     <link rel="stylesheet" type="text/css" href="css/style.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+
+    <!-- Styles khusus dari child view -->
+    @yield('styles')
 </head>
 <body>
     <div class="modal fade" id="myModal" role="dialog">
@@ -38,7 +41,8 @@
             </div>
         </div>
     </div>
-    <!--END  Modal content-->
+    <!--END Modal content-->
+
     <header id="header" class="header-v1">
         <div class="sticky-header text-center hidden-xs hidden-sm">
             <div class="text">
@@ -185,6 +189,7 @@
         @endif
     </div>
 
+    <!-- Konten halaman -->
     @yield('content')
 
     <footer>
@@ -233,6 +238,8 @@
         </div>
     </footer>
     <a href="#" class="scroll_top">SCROLL TO TOP<span></span></a>
+
+    <!-- Script JS umum -->
     <script src="{{ asset('js/jquery.js') }}"></script>
     <script src="{{ asset('js/bootstrap.js') }}"></script>
     <script src="{{ asset('js/owl.carousel.min.js') }}"></script>
@@ -240,13 +247,12 @@
     <script src="{{ asset('js/slick.min.js') }}"></script>
     <script src="{{ asset('js/masonry.pkgd.min.js') }}"></script>
     <script src="{{ asset('js/main.js') }}"></script>
-    <!-- Script untuk memastikan logout berfungsi dengan benar -->
+
+    <!-- Script logout -->
     <script>
         $(document).ready(function() {
-            // Tambahkan konfirmasi logout jika diinginkan
             $('.logout-btn').click(function(e) {
                 if (confirm('Apakah Anda yakin ingin keluar?')) {
-                    // Lanjutkan dengan logout
                     return true;
                 } else {
                     e.preventDefault();
@@ -255,5 +261,8 @@
             });
         });
     </script>
+
+    <!-- Scripts khusus dari child view -->
+    @yield('scripts')
 </body>
 </html>

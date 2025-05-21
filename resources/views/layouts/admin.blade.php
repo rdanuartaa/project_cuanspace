@@ -324,7 +324,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.faq.index') }}">
                     <i class="menu-icon mdi mdi-help"></i>
                     <span class="menu-title">FAQ</span>
                 </a>
