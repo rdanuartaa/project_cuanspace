@@ -14,9 +14,9 @@ use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\UlasanController;
 use App\Http\Controllers\PengaturanController;
 use App\Http\Controllers\PenghasilanController;
+use App\Http\Controllers\SaldoController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
-use App\Http\Controllers\SaldoController;
 
 use App\Http\Controllers\AdminProductController;
 
@@ -29,21 +29,17 @@ use App\Http\Controllers\AdminSaldoController;
 Route::get('/', fn () => view('main.home'))->name('home');
 
 // Halaman setelah login user biasa
-Route::get('/home', fn () => view('main.home'))
-    ->middleware(['auth', 'verified'])
-    ->name('main.home');
+Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified'])->name('main.home');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
 
 // Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
-    // Pengelolaan profil
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
-    // Form & submit daftar jadi seller
     Route::get('/seller-register', [SellerController::class, 'showRegistrationForm'])->name('seller.register');
     Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit');
 });
@@ -55,9 +51,12 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::post('login', [AdminController::class, 'login'])->name('login.submit');
     Route::post('logout', [AdminController::class, 'logout'])->name('logout');
 
-    // Dashboard & manajemen (hanya untuk admin)
+    // Route admin harus auth admin
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+
+        // Ganti route manual About dengan Route resource supaya lengkap
+        Route::resource('about', AboutController::class);
 
         // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
@@ -91,13 +90,10 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
     ->prefix('seller')
     ->name('seller.')
     ->group(function () {
-        // Dashboard seller
         Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
-
-        // Manajemen produk - PERBAIKAN
         Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
 
-        // Hapus baris Route::resource() dan ganti dengan route individual
+
         Route::get('produk', [ProductController::class, 'index'])->name('produk');
         Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
         Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
@@ -141,6 +137,8 @@ Route::get('/penghasilan/export', function () {
     // Eager load product & user
     $transactions = $query->with(['product', 'user'])->get();
 
+
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
+
 require __DIR__.'/auth.php';

@@ -22,6 +22,30 @@
     <link rel="stylesheet" href="{{ asset('vendors_template/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
     <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
+    <!-- endinject -->
+<link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
+
+<!-- Tambahan CSS untuk thumbnail agar tidak bulat -->
+<style>
+    /* Pastikan ini override semua kemungkinan class pembulatan */
+    .thumbnail-img {
+        width: 150px !important;
+        height: auto !important;
+        object-fit: contain !important;
+        border-radius: 4px !important; /* bukan 50% */
+        box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+        display: block !important;
+        margin: auto !important;
+    }
+
+    /* Override class auto seperti rounded-circle, img-xs, img-md */
+    .thumbnail-img.rounded-circle,
+    .thumbnail-img.img-xs,
+    .thumbnail-img.img-md {
+        border-radius: 4px !important;
+    }
+</style>
+
 </head>
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
@@ -330,7 +354,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.about.index') }}" class="nav-link {{ request()->is('admin/about*') ? 'active' : '' }}">
                     <i class="menu-icon mdi mdi-information"></i>
                     <span class="menu-title">About</span>
                 </a>
