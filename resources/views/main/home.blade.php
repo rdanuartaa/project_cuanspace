@@ -106,7 +106,7 @@
                         <div class="product-images">
                             <a href="#" class="hover-images effect"><img src="img/products/shortshirt.jpg" alt="photo" class="img-reponsive"></a>
                             <a href="#" class="btn-add-wishlist ver2"><i class="icon-heart"></i></a>
-                            <a href="#" class="btn-quickview">QUICK VIEW</a>
+                            <a href="#" class="btn-quickview">VIEW DETAIL</a>
                         </div>
                         <div class="product-info-ver2">
                             <h3 class="product-title"><a href="#">The Turtleneck</a></h3>

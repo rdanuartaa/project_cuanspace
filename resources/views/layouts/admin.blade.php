@@ -301,7 +301,7 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.kategori.index') }}">
-                    <i class="menu-icon mdi mdi-package-variant-closed"></i>
+                    <i class="menu-icon mdi mdi-puzzle"></i>
                     <span class="menu-title">Kelola Kategori</span>
                 </a>
             </li>
@@ -312,9 +312,9 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.saldo.index') }}">
                     <i class="menu-icon mdi mdi-credit-card"></i>
-                    <span class="menu-title">Kelola Pembayaran</span>
+                    <span class="menu-title">Kelola Penarikan Saldo</span>
                 </a>
             </li>
             <li class="nav-item">
@@ -325,8 +325,20 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#">
-                    <i class="menu-icon mdi mdi-cash-multiple"></i>
-                    <span class="menu-title">Pendapatan</span>
+                    <i class="menu-icon mdi mdi-help"></i>
+                    <span class="menu-title">FAQ</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-information"></i>
+                    <span class="menu-title">About</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-account-multiple-outline"></i>
+                    <span class="menu-title">Teams</span>
                 </a>
             </li>
             <li class="nav-item">
