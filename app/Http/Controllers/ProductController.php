@@ -95,7 +95,15 @@ class ProductController extends Controller
                 'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'digital_file' => 'required|file|mimes:zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
                 'status' => 'required|in:draft,published,archived',
-            ]);
+            ],[
+            'name.max' => 'Nama produk maksimal 100 karakter',
+            'price.max' => 'Harga terlalu besar. Maksimal 9.999.999,99',
+            'thumbnail.max' => 'Thumbnail maksimal 2MB',
+            'thumbnail.mimes' => 'Thumbnail harus berupa gambar (jpeg, png, jpg, gif)',
+            'digital_file.max' => 'File digital maksimal 10MB',
+            'digital_file.mimes' => 'File digital harus berupa PDF, ZIP, atau RAR'
+        
+        ]);
 
             DB::beginTransaction();
 
@@ -204,7 +212,7 @@ class ProductController extends Controller
             $validatedData = $request->validate([
                 'name' => 'required|string|max:100',
                 'description' => 'required|string',
-                'price' => 'required|numeric|min:0',
+                'price' => 'required|numeric|min:0|max:999999999.99',
                 'kategori_id' => 'required|exists:kategoris,id',
                 'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'digital_file' => 'nullable|file|mimes:zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
