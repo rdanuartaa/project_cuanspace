@@ -35,6 +35,7 @@
                                 <th>Thumbnail</th>
                                 <th>Visi</th>
                                 <th>Misi</th>
+                                <th>Status</th>  <!-- Tambahan kolom Status -->
                                 <th>Aksi</th>
                             </tr>
                         </thead>
@@ -54,6 +55,13 @@
                                     <td>{{ \Illuminate\Support\Str::limit($about->visi, 50) }}</td>
                                     <td>{{ \Illuminate\Support\Str::limit($about->misi, 50) }}</td>
                                     <td>
+                                        @if ($about->status == 'Published')
+                                            <span class="bg-green-100 text-green-700 px-2 py-1 rounded-full text-sm">Published</span>
+                                        @else
+                                            <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded-full text-sm">Draft</span>
+                                        @endif
+                                    </td>
+                                    <td>
                                         <a href="{{ route('admin.about.edit', $about->id) }}" class="btn btn-outline-info btn-sm">Edit</a>
                                         <form action="{{ route('admin.about.destroy', $about->id) }}" method="POST" class="d-inline">
                                             @csrf
@@ -64,7 +72,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="7" class="text-center">Belum ada data About.</td>
+                                    <td colspan="8" class="text-center">Belum ada data About.</td>
                                 </tr>
                             @endforelse
                         </tbody>
@@ -75,5 +83,4 @@
         </div>
     </div>
 </div>
-</style>
 @endsection

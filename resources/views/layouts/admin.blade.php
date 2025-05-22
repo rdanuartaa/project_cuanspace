@@ -25,20 +25,21 @@
     <!-- endinject -->
 <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
 
-<!-- Tambahan CSS untuk thumbnail agar tidak bulat -->
-<style>
-    /* Pastikan ini override semua kemungkinan class pembulatan */
-    .thumbnail-img {
-        width: 150px !important;
-        height: auto !important;
-        object-fit: contain !important;
-        border-radius: 4px !important; /* bukan 50% */
-        box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
-        display: block !important;
-        margin: auto !important;
-    }
 
-    /* Override class auto seperti rounded-circle, img-xs, img-md */
+<style>
+   
+   .thumbnail-img {
+    width: 150px !important;
+    height: auto !important;
+    object-fit: contain !important;
+    border-radius: 4px !important;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15) !important;
+    display: block !important;
+    margin: auto !important;
+}
+
+
+  
     .thumbnail-img.rounded-circle,
     .thumbnail-img.img-xs,
     .thumbnail-img.img-md {

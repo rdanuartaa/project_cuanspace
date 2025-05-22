@@ -43,7 +43,16 @@
                     <textarea name="misi" class="form-control" rows="2" required>{{ $about->misi }}</textarea>
                 </div>
 
-                <div class="text-end">
+                <!-- Form untuk Status -->
+                <div class="mb-3">
+                    <label for="status" class="form-label fw-bold">Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="Published" {{ old('status', $about->status ?? '') == 'Published' ? 'selected' : '' }}>Published</option>
+                        <option value="Draft" {{ old('status', $about->status ?? '') == 'Draft' ? 'selected' : '' }}>Draft</option>
+                    </select>
+                </div>
+
+                <div class="text-end mt-3">
                     <button type="submit" class="btn btn-outline-warning btn-sm">Update</button>
                 </div>
             </form>
