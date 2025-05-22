@@ -149,4 +149,34 @@ class SellerController extends Controller
 
         return redirect()->route('main.home')->with('status', 'Pendaftaran seller berhasil! Mohon tunggu verifikasi dari admin.');
     }
+
+
+ public function produkSaya(Request $request)
+    {
+        $seller = Auth::user()->seller;
+        
+        $query = Product::where('seller_id', $seller->id)
+            ->withTrashed() // Ambil produk yang sudah dihapus
+            ->with(['kategori', 'deletion']);
+
+        // Filter berdasarkan kategori
+        if ($request->filled('kategori')) {
+            $query->where('kategori_id', $request->kategori);
+        }
+
+        // Filter berdasarkan status
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        // Urutkan dengan produk yang dihapus admin di atas
+        $products = $query->orderByRaw('CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END DESC')
+            ->latest()
+            ->paginate(10);
+
+        $kategoris = Kategori::all();
+
+        return view('seller.produk.index', compact('products', 'kategoris'));
+    }
 }
+
