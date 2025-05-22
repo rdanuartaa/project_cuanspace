@@ -31,13 +31,11 @@ Route::get('/', fn () => view('main.home'))->name('home');
 // Halaman setelah login user biasa
 Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified'])->name('main.home');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
-Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about'); // ← Sudah diperbaiki
+Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
+
 // ---------------- RUTE UNTUK USER ----------------
-// Rute untuk User
 Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams.show');
-
-
 
 // Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
@@ -58,14 +56,22 @@ Route::prefix('admin')->name('admin.')->group(function () {
     // Route admin harus auth admin
     Route::middleware('auth:admin')->group(function () {
         Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
-        // Ganti route manual About dengan Route resource supaya lengkap
         Route::resource('about', AboutController::class);
+        Route::resource('teams', TeamsController::class);
         // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
         Route::get('sellers/filter', [SellerController::class, 'filter'])->name('sellers.filter');
         Route::post('sellers/{id}/verify', [SellerController::class, 'verify'])->name('sellers.verify');
         Route::post('sellers/{id}/deactivate', [SellerController::class, 'deactivate'])->name('sellers.deactivate');
         Route::post('sellers/{id}/set-pending', [SellerController::class, 'setPending'])->name('sellers.setPending');
+        Route::get('produk', [AdminProductController::class, 'index'])->name('produk.index');
+        Route::get('produk/{id}', [AdminProductController::class, 'show'])->name('produk.show');
+        Route::delete('produk/{id}', [AdminProductController::class, 'destroy'])->name('produk.destroy');
+        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
+        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
+        Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
+        Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
+        Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
         // Kelola kategori
         Route::resource('kategori', KategoriController::class)->except(['show']);
         // Kelola pengguna
@@ -73,10 +79,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-
+        Route::prefix('faq')->name('faq.')->group(function () {
+            Route::get('/', [FaqController::class, 'adminIndex'])->name('index');
+            Route::get('/create', [FaqController::class, 'create'])->name('create');
+            Route::post('/', [FaqController::class, 'store'])->name('store');
+            Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
+            Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
+            Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
+        });
     });
-
-
 });
 
 // ---------------- SELLER ----------------
@@ -102,8 +113,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
 
-
-    Route::get('/penghasilan/export', function (Request $request) {
+Route::get('/penghasilan/export', function (Request $request) {
     // Pastikan user login sebagai seller
     $user = auth()->user();
     if (!$user || !$user->seller) {
@@ -117,7 +127,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
 
     // Base query
     $query = Transaction::whereHas('product', function ($q) use ($sellerId) {
-        $q->where('seller_id', $sellerId); // ← ← Hanya produk milik seller ini
+        $q->where('seller_id', $sellerId);
     });
 
     // Filter berdasarkan tanggal jika ada
@@ -140,4 +150,5 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
+
 require __DIR__.'/auth.php';
