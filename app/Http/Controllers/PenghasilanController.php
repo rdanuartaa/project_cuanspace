@@ -11,18 +11,20 @@ use App\Exports\PenghasilanExport;
 
 class PenghasilanController extends Controller
 {
+    /**
+     * Show list of transactions and earnings for the authenticated seller.
+     */
     public function index(Request $request)
     {
-        $sellerId = Auth::user()->id;
+        // Ambil ID seller dari user yang login
+        $sellerId = Auth::user()->seller->id ?? Auth::user()->id;
 
-        // Base query untuk transaksi berhasil
+        // Base query untuk transaksi berhasil (paid / berhasil)
         $baseQuery = Transaction::whereHas('product', function ($query) use ($sellerId) {
-                $query->where('seller_id', $sellerId);
-            })
-            ->whereIn('status', ['berhasil', 'paid'])
-            ->with(['product', 'user']);
+            $query->where('seller_id', $sellerId);
+        })->whereIn('status', ['paid', 'berhasil'])->with(['product', 'user']);
 
-        // Filter berdasarkan tanggal
+        // Filter tanggal jika diisi
         if ($request->filled('start_date') && $request->filled('end_date')) {
             $startDate = Carbon::parse($request->start_date)->startOfDay();
             $endDate = Carbon::parse($request->end_date)->endOfDay();
@@ -32,26 +34,28 @@ class PenghasilanController extends Controller
         // Pagination
         $penghasilan = $baseQuery->latest()->paginate(10);
 
-        // Hitung total penghasilan sesuai filter
+        // Total penghasilan sesuai filter
         $total = $baseQuery->sum('amount');
 
-        // Hitung pending (tidak terpengaruh filter tanggal)
-        $pending = Transaction::whereHas('product', fn($q) => $q->where('seller_id', $sellerId))
-            ->where('status', 'pending')
-            ->sum('amount');
+        // Transaksi pending (tidak terpengaruh filter tanggal)
+        $pending = Transaction::whereHas('product', function ($q) use ($sellerId) {
+            $q->where('seller_id', $sellerId);
+        })->where('status', 'pending')->sum('amount');
 
         // Minggu ini (tetap gunakan minggu ini meskipun filter aktif)
-        $mingguIni = Transaction::whereHas('product', fn($q) => $q->where('seller_id', $sellerId))
-            ->whereIn('status', ['berhasil', 'paid'])
-            ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
-            ->sum('amount');
+        $mingguIni = Transaction::whereHas('product', function ($q) use ($sellerId) {
+            $q->where('seller_id', $sellerId);
+        })->whereIn('status', ['paid', 'berhasil'])
+          ->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])
+          ->sum('amount');
 
         // Bulan ini (tetap gunakan bulan ini meskipun filter aktif)
-        $bulanIni = Transaction::whereHas('product', fn($q) => $q->where('seller_id', $sellerId))
-            ->whereIn('status', ['berhasil', 'paid'])
-            ->whereMonth('created_at', now()->month)
-            ->whereYear('created_at', now()->year)
-            ->sum('amount');
+        $bulanIni = Transaction::whereHas('product', function ($q) use ($sellerId) {
+            $q->where('seller_id', $sellerId);
+        })->whereIn('status', ['paid', 'berhasil'])
+          ->whereMonth('created_at', now()->month)
+          ->whereYear('created_at', now()->year)
+          ->sum('amount');
 
         return view('seller.penghasilan.index', compact(
             'penghasilan',
@@ -61,27 +65,47 @@ class PenghasilanController extends Controller
             'bulanIni'
         ));
     }
+
+    /**
+     * Export laporan penghasilan ke Excel
+     */
     public function export(Request $request)
 {
-    $sellerId = Auth::user()->id;
+    // Ambil seller ID dari user yang login
+    $user = Auth::user();
+    $sellerId = $user->seller->id ?? $user->id;
 
-    // Salin baseQuery dari index()
-    $baseQuery = Transaction::whereHas('product', function ($q) use ($sellerId) {
-        $q->where('seller_id', $sellerId);
-    })->whereIn('status', ['berhasil', 'paid']);
+    // Validasi seller
+    if (!$sellerId || !\App\Models\Seller::find($sellerId)) {
+        abort(403, 'Anda tidak memiliki akses');
+    }
 
-    // Filter tanggal jika dipilih
+    Log::info("Seller ID untuk export: " . $sellerId);
+
+    // Base query
+    $baseQuery = Transaction::whereHas('product', function ($query) use ($sellerId) {
+        $query->where('seller_id', $sellerId);
+    })->whereIn('status', ['paid', 'berhasil']);
+
+    // Filter tanggal jika ada
     if ($request->filled('start_date') && $request->filled('end_date')) {
-        $startDate = Carbon::parse($request->start_date)->startOfDay();
-        $endDate = Carbon::parse($request->end_date)->endOfDay();
+        $startDate = \Carbon\Carbon::parse($request->start_date)->startOfDay();
+        $endDate = \Carbon\Carbon::parse($request->end_date)->endOfDay();
         $baseQuery->whereBetween('created_at', [$startDate, $endDate]);
     }
 
-    // Ambil semua data tanpa pagination
+    // Ambil data
     $transactions = $baseQuery->with(['product', 'user'])->get();
 
-    // Debugging: Cek apakah ada data
-    \Log::info("Export Transactions Count", ['count' => $transactions->count()]);
+    // Debug output
+    Log::info("Jumlah transaksi ditemukan: " . $transactions->count());
+    Log::info("Contoh transaksi:", $transactions->take(2)->map(function ($t) {
+        return [
+            'kode' => $t->transaction_code,
+            'produk' => $t->product->name,
+            'seller_id' => $t->product->seller_id,
+        ];
+    })->toArray());
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 }

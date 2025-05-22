@@ -1,104 +1,25 @@
 <?php
+
 namespace App\Http\Controllers;
 
-use App\Models\Seller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Str;
+use App\Models\Seller;
+use Illuminate\Validation\ValidationException;
 
 class SellerController extends Controller
 {
-    public function Index(Request $request)
-    {
-        $query = Seller::query();
-
-        if ($status = $request->query('status')) {
-            if (in_array($status, ['pending', 'active', 'inactive'])) {
-                $query->where('status', $status);
-            }
-        }
-
-        $sellers = $query->get();
-        return view('admin.sellers.index', compact('sellers'));
-    }
-
-    public function filter(Request $request)
-    {
-        $query = Seller::query();
-
-        // Apply status filter
-        if ($status = $request->query('status')) {
-            if (in_array($status, ['pending', 'active', 'inactive'])) {
-                $query->where('status', $status);
-            }
-        }
-
-        // Fetch sellers
-        $sellers = $query->get();
-
-        // Render the table body HTML
-        $html = view('admin.sellers._table_body', compact('sellers'))->render();
-
-        return response()->json(['html' => $html]);
-    }
-
-    public function dashboard()
-    {
-        $user = Auth::user();
-        $seller = $user->seller;
-
-        return view('seller.dashboard.index', compact('seller'));
-    }
-
-    public function verify($id)
-    {
-        $seller = Seller::findOrFail($id);
-        $seller->status = 'active';
-        $seller->save();
-
-        return redirect()->route('admin.sellers.index')->with('status', 'Seller verified successfully!');
-    }
-
-    public function deactivate($id)
-    {
-        $seller = Seller::findOrFail($id);
-        $seller->status = 'inactive';
-        $seller->save();
-
-        return redirect()->route('admin.sellers.index')->with('status', 'Seller deactivated successfully!');
-    }
-
-    public function setPending($id)
-    {
-        $seller = Seller::findOrFail($id);
-        $seller->status = 'pending';
-        $seller->save();
-
-        return redirect()->route('admin.sellers.index')->with('status', 'Seller status set to pending!');
-    }
-
-    public function showRegisterForm()
-    {
-        if (!Auth::check()) {
-            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu untuk mendaftar sebagai seller.');
-        }
-
-        $user = Auth::user();
-        if ($user->seller) {
-            if ($user->seller->status === 'active') {
-                return redirect()->route('main.home')->with('status', 'Anda sudah terdaftar sebagai seller aktif.');
-            } else {
-                return redirect()->route('main.home')->with('status', 'Pendaftaran seller Anda sedang dalam proses verifikasi.');
-            }
-        }
-
-        return view('main.seller_register');
-    }
-
+    /**
+     * Show the seller registration form.
+     */
     public function showRegistrationForm()
     {
         if (!Auth::check()) {
-            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu untuk mendaftar sebagai seller.');
+            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
 
         $user = Auth::user();
@@ -113,63 +34,247 @@ class SellerController extends Controller
         return view('main.seller_register');
     }
 
+    /**
+     * Handle seller registration.
+     */
     public function register(Request $request)
     {
-        $request->validate([
+        // Validasi input
+        $validator = Validator::make($request->all(), [
             'brand_name' => 'required|string|max:100',
             'description' => 'required|string|max:1000',
-            'contact_email' => 'required|string|email|max:100',
+            'contact_email' => 'required|email|max:100',
             'contact_whatsapp' => 'required|string|max:20',
-            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'profile_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'banner_image' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
+
+        if ($validator->fails()) {
+            throw new ValidationException($validator);
+        }
 
         $user = Auth::user();
         if (!$user) {
-            return redirect()->route('login')->with('status', 'Anda harus login terlebih dahulu.');
+            return redirect()->route('login')->with('error', 'Anda harus login terlebih dahulu.');
         }
 
         if ($user->seller) {
-            return redirect()->route('main.home')->with('status', 'Anda sudah terdaftar sebagai seller.');
+            return redirect()->route('main.home')->with('error', 'Anda sudah terdaftar sebagai seller.');
         }
 
-        $profile_image_path = $request->file('profile_image')->store('public/profile_images');
-        $banner_image_path = $request->file('banner_image')->store('public/banner_images');
+        try {
+            DB::beginTransaction();
 
-        Seller::create([
-            'user_id' => $user->id,
-            'brand_name' => $request->brand_name,
-            'description' => $request->description,
-            'contact_email' => $request->contact_email,
-            'contact_whatsapp' => $request->contact_whatsapp,
-            'profile_image' => $profile_image_path,
-            'banner_image' => $banner_image_path,
-            'status' => 'pending',
-        ]);
+            // Simpan profile image
+            $profileImageName = Str::uuid() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+            $request->file('profile_image')->storeAs('seller/profile', $profileImageName, 'public');
 
-        return redirect()->route('main.home')->with('status', 'Pendaftaran seller berhasil! Mohon tunggu verifikasi dari admin.');
+            // Simpan banner image
+            $bannerImageName = Str::uuid() . '.' . $request->file('banner_image')->getClientOriginalExtension();
+            $request->file('banner_image')->storeAs('seller/banner', $bannerImageName, 'public');
+
+            Seller::create([
+                'user_id' => $user->id,
+                'brand_name' => $request->brand_name,
+                'description' => $request->description,
+                'contact_email' => $request->contact_email,
+                'contact_whatsapp' => $request->contact_whatsapp,
+                'profile_image' => $profileImageName,
+                'banner_image' => $bannerImageName,
+                'status' => 'pending',
+            ]);
+
+            DB::commit();
+
+            return redirect()->route('main.home')->with('success', 'Pendaftaran seller berhasil! Mohon tunggu verifikasi dari admin.');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', 'Gagal mendaftarkan seller: ' . $e->getMessage());
+        }
     }
 
+    /**
+     * Show seller dashboard.
+     */
+    public function dashboard()
+    {
+        $user = Auth::user();
+        $seller = $user->seller;
 
- public function produkSaya(Request $request)
+        return view('seller.dashboard.index', compact('seller'));
+    }
+
+    /**
+     * Admin: Show all sellers
+     */
+    public function index(Request $request)
+    {
+        $query = Seller::query();
+
+        if ($status = $request->query('status')) {
+            if (in_array($status, ['pending', 'active', 'inactive'])) {
+                $query->where('status', $status);
+            }
+        }
+
+        $sellers = $query->get();
+        return view('admin.sellers.index', compact('sellers'));
+    }
+
+    /**
+     * Admin: Filter sellers by status (AJAX)
+     */
+    public function filter(Request $request)
+    {
+        $query = Seller::query();
+
+        if ($status = $request->query('status')) {
+            if (in_array($status, ['pending', 'active', 'inactive'])) {
+                $query->where('status', $status);
+            }
+        }
+
+        $sellers = $query->get();
+        $html = view('admin.sellers._table_body', compact('sellers'))->render();
+
+        return response()->json(['html' => $html]);
+    }
+
+    /**
+     * Admin: Verify seller
+     */
+    public function verify($id)
+    {
+        $seller = Seller::findOrFail($id);
+        $seller->status = 'active';
+        $seller->save();
+
+        return redirect()->route('admin.sellers.index')->with('status', 'Seller berhasil diverifikasi!');
+    }
+
+    /**
+     * Admin: Deactivate seller
+     */
+    public function deactivate($id)
+    {
+        $seller = Seller::findOrFail($id);
+        $seller->status = 'inactive';
+        $seller->save();
+
+        return redirect()->route('admin.sellers.index')->with('status', 'Seller berhasil dinonaktifkan!');
+    }
+
+    /**
+     * Admin: Set seller to pending
+     */
+    public function setPending($id)
+    {
+        $seller = Seller::findOrFail($id);
+        $seller->status = 'pending';
+        $seller->save();
+
+        return redirect()->route('admin.sellers.index')->with('status', 'Status seller diubah menjadi pending!');
+    }
+
+    /**
+     * Show edit form for seller profile.
+     */
+    public function edit()
+    {
+        $user = Auth::user();
+        if (!$user || !$user->seller) {
+            return redirect()->route('main.home')->with('error', 'Tidak ada data seller ditemukan.');
+        }
+
+        $seller = $user->seller;
+        return view('seller.profile.edit', compact('seller'));
+    }
+
+    /**
+     * Update seller profile.
+     */
+    public function update(Request $request)
+    {
+        $user = Auth::user();
+        if (!$user || !$user->seller) {
+            return redirect()->route('main.home')->with('error', 'Tidak ada data seller ditemukan.');
+        }
+
+        $seller = $user->seller;
+
+        $validator = Validator::make($request->all(), [
+            'brand_name' => 'required|string|max:100',
+            'description' => 'required|string|max:1000',
+            'contact_email' => 'required|email|max:100',
+            'contact_whatsapp' => 'required|string|max:20',
+            'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'banner_image' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        if ($validator->fails()) {
+            return redirect()->back()->withErrors($validator)->withInput();
+        }
+
+        try {
+            DB::beginTransaction();
+
+            // Update data seller
+            $seller->brand_name = $request->brand_name;
+            $seller->description = $request->description;
+            $seller->contact_email = $request->contact_email;
+            $seller->contact_whatsapp = $request->contact_whatsapp;
+
+            // Handle profile image
+            if ($request->hasFile('profile_image')) {
+                if ($seller->profile_image) {
+                    Storage::disk('public')->delete('seller/profile/' . $seller->profile_image);
+                }
+                $profileImageName = Str::uuid() . '.' . $request->file('profile_image')->getClientOriginalExtension();
+                $request->file('profile_image')->storeAs('seller/profile', $profileImageName, 'public');
+                $seller->profile_image = $profileImageName;
+            }
+
+            // Handle banner image
+            if ($request->hasFile('banner_image')) {
+                if ($seller->banner_image) {
+                    Storage::disk('public')->delete('seller/banner/' . $seller->banner_image);
+                }
+                $bannerImageName = Str::uuid() . '.' . $request->file('banner_image')->getClientOriginalExtension();
+                $request->file('banner_image')->storeAs('seller/banner', $bannerImageName, 'public');
+                $seller->banner_image = $bannerImageName;
+            }
+
+            $seller->save();
+            DB::commit();
+
+            return redirect()->route('seller.dashboard.index')->with('success', 'Profil seller berhasil diperbarui!');
+
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', 'Gagal memperbarui profil seller: ' . $e->getMessage());
+        }
+    }
+
+    /**
+     * Show seller's products (produkSaya).
+     */
+    public function produkSaya(Request $request)
     {
         $seller = Auth::user()->seller;
-        
+
         $query = Product::where('seller_id', $seller->id)
-            ->withTrashed() // Ambil produk yang sudah dihapus
+            ->withTrashed()
             ->with(['kategori', 'deletion']);
 
-        // Filter berdasarkan kategori
         if ($request->filled('kategori')) {
             $query->where('kategori_id', $request->kategori);
         }
 
-        // Filter berdasarkan status
         if ($request->filled('status')) {
             $query->where('status', $request->status);
         }
 
-        // Urutkan dengan produk yang dihapus admin di atas
         $products = $query->orderByRaw('CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END DESC')
             ->latest()
             ->paginate(10);
@@ -179,4 +284,3 @@ class SellerController extends Controller
         return view('seller.produk.index', compact('products', 'kategoris'));
     }
 }
-

@@ -68,8 +68,8 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold block font-bold text-gray-700 mb-1">Foto Profil</label>
                     @if($seller->profile_image)
-                        <img src="{{ asset('storage/' . $seller->profile_image) }}" alt="Profil Toko"
-                             class="w-24 h-24 object-cover rounded-full border border-gray-300 mb-2">
+                        <img src="{{ asset('storage/seller/profile/'.$seller->profile_image) }}" alt="Profil Toko"
+                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                     @endif
                     <input type="file" name="profile_image"
                            class="form-control block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">
@@ -82,8 +82,8 @@
                 <div class="mb-3">
                     <label class="form-label fw-bold block font-bold text-gray-700 mb-1">Banner Toko</label>
                     @if($seller->banner_image)
-                        <img src="{{ asset('storage/' . $seller->banner_image) }}" alt="Banner Toko"
-                             class="w-full max-w-md h-32 object-cover rounded border border-gray-300 mb-2">
+                        <img src="{{ asset('storage/seller/banner/'.$seller->banner_image) }}" alt="Banner Toko"
+                             style="width: 100px; height: 100px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                     @endif
                     <input type="file" name="banner_image"
                            class="form-control block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100">

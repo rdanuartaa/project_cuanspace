@@ -11,15 +11,15 @@
             <!-- Ringkasan Saldo -->
             <div class="row g-3 mb-4">
                 <div class="col-md-12">
-                    <div class="alert alert-info d-flex align-items-center justify-content-between mb-0">
-                        <span><strong>Total Saldo Seller:</strong></span>
+                    <div class="mb-4 text-center">
+                        <span><strong>Total Saldo Platform:</strong></span>
                         <span class="text-lg font-bold">
                             Rp{{ number_format($totalSaldoPlatform, 0, ',', '.') }}
                         </span>
                     </div>
                 </div>
             </div>
-
+            <!-- Tabel Permintaan Penarikan -->
             <!-- Tabel Permintaan Penarikan -->
             <h5 class="mt-4">Permintaan Penarikan Saldo</h5>
             <div class="table-responsive">
@@ -27,6 +27,8 @@
                     <thead class="table">
                         <tr>
                             <th>Seller</th>
+                            <th>Bank</th> <!-- Tambahan kolom Bank -->
+                            <th>Nomor Rekening</th> <!-- Tambahan kolom Nomor Rekening -->
                             <th>Jumlah</th>
                             <th>Tanggal</th>
                             <th>Status</th>
@@ -36,7 +38,9 @@
                     <tbody>
                         @forelse ($withdrawRequests as $withdraw)
                             <tr>
-                                <td>{{ $withdraw->seller->name }}</td>
+                                <td>{{ $withdraw->seller->brand_name }}</td>
+                                <td>{{ $withdraw->seller->bank_name ?? '-' }}</td> <!-- Tampilkan nama bank -->
+                                <td>{{ $withdraw->seller->bank_account ?? '-' }}</td> <!-- Tampilkan nomor rekening -->
                                 <td>Rp{{ number_format($withdraw->amount, 0, ',', '.') }}</td>
                                 <td>{{ $withdraw->created_at->format('d M Y') }}</td>
                                 <td>
@@ -67,7 +71,7 @@
                             </tr>
                         @empty
                             <tr>
-                                <td colspan="5" class="text-center py-4">Belum ada permintaan penarikan.</td>
+                                <td colspan="7" class="text-center py-4">Belum ada permintaan penarikan.</td>
                             </tr>
                         @endforelse
                     </tbody>
