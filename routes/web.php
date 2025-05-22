@@ -30,6 +30,11 @@ Route::get('/home', fn () => view('main.home'))
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'index'])->name('about');
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
+// ---------------- RUTE UNTUK USER ----------------
+// Rute untuk User
+Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams.show');
+
+
 
 // Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
@@ -68,6 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::resource('teams', TeamsController::class);
     });
 });
 

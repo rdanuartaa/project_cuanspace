@@ -134,7 +134,7 @@
                                         <a href="{{ url('/') }}">Home</a>
                                     </li>
                                     <li class="level1 active dropdown">
-                                        <a href="{{ route('teams') }}">Teams</a>
+                                        <a href="{{ route('teams.show') }}">Teams</a>
                                     </li>
                                     @guest
                                         <li class="level1 active dropdown">

@@ -336,7 +336,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.teams.index') }}">
                     <i class="menu-icon mdi mdi-account-multiple-outline"></i>
                     <span class="menu-title">Teams</span>
                 </a>
