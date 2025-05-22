@@ -5,7 +5,7 @@ namespace App\Http\Controllers\API;
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
-
+use App\Models\About;
 
 class HomeController extends Controller
 {
@@ -14,10 +14,9 @@ class HomeController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    // Fetch data for home screen
+    // Fetch users except current
     public function index(Request $request)
     {
-        // For this example, we'll return a list of users (excluding the authenticated user)
         $users = User::where('id', '!=', $request->user()->id)
                      ->select('id', 'name', 'email')
                      ->get();
@@ -25,6 +24,13 @@ class HomeController extends Controller
         return response()->json([
             'status' => 'success',
             'data' => $users,
-        ], 200);
+        ]);
+    }
+
+    // Show about data (for front end)
+    public function showAbout()
+    {
+        $about = About::where('status', 'published')->first();
+        return view('main.about', compact('about'));
     }
 }
