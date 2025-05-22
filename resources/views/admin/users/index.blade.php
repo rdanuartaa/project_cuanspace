@@ -7,7 +7,7 @@
     <div class="card shadow-lg">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
-                <h4 class="card-title text-primary font-weight-bold">Kelola Pengguna</h4>
+                <h4 class="card-title text-dark font-weight-bold">Kelola Pengguna</h4>
             </div>
 
             <!-- Success and Error Messages -->
@@ -32,29 +32,19 @@
             <!-- Table -->
             <div class="table-responsive">
                 <table class="table table-striped table-hover">
-                    <thead class="thead-dark">
+                    <thead class="thead-light">
                         <tr>
-                            <th>No</th>
                             <th>Nama</th>
                             <th>Email</th>
-                            <th>Status</th>
                             <th>Tanggal Registrasi</th>
                             <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($users as $user)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
+                            <tr style="background-color: #ffffff;"> <!-- Ensures all rows have a white background -->
                                 <td>{{ $user->name }}</td>
                                 <td>{{ $user->email }}</td>
-                                <td>
-                                    @if ($user->email_verified_at)
-                                        <span class="badge badge-success">Aktif</span>
-                                    @else
-                                        <span class="badge badge-warning">Belum Aktif</span>
-                                    @endif
-                                </td>
                                 <td>{{ $user->created_at->format('d M Y, H:i') }}</td>
                                 <td>
                                     <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-outline-primary btn-sm">Edit</a>
@@ -68,7 +58,7 @@
                         @endforeach
                         @if ($users->isEmpty())
                             <tr>
-                                <td colspan="6" class="text-center text-muted">Belum ada data pengguna.</td>
+                                <td colspan="4" class="text-center text-muted">Belum ada data pengguna.</td>
                             </tr>
                         @endif
                     </tbody>
@@ -94,14 +84,16 @@
 
     .table th, .table td {
         vertical-align: middle;
+        border: none; /* No borders for the table */
+        background-color: #ffffff; /* Set rows background color to white */
     }
 
     .table-striped tbody tr:nth-of-type(odd) {
-        background-color: #f8f9fa;
+        background-color: #ffffff; /* White background for odd rows */
     }
 
     .table-hover tbody tr:hover {
-        background-color: #f1f1f1;
+        background-color: #ffffff; /* Ensure no hover color change */
     }
 
     .alert {
@@ -128,14 +120,6 @@
     .btn-outline-danger:hover {
         background-color: #dc3545;
         color: white;
-    }
-
-    .badge-success {
-        background-color: #28a745;
-    }
-
-    .badge-warning {
-        background-color: #ffc107;
     }
 
     /* Customize alert dismissal */

@@ -33,6 +33,11 @@ Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified']
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about'); // ← Sudah diperbaiki
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
+// ---------------- RUTE UNTUK USER ----------------
+// Rute untuk User
+Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams.show');
+
+
 
 // Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
@@ -68,23 +73,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-        Route::get('produk', [AdminProductController::class, 'index'])->name('produk.index');
-        Route::get('produk/{id}', [AdminProductController::class, 'show'])->name('produk.show');
-        Route::delete('produk/{id}', [AdminProductController::class, 'destroy'])->name('produk.destroy');
-        Route::get('/transaksi', [TransaksiController::class, 'index'])->name('transaksi.index');
-        Route::get('/transaksi/{id}', [TransaksiController::class, 'show'])->name('transaksi.show');
-        Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
-        Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
-        Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
-        // Kelola FAQ
-        Route::prefix('faq')->name('faq.')->group(function () {
-            Route::get('/', [FaqController::class, 'adminIndex'])->name('index');
-            Route::get('/create', [FaqController::class, 'create'])->name('create');
-            Route::post('/', [FaqController::class, 'store'])->name('store');
-            Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
-            Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
-            Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
-        });
+
     });
 
 
