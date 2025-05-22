@@ -12,7 +12,7 @@ class Withdraw extends Model
 
     public function seller()
     {
-        return $this->belongsTo(User::class, 'seller_id');
+        return $this->belongsTo(seller::class, 'seller_id');
     }
 }
 

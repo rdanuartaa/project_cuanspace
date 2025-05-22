@@ -32,7 +32,8 @@ class SaldoController extends Controller
         return view('seller.saldo.index', compact(
             'currentBalance',
             'withdrawHistory',
-            'sellerHasBank'
+            'sellerHasBank',
+            'seller'
         ));
     }
 
@@ -95,6 +96,6 @@ class SaldoController extends Controller
             'bank_account' => $request->bank_account,
         ]);
 
-        return back()->with('success', 'Informasi rekening berhasil diperbarui.');
+        return back()->with('success', 'Informasi rekening berhasil diperbarui. Silakan lakukan penarikan.');
     }
 }

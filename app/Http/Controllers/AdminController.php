@@ -71,9 +71,18 @@ class AdminController extends Controller
      * Menampilkan dashboard admin
      */
     public function dashboard()
-    {
-        $sellers = Seller::all();
-        $topSellers = Seller::where('status', 'active')->orderBy('updated_at', 'desc')->take(5)->get();
-        return view('admin.dashboard', compact('sellers', 'topSellers'));
-    }
+{
+    // Ambil seller
+    $sellers = Seller::all();
+    $topSellers = Seller::where('status', 'active')
+        ->orderBy('updated_at', 'desc')
+        ->take(5)
+        ->get();
+
+    // Ambil admin yang login
+    $admin = Auth::guard('admin')->user(); // atau Auth::user('admin')
+
+    // Kirim ke view
+    return view('admin.dashboard', compact('sellers', 'topSellers', 'admin'));
+}
 }

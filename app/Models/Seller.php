@@ -53,7 +53,7 @@ class Seller extends Model
             ->sum('amount');
 
         $withdrawn = $this->withdraws()
-            ->where('status', 'disetujui')
+            ->where('status', 'berhasil')
             ->sum('amount');
 
         $this->update([
