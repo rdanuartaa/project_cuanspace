@@ -58,12 +58,12 @@
             </li>
             <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="img-xs rounded-circle" src="{{ asset('vendors_template/images/faces/face8.jpg') }}"
+                    <img class="img-xs rounded-circle" src="{{ asset('storage/seller/profile/'.$seller->profile_image) }}"
                         alt="Profile image"> </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
-                        <img class="img-md rounded-circle" src="{{ asset('vendors_template/images/faces/face8.jpg') }}"
-                            alt="Profile image">
+                        <img class="img-md rounded-circle" src="{{ asset('storage/seller/profile/'.$seller->profile_image) }}"
+                            alt="Profile image"style="width: 60px; height: 60px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                         <p class="mb-1 mt-3 font-weight-semibold">{{ $seller->brand_name }}</p>
                         <p class="fw-light text-muted mb-0">{{ $seller->contact_email }}</p>
                     </div>
@@ -78,14 +78,6 @@
                     </form>
                 </div>
             </li>
-
-    </div>
-    </li>
-    </ul>
-    <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
-        data-bs-toggle="offcanvas">
-        <span class="mdi mdi-menu"></span>
-    </button>
     </div>
 </nav>
 <!-- partial -->

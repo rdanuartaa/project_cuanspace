@@ -10,34 +10,22 @@
         <div class="card-body">
             <h4 class="card-title">Seller Management</h4>
 
-            <!-- Filter dan Sort -->
+            <!-- Filter Status -->
             <div class="mb-3">
-                <form method="GET" action="{{ route('admin.sellers.index') }}" class="d-flex gap-3">
-                    <div>
-                        <label for="status" class="form-label">Filter Status</label>
-                        <select name="status" id="status" class="form-select">
-                            <option value="">All</option>
-                            <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
-                            <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
-                            <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="sort" class="form-label">Sort By</label>
-                        <select name="sort" id="sort" class="form-select">
-                            <option value="latest" {{ request('sort', 'latest') == 'latest' ? 'selected' : '' }}>Terbaru</option>
-                            <option value="oldest" {{ request('sort') == 'oldest' ? 'selected' : '' }}>Terlama</option>
-                        </select>
-                    </div>
-                    <div class="align-self-end">
-                        <button type="submit" class="btn btn-primary">Apply</button>
-                    </div>
-                </form>
+                <div>
+                    <label for="status" class="form-label">Filter Status</label>
+                    <select name="status" id="status" class="form-select">
+                        <option value="">All</option>
+                        <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
+                        <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
+                        <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive</option>
+                    </select>
+                </div>
             </div>
 
             <!-- Tabel Seller -->
             <div class="table-responsive">
-                <table class="table">
+                <table class="table" id="seller-table">
                     <thead>
                         <tr>
                             <th>Name</th>
@@ -47,7 +35,7 @@
                             <th>Action</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="seller-table-body">
                         @foreach ($sellers as $seller)
                             <tr>
                                 <td>{{ $seller->user->name }}</td>
@@ -98,4 +86,29 @@
         </div>
     </div>
 </div>
+
+<!-- Include jQuery for AJAX -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Listen for changes in the status dropdown
+        $('#status').on('change', function() {
+            var status = $(this).val();
+
+            // Send AJAX request to fetch filtered sellers
+            $.ajax({
+                url: '{{ route("admin.sellers.filter") }}',
+                method: 'GET',
+                data: { status: status },
+                success: function(response) {
+                    // Update the table body with the new data
+                    $('#seller-table-body').html(response.html);
+                },
+                error: function(xhr) {
+                    alert('An error occurred while fetching data.');
+                }
+            });
+        });
+    });
+</script>
 @endsection

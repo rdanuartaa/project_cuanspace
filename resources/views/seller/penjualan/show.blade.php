@@ -30,8 +30,9 @@
                             <th>Produk</th>
                             <td>
                                 <div class="d-flex align-items-center">
-                                    @if($transaction->product->thumbnail && file_exists(public_path('storage/' . $transaction->product->thumbnail)))
-                                        <img src="{{ asset('storage/' . $transaction->product->thumbnail) }}" alt="{{ $transaction->product->name }}"
+                                    @if($transaction->product)
+                                        <img src="{{$transaction->product->thumbnail_url}}"
+                                            alt="{{ $transaction->product->name }}"
                                             style="width: 40px; height: 40px; object-fit: cover; border-radius: 4px; margin-right: 10px;">
                                     @else
                                         <div style="width: 40px; height: 40px; background-color: #f0f0f0; border-radius: 4px; margin-right: 10px; display: flex; align-items: center; justify-content: center;">
