@@ -29,6 +29,12 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
 
+    // Relasi dengan penghapusan produk
+    public function deletion()
+    {
+        return $this->hasOne(ProductDeletion::class, 'product_id', 'id');
+    }
+
     // Accessor untuk URL thumbnail
     public function getThumbnailUrlAttribute()
     {
