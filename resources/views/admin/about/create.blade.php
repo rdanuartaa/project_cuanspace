@@ -50,6 +50,18 @@
                                 <textarea name="misi" id="misi" class="form-control" rows="3" required>{{ old('misi') }}</textarea>
                             </td>
                         </tr>
+
+                        <!-- Tambahan baris untuk Status -->
+                        <tr>
+                            <td><label for="status" class="form-label fw-bold">Status</label></td>
+                            <td>
+                                <select name="status" id="status" class="form-select" required>
+                                    <option value="Published" {{ old('status') == 'Published' ? 'selected' : '' }}>Published</option>
+                                    <option value="Draft" {{ old('status') == 'Draft' ? 'selected' : '' }}>Draft</option>
+                                </select>
+                            </td>
+                        </tr>
+
                         <tr>
                             <td></td>
                             <td class="text-end">

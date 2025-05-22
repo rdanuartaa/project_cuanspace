@@ -47,6 +47,7 @@
         }
     </style>
 
+
 </head>
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">

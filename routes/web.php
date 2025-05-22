@@ -31,7 +31,7 @@ Route::get('/', fn () => view('main.home'))->name('home');
 // Halaman setelah login user biasa
 Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified'])->name('main.home');
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
-Route::get('/about', [AboutController::class, 'index'])->name('about');
+Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about'); // ← Sudah diperbaiki
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
 
 // Profil user biasa & daftar jadi seller
@@ -87,6 +87,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         });
     });
 
+
 });
 
 // ---------------- SELLER ----------------
@@ -112,6 +113,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
 
+
     Route::get('/penghasilan/export', function (Request $request) {
     // Pastikan user login sebagai seller
     $user = auth()->user();
@@ -136,21 +138,17 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
             $filters['end_date']
         ]);
     }
-
     // Filter berdasarkan status
     if (!empty($filters['status'])) {
         $query->where('transactions.status', $filters['status']);
     }
 
-    // Filter berdasarkan product_id jika dibutuhkan
     if (!empty($filters['product_id'])) {
         $query->where('product_id', $filters['product_id']);
     }
 
-    // Eager load relasi
     $transactions = $query->with(['product', 'user'])->get();
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
-
 require __DIR__.'/auth.php';

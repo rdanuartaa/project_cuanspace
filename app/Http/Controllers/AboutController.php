@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Storage;
 
 class AboutController extends Controller
 {
+    // Halaman About untuk ADMIN
     public function index()
     {
         $abouts = About::all();
@@ -27,6 +28,7 @@ class AboutController extends Controller
             'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required',
             'misi' => 'required',
+            'status' => 'required|in:Published,Draft',
         ]);
 
         // Upload file
@@ -38,6 +40,7 @@ class AboutController extends Controller
             'thumbnail' => $thumbnailPath,
             'visi' => $request->visi,
             'misi' => $request->misi,
+            'status' => $request->status,
         ]);
 
         return redirect()->route('admin.about.index')->with('success', 'About berhasil ditambahkan');
@@ -56,10 +59,11 @@ class AboutController extends Controller
             'thumbnail' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
             'visi' => 'required',
             'misi' => 'required',
+            'status' => 'required|in:Published,Draft',
         ]);
 
         if ($request->hasFile('thumbnail')) {
-            // Hapus file lama
+            // Hapus file lama jika ada
             if ($about->thumbnail) {
                 Storage::disk('public')->delete($about->thumbnail);
             }
@@ -74,6 +78,7 @@ class AboutController extends Controller
             'thumbnail' => $thumbnailPath,
             'visi' => $request->visi,
             'misi' => $request->misi,
+            'status' => $request->status,
         ]);
 
         return redirect()->route('admin.about.index')->with('success', 'About berhasil diupdate');
@@ -84,8 +89,16 @@ class AboutController extends Controller
         if ($about->thumbnail) {
             Storage::disk('public')->delete($about->thumbnail);
         }
+
         $about->delete();
 
         return redirect()->route('admin.about.index')->with('success', 'About berhasil dihapus');
+    }
+
+    // Halaman About untuk USER
+    public function showUserAbout()
+    {
+        $about = About::where('status', 'Published')->first(); // hanya tampilkan yang published
+        return view('main.about', compact('about'));
     }
 }
