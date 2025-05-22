@@ -4,17 +4,49 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-12">
-            <!-- Notifikasi produk dihapus admin -->
-            @if(session('seller_product_deleted'))
-                <div class="alert alert-info alert-dismissible fade show mb-3" role="alert">
-                    Produk "{{ session('seller_product_deleted')['product_name'] }}" berhasil dihapus dari sistem.
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+           @if(session('seller_product_deleted'))
+<div class="alert alert-danger alert-dismissible fade show mb-3" role="alert" id="productDeletedAlert">
+<div class="d-flex justify-content-between align-items-center">
+<div>
+<strong>Perhatian!</strong> Produk "{{ session('seller_product_deleted')['product_name'] }}" telah dihapus oleh admin.
+</div>
+<button type="button" class="btn btn-view-reason" data-bs-toggle="modal" data-bs-target="#deletionReasonModal">
+Lihat Alasan
+</button>
+</div>
+<button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+<!-- Modal Alasan Penghapusan -->
+<div class="modal fade" id="deletionReasonModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header bg-danger text-white">
+                <h5 class="modal-title">Alasan Penghapusan Produk</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row mb-3">
+                    <div class="col-4 text-muted">Nama Produk</div>
+                    <div class="col-8 fw-bold">{{ session('seller_product_deleted')['product_name'] }}</div>
                 </div>
-            @endif
-
+                <div class="row">
+                    <div class="col-4 text-muted">Alasan Penghapusan</div>
+                    <div class="col-8">
+                        <blockquote class="blockquote bg-light p-3 rounded">
+                            <p class="mb-0">{{ session('seller_product_deleted')['deletion_reason'] }}</p>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endif
             <div class="card">
                 <div class="card-body">
-                    <!-- Sisa code view tetap sama seperti sebelumnya -->
                     <div class="d-flex justify-content-between align-items-center mb-4">
                         <h4>Kelola Produk</h4>
                         <a href="{{ route('seller.produk.create') }}" class="btn btn-outline-success btn-sm">
@@ -85,14 +117,14 @@
                                                 <div class="modal fade" id="deletionReasonModal{{ $product->id }}" tabindex="-1">
                                                     <div class="modal-dialog">
                                                         <div class="modal-content">
-                                                            <div class="modal-header">
+                                                            <div class="modal-header bg-danger text-white">
                                                                 <h5 class="modal-title">Alasan Penghapusan Produk</h5>
-                                                                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                                                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
                                                             </div>
                                                             <div class="modal-body">
                                                                 <div class="row mb-3">
                                                                     <div class="col-4 text-muted">Nama Produk</div>
-                                                                    <div class="col-8">{{ $product->name }}</div>
+                                                                    <div class="col-8 fw-bold">{{ $product->name }}</div>
                                                                 </div>
                                                                 <div class="row mb-3">
                                                                     <div class="col-4 text-muted">Dihapus pada</div>
@@ -101,8 +133,8 @@
                                                                 <div class="row">
                                                                     <div class="col-4 text-muted">Alasan Penghapusan</div>
                                                                     <div class="col-8">
-                                                                        <blockquote class="blockquote bg-light p-2 rounded">
-                                                                            {{ $product->deletion->deletion_reason }}
+                                                                        <blockquote class="blockquote bg-light p-3 rounded">
+                                                                            <p class="mb-0">{{ $product->deletion->deletion_reason }}</p>
                                                                         </blockquote>
                                                                     </div>
                                                                 </div>
@@ -167,29 +199,32 @@
     .table-danger {
         background-color: #f8d7da !important;
     }
-    .alert-info {
-        background-color: #d1ecf1;
-        color: #0c5460;
-        border-color: #bee5eb;
-    }
     .alert-danger {
         background-color: #dc3545;
         color: white;
         border: none;
-        margin: 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
     }
-    .alert-danger .btn-outline-light {
+    .alert-danger .btn-view-reason {
         color: white;
-        border-color: white;
+        background-color: #dc3545;
+        border: 2px solid white;
         padding: 0.25rem 0.5rem;
         font-size: 0.875rem;
+        transition: all 0.3s ease;
     }
-    .alert-danger .btn-outline-light:hover {
-        background-color: rgba(255,255,255,0.2);
+    .alert-danger .btn-view-reason:hover {
+        background-color: white;
+        color: #dc3545;
+        border-color: #dc3545;
+    }
+    .modal .modal-header.bg-danger {
+        background-color: #dc3545 !important;
     }
 </style>
 @endpush
-
 @push('scripts')
 <script>
     document.addEventListener('DOMContentLoaded', function() {
@@ -222,14 +257,25 @@
             window.location.href = url.toString();
         }
 
-        // Hapus notifikasi otomatis setelah 5 detik
-        const alert = document.querySelector('.alert-info');
-        if (alert) {
-            setTimeout(() => {
-                alert.classList.remove('show');
-                alert.classList.add('d-none');
-            }, 5000);
+        // Kontrol notifikasi produk dihapus admin
+        const deletedProductAlert = document.querySelector('.alert-danger');
+        if (deletedProductAlert) {
+            // Tampilkan alert
+            deletedProductAlert.classList.add('show');
+            
+            // Tambahkan event listener untuk tombol close
+            const closeButton = deletedProductAlert.querySelector('.btn-close');
+            if (closeButton) {
+                closeButton.addEventListener('click', function() {
+                    // Hapus alert dari DOM
+                    deletedProductAlert.remove();
+                });
+            }
         }
+
+        @php
+        session()->forget('seller_product_deleted');
+    @endphp
     });
 </script>
 @endpush
