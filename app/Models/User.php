@@ -36,4 +36,29 @@ class User extends Authenticatable
     {
         return $this->hasOne(UserDetail::class);
     }
+
+     public function chatsAsUser()
+    {
+        return $this->hasMany(Chat::class, 'user_id');
+    }
+
+    public function chatsAsSeller()
+    {
+        return $this->hasMany(Chat::class, 'seller_id');
+    }
+
+    public function messages()
+    {
+        return $this->hasMany(Message::class, 'sender_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'seller_id');
+    }
+
+     public function isAdmin(): bool
+    {
+        return $this->id === 1; // Asumsi admin memiliki id = 1
+    }
 }
