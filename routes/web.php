@@ -18,6 +18,7 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
+use App\Http\Controllers\HomeController; // Import HomeController
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
 use App\Http\Controllers\Auth\DashboardController;
@@ -26,11 +27,12 @@ use Illuminate\Http\Request;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
-// Halaman utama (tanpa login)
-Route::get('/', fn () => view('main.home'))->name('home');
+// Halaman utama (tanpa login) - gunakan HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Halaman setelah login user biasa
-Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified'])->name('main.home');
+// Halaman setelah login user biasa - gunakan HomeController
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
+
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
