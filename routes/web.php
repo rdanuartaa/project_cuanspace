@@ -29,6 +29,11 @@ use Illuminate\Http\Request;
 
 // Halaman utama (tanpa login) - gunakan HomeController
 Route::get('/', [HomeController::class, 'index'])->name('home');
+// Halaman utama (tanpa login) - gunakan HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
+
+// Halaman setelah login user biasa - gunakan HomeController
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
 
 // Halaman setelah login user biasa - gunakan HomeController
 Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
@@ -157,5 +162,7 @@ Route::get('/penghasilan/export', function (Request $request) {
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
 
+// Impor rute autentikasi
+require __DIR__ . '/auth.php';
 // Impor rute autentikasi
 require __DIR__ . '/auth.php';
