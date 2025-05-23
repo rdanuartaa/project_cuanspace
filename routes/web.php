@@ -20,6 +20,7 @@ use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
+use App\Http\Controllers\Auth\DashboardController;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
@@ -55,7 +56,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Route admin harus auth admin
     Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('about', AboutController::class);
         Route::resource('teams', TeamsController::class);
         // Kelola seller
@@ -113,6 +114,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
 
+// Rute untuk export penghasilan
 Route::get('/penghasilan/export', function (Request $request) {
     // Pastikan user login sebagai seller
     $user = auth()->user();
@@ -134,14 +136,16 @@ Route::get('/penghasilan/export', function (Request $request) {
     if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
         $query->whereBetween('transactions.created_at', [
             $filters['start_date'],
-            $filters['end_date']
+            $filters['end_date'],
         ]);
     }
+
     // Filter berdasarkan status
     if (!empty($filters['status'])) {
         $query->where('transactions.status', $filters['status']);
     }
 
+    // Filter berdasarkan product_id
     if (!empty($filters['product_id'])) {
         $query->where('product_id', $filters['product_id']);
     }
@@ -151,4 +155,5 @@ Route::get('/penghasilan/export', function (Request $request) {
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
 
-require __DIR__.'/auth.php';
+// Impor rute autentikasi
+require __DIR__ . '/auth.php';
