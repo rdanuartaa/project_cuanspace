@@ -35,16 +35,16 @@ class Product extends Model
         return $this->hasOne(ProductDeletion::class, 'product_id', 'id');
     }
 
-    // Accessor untuk URL thumbnail
+    // Accessor untuk URL thumbnail dengan fallback ke placeholder
     public function getThumbnailUrlAttribute()
     {
-        // Pastikan file ada di storage
+        // Cek apakah thumbnail ada dan file exists
         if ($this->thumbnail && Storage::disk('public')->exists('thumbnails/' . $this->thumbnail)) {
             return asset('storage/thumbnails/' . $this->thumbnail);
         }
 
-        // Fallback ke placeholder jika tidak ada
-        return asset('images/placeholder.png');
+        // Fallback ke placeholder online
+        return "https://via.placeholder.com/300x200/e9ecef/6c757d?text=" . urlencode('Product Image');
     }
 
     // Accessor untuk URL digital file
@@ -56,5 +56,31 @@ class Product extends Model
         }
 
         return null;
+    }
+
+    // Scope untuk produk yang published
+    public function scopePublished($query)
+    {
+        return $query->where('status', 'published');
+    }
+
+    // Scope untuk produk dengan seller aktif
+    public function scopeWithActiveSeller($query)
+    {
+        return $query->whereHas('seller', function($q) {
+            $q->where('status', 'active');
+        });
+    }
+
+    // Accessor untuk format harga
+    public function getFormattedPriceAttribute()
+    {
+        return 'Rp ' . number_format($this->price, 0, ',', '.');
+    }
+
+    // Accessor untuk excerpt description
+    public function getExcerptAttribute()
+    {
+        return \Illuminate\Support\Str::limit($this->description, 100);
     }
 }
