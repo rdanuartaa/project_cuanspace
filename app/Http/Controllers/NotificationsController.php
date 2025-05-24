@@ -2,67 +2,65 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
 use App\Models\Notification;
 use App\Models\User;
 use App\Models\Seller;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class NotificationsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth:admin');
+        $this->middleware(\App\Http\Middleware\AdminMiddleware::class);
+    }
+
     public function index()
     {
-        $notifications = Notification::all();
+        $notifications = Notification::with(['user', 'seller', 'admin'])->latest()->get();
         return view('admin.notifications.index', compact('notifications'));
     }
 
     public function create()
     {
         $users = User::all();
-        $sellers = Seller::all();
+        $sellers = Seller::whereHas('user')->with('user')->get();
         return view('admin.notifications.create', compact('users', 'sellers'));
     }
 
     public function store(Request $request)
     {
-        $validator = \Validator::make($request->all(), [
-            'judul' => 'required|string|max:255',
+        $validated = $request->validate([
+            'judul' => 'required|string|max:100',
             'pesan' => 'required|string',
-            'penerima' => 'required|in:semua,user,seller,khusus',
-            'khusus_type' => 'required_if:penerima,khusus|in:user,seller',
+            'penerima' => 'required|in:semua,pengguna,seller,khusus',
             'user_id' => 'nullable|exists:users,id',
-            'seller_brand_name' => 'nullable|exists:sellers,brand_name',
+            'seller_id' => 'nullable|exists:users,id',
+            'status' => 'required|in:terkirim',
         ]);
 
-        $validator->sometimes('user_id', 'required', function ($input) {
-            return $input->penerima === 'khusus' && $input->khusus_type === 'user';
-        });
-
-        $validator->sometimes('seller_brand_name', 'required', function ($input) {
-            return $input->penerima === 'khusus' && $input->khusus_type === 'seller';
-        });
-
-        $validator->validate();
+        if ($request->penerima === 'khusus') {
+            if ($request->user_id && $request->seller_id) {
+                return redirect()->back()->withErrors(['error' => 'Pilih hanya salah satu: user atau seller untuk notifikasi khusus.'])->withInput();
+            }
+            if (!$request->user_id && !$request->seller_id) {
+                return redirect()->back()->withErrors(['error' => 'Pilih user atau seller untuk notifikasi khusus.'])->withInput();
+            }
+        } else {
+            // Jika penerima bukan khusus, set user_id dan seller_id ke null
+            $request->merge(['user_id' => null, 'seller_id' => null]);
+        }
 
         $data = [
             'judul' => $request->judul,
             'pesan' => $request->pesan,
             'penerima' => $request->penerima,
-            'khusus_type' => null,
-            'user_id' => null,
-            'seller_brand_name' => null,
-            'status' => 'terkirim',
-            'admin_id' => auth()->id(),
+            'user_id' => $request->user_id,
+            'seller_id' => $request->seller_id,
+            'status' => $request->status,
+            'admin_id' => Auth::guard('admin')->id(),
         ];
-
-        if ($request->penerima == 'khusus') {
-            $data['khusus_type'] = $request->khusus_type;
-            if ($request->khusus_type == 'user') {
-                $data['user_id'] = $request->user_id;
-            } elseif ($request->khusus_type == 'seller') {
-                $data['seller_brand_name'] = $request->seller_brand_name;
-            }
-        }
 
         Notification::create($data);
 
@@ -70,62 +68,47 @@ class NotificationsController extends Controller
     }
 
     public function edit(Notification $notification)
-{
-    $users = User::all();
-    $sellers = Seller::all();
-    return view('admin.notifications.edit', compact('notification', 'users', 'sellers'));
-}
-
-public function update(Request $request, Notification $notification)
-{
-    $validator = \Validator::make($request->all(), [
-        'judul' => 'required|string|max:255',
-        'pesan' => 'required|string',
-        'penerima' => 'required|in:semua,user,seller,khusus',
-        'khusus_type' => 'nullable|in:user,seller|required_if:penerima,khusus',
-        'user_id' => 'nullable|exists:users,id',
-        'seller_brand_name' => 'nullable|exists:sellers,brand_name',
-    ]);
-
-    $validator->sometimes('user_id', 'required', function ($input) {
-        return $input->penerima === 'khusus' && $input->khusus_type === 'user';
-    });
-
-    $validator->sometimes('seller_brand_name', 'required', function ($input) {
-        return $input->penerima === 'khusus' && $input->khusus_type === 'seller';
-    });
-
-    if ($validator->fails()) {
-        return redirect()->back()
-            ->withErrors($validator)
-            ->withInput();
+    {
+        $users = User::all();
+        $sellers = Seller::whereHas('user')->with('user')->get();
+        return view('admin.notifications.edit', compact('notification', 'users', 'sellers'));
     }
 
-    $validated = $validator->validated();
+    public function update(Request $request, Notification $notification)
+    {
+        $validated = $request->validate([
+            'judul' => 'required|string|max:100',
+            'pesan' => 'required|string',
+            'penerima' => 'required|in:semua,pengguna,seller,khusus',
+            'user_id' => 'nullable|exists:users,id',
+            'seller_id' => 'nullable|exists:users,id',
+            'status' => 'required|in:terkirim',
+        ]);
 
-    $data = [
-        'judul' => $validated['judul'],
-        'pesan' => $validated['pesan'],
-        'penerima' => $validated['penerima'],
-        'khusus_type' => null,
-        'user_id' => null,
-        'seller_brand_name' => null,
-    ];
-
-    if ($validated['penerima'] === 'khusus') {
-        $data['khusus_type'] = $validated['khusus_type'];
-
-        if ($validated['khusus_type'] === 'user') {
-            $data['user_id'] = $validated['user_id'];
-        } elseif ($validated['khusus_type'] === 'seller') {
-            $data['seller_brand_name'] = $validated['seller_brand_name'];
+        if ($request->penerima === 'khusus') {
+            if ($request->user_id && $request->seller_id) {
+                return redirect()->back()->withErrors(['error' => 'Pilih hanya salah satu: user atau seller untuk notifikasi khusus.'])->withInput();
+            }
+            if (!$request->user_id && !$request->seller_id) {
+                return redirect()->back()->withErrors(['error' => 'Pilih user atau seller untuk notifikasi khusus.'])->withInput();
+            }
+        } else {
+            $request->merge(['user_id' => null, 'seller_id' => null]);
         }
+
+        $data = [
+            'judul' => $validated['judul'],
+            'pesan' => $validated['pesan'],
+            'penerima' => $validated['penerima'],
+            'user_id' => $validated['user_id'],
+            'seller_id' => $validated['seller_id'],
+            'status' => $validated['status'],
+        ];
+
+        $notification->update($data);
+
+        return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil diperbarui.');
     }
-
-    $notification->update($data);
-
-    return redirect()->route('admin.notifications.index')->with('success', 'Notifikasi berhasil diperbarui.');
-}
 
     public function destroy(Notification $notification)
     {

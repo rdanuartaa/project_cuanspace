@@ -22,7 +22,13 @@
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-center mb-3">
                     <h4 class="card-title">Kelola Notifikasi</h4>
-                    <a href="{{ route('admin.notifications.create') }}" class="btn btn-outline-success btn-sm">Tambah Notifikasi</a>
+                    <div>
+                        <a href="{{ route('admin.notifications.create') }}" class="btn btn-outline-success btn-sm">Tambah Notifikasi</a>
+                        <form action="{{ route('admin.logout') }}" method="POST" class="d-inline">
+                            @csrf
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Logout</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="table-responsive">
@@ -35,7 +41,6 @@
                                 <th>Penerima</th>
                                 <th>User Khusus</th>
                                 <th>Seller Khusus</th>
-                                <th>Status</th>
                                 <th>Tanggal Dibuat</th>
                                 <th>Aksi</th>
                             </tr>
@@ -56,19 +61,12 @@
                                     </td>
                                     <td>
                                         @if($notification->penerima === 'khusus' && $notification->seller)
-                                            {{ $notification->seller->brand_name }}
+                                            {{ $notification->seller->name }}
                                         @else
                                             -
                                         @endif
                                     </td>
-                                    <td>
-                                        @if($notification->status == 'terkirim')
-                                            <span class="badge bg-success">Terkirim</span>
-                                        @else
-                                            <span class="badge bg-secondary">{{ ucfirst($notification->status) }}</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $notification->created_at->format('d-m-Y H:i') }}</td>
+                                    <td>{{ $notification->created_at ? $notification->created_at->format('d-m-Y H:i') : '-' }}</td>
                                     <td>
                                         <a href="{{ route('admin.notifications.edit', $notification->id) }}" class="btn btn-outline-info btn-sm">Edit</a>
                                         <form action="{{ route('admin.notifications.destroy', $notification->id) }}" method="POST" class="d-inline">
@@ -80,7 +78,7 @@
                                 </tr>
                             @empty
                                 <tr>
-                                    <td colspan="9" class="text-center">Belum ada data notifikasi.</td>
+                                    <td colspan="8" class="text-center">Belum ada data notifikasi.</td>
                                 </tr>
                             @endforelse
                         </tbody>

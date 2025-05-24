@@ -10,48 +10,35 @@ class Notification extends Model
         'admin_id',
         'judul',
         'pesan',
-
         'penerima',
-        'khusus_type',
-        'user_id',            // foreign key ke users
-        'seller_brand_name',  // foreign key ke sellers (berdasarkan brand_name)
-
-        'pelaku',
+        'user_id',
+        'seller_id',
         'status',
-        'jadwal_kirim',
         'read',
         'chat_id',
-        'seller_id',
-
     ];
 
     protected $casts = [
-        'jadwal_kirim' => 'datetime',
-
+        'read' => 'boolean',
     ];
 
-    // Relasi ke user (optional, nullable)
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
     }
 
-    // Relasi ke seller (berdasarkan brand_name)
     public function seller()
     {
-        return $this->belongsTo(Seller::class, 'seller_brand_name', 'brand_name');
-
-        'read' => 'boolean',
-    ];
+        return $this->belongsTo(User::class, 'seller_id');
+    }
 
     public function admin()
     {
-        return $this->belongsTo(User::class, 'admin_id');
+        return $this->belongsTo(Admin::class, 'admin_id');
     }
 
     public function chat()
     {
         return $this->belongsTo(Chat::class, 'chat_id');
     }
-
 }
