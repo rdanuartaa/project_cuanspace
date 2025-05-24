@@ -18,19 +18,28 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
+
 use App\Http\Controllers\NotificationsController;
+use App\Http\Controllers\HomeController; // Import HomeController
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
+use App\Http\Controllers\Auth\DashboardController;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
-// Halaman utama (tanpa login)
-Route::get('/', fn () => view('main.home'))->name('home');
+// Halaman utama (tanpa login) - gunakan HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
+// Halaman utama (tanpa login) - gunakan HomeController
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-// Halaman setelah login user biasa
-Route::get('/home', fn () => view('main.home'))->middleware(['auth', 'verified'])->name('main.home');
+// Halaman setelah login user biasa - gunakan HomeController
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
+
+// Halaman setelah login user biasa - gunakan HomeController
+Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
+
 Route::get('/faq', [FaqController::class, 'index'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
 Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
@@ -56,7 +65,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Route admin harus auth admin
     Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', [AdminController::class, 'dashboard'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('about', AboutController::class);
         Route::resource('teams', TeamsController::class);
         Route::resource('notifications', NotificationsController::class);
@@ -120,6 +129,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
         Route::post('/pengaturan', [PengaturanController::class, 'update'])->name('pengaturan.update');
     });
 
+// Rute untuk export penghasilan
 Route::get('/penghasilan/export', function (Request $request) {
     // Pastikan user login sebagai seller
     $user = auth()->user();
@@ -141,14 +151,16 @@ Route::get('/penghasilan/export', function (Request $request) {
     if (!empty($filters['start_date']) && !empty($filters['end_date'])) {
         $query->whereBetween('transactions.created_at', [
             $filters['start_date'],
-            $filters['end_date']
+            $filters['end_date'],
         ]);
     }
+
     // Filter berdasarkan status
     if (!empty($filters['status'])) {
         $query->where('transactions.status', $filters['status']);
     }
 
+    // Filter berdasarkan product_id
     if (!empty($filters['product_id'])) {
         $query->where('product_id', $filters['product_id']);
     }
@@ -158,4 +170,7 @@ Route::get('/penghasilan/export', function (Request $request) {
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
 
-require __DIR__.'/auth.php';
+// Impor rute autentikasi
+require __DIR__ . '/auth.php';
+// Impor rute autentikasi
+require __DIR__ . '/auth.php';
