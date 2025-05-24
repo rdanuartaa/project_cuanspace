@@ -20,7 +20,7 @@ use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\NotificationsController;
-use App\Http\Controllers\HomeController; // Import HomeController
+use App\Http\Controllers\HomeController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
 use App\Http\Controllers\Auth\DashboardController;
@@ -76,7 +76,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
         Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
         Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
+
+        // Kelola kategori
         Route::resource('kategori', KategoriController::class)->except(['show']);
+
+        // Kelola pengguna
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
@@ -146,5 +150,6 @@ Route::get('/penghasilan/export', function (Request $request) {
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
+
 // Impor rute autentikasi
 require __DIR__ . '/auth.php';

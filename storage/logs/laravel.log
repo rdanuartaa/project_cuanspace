@@ -134,7 +134,7 @@
 #68 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #69 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #70 {main}
-"} 
+"}
 [2025-05-23 14:26:35] local.ERROR: Class "Faker\Factory" not found {"exception":"[object] (Error(code: 0): Class \"Faker\\Factory\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\DatabaseServiceProvider.php:93)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(1010): Illuminate\\Database\\DatabaseServiceProvider->Illuminate\\Database\\{closure}(Object(Illuminate\\Foundation\\Application), Array)
@@ -173,7 +173,7 @@
 #33 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1234): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #34 D:\\programs\\Github\\project_cuanspace\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #35 {main}
-"} 
+"}
 [2025-05-23 21:42:51] local.ERROR: SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select exists(select * from `admins` where `email` = akbardanu631@gmail.com) as `exists`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 2002): SQLSTATE[HY000] [2002] No connection could be made because the target machine actively refused it (Connection: mysql, SQL: select exists(select * from `admins` where `email` = akbardanu631@gmail.com) as `exists`) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:822)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(976): Illuminate\\Database\\Connection->runQueryCallback('select exists(s...', Array, Object(Closure))
@@ -310,11 +310,11 @@
 #68 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #69 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #70 {main}
-"} 
-[2025-05-23 21:43:44] local.INFO: Total Seller Active: 2  
-[2025-05-23 22:29:12] local.INFO: Total Seller Active: 2  
-[2025-05-23 22:33:06] local.INFO: Total Seller Active: 2  
-[2025-05-23 22:33:14] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-23 21:43:44] local.INFO: Total Seller Active: 2
+[2025-05-23 22:29:12] local.INFO: Total Seller Active: 2
+[2025-05-23 22:33:06] local.INFO: Total Seller Active: 2
+[2025-05-23 22:33:14] local.INFO: Total Seller Active: 2
 [2025-05-23 22:39:54] local.ERROR: View [teams.show] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [teams.show] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('teams.show', Array)
@@ -371,7 +371,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-23 22:42:55] local.ERROR: Attempt to read property "thumbnail" on null (View: D:\programs\Github\project_cuanspace\resources\views\main\about.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"thumbnail\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\about.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\ebc89d597681658eb963d25e9a9d1f6a.php:12)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -493,7 +493,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-23 23:56:36] local.ERROR: Attempt to read property "thumbnail" on null (View: D:\programs\Github\project_cuanspace\resources\views\main\about.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"thumbnail\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\about.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\ebc89d597681658eb963d25e9a9d1f6a.php:12)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -615,8 +615,8 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
-[2025-05-24 00:09:26] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 00:09:26] local.INFO: Total Seller Active: 2
 [2025-05-24 00:11:00] local.ERROR: Attempt to read property "thumbnail" on null (View: D:\programs\Github\project_cuanspace\resources\views\main\about.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"thumbnail\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\about.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\ebc89d597681658eb963d25e9a9d1f6a.php:12)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -738,7 +738,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 00:27:30] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:91)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->update(Object(Illuminate\\Http\\Request), Object(App\\Models\\About))
@@ -793,7 +793,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:30:24] local.ERROR: View [teams.show] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [teams.show] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('teams.show', Array)
@@ -850,7 +850,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 00:31:58] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:91)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->update(Object(Illuminate\\Http\\Request), Object(App\\Models\\About))
@@ -905,8 +905,8 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
-[2025-05-24 00:32:31] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 00:32:31] local.INFO: Total Seller Active: 2
 [2025-05-24 00:33:15] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:91)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->update(Object(Illuminate\\Http\\Request), Object(App\\Models\\About))
@@ -961,8 +961,8 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
-[2025-05-24 00:35:41] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 00:35:41] local.INFO: Total Seller Active: 2
 [2025-05-24 00:36:07] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:39)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1017,7 +1017,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:36:47] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:39)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1072,7 +1072,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:42:41] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:39)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1127,7 +1127,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:42:48] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:39)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1182,7 +1182,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:43:48] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:39)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1237,7 +1237,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:44:56] local.ERROR: Class "Intervention\Image\Facades\Image" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\Facades\\Image\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\AboutController.php:40)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\AboutController->store(Object(Illuminate\\Http\\Request))
@@ -1292,7 +1292,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 00:49:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1306,7 +1306,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:49:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1320,7 +1320,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:49:25] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1337,7 +1337,7 @@
 #11 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #12 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #13 {main}
-"} 
+"}
 [2025-05-24 00:49:48] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1354,7 +1354,7 @@
 #11 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #12 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #13 {main}
-"} 
+"}
 [2025-05-24 00:49:49] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1368,7 +1368,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:49:49] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1382,7 +1382,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:50:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1396,7 +1396,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:50:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1410,7 +1410,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1424,7 +1424,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1438,7 +1438,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1452,7 +1452,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:24] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1466,7 +1466,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:33] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1480,7 +1480,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:33] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1494,7 +1494,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:42] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1508,7 +1508,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:42] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1522,7 +1522,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:50] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1536,7 +1536,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:56] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1550,7 +1550,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 00:51:56] local.ERROR: Class "Intervention\Image\ImageServiceProvider" not found {"exception":"[object] (Error(code: 0): Class \"Intervention\\Image\\ImageServiceProvider\" not found at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php:960)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(892): Illuminate\\Foundation\\Application->resolveProvider('Intervention\\\\Im...')
@@ -1564,7 +1564,7 @@
 #8 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #9 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #10 {main}
-"} 
+"}
 [2025-05-24 02:02:56] local.ERROR: View [teams.show] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [teams.show] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('teams.show', Array)
@@ -1621,7 +1621,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 02:41:57] local.ERROR: View [teams.show] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [teams.show] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('teams.show', Array)
@@ -1678,7 +1678,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 02:49:40] local.ERROR: View [teams.show] not found. {"exception":"[object] (InvalidArgumentException(code: 0): View [teams.show] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('teams.show', Array)
@@ -1735,7 +1735,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 02:50:16] local.ERROR: Route [teams] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\layouts\main.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\main.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [teams] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\main.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\main.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -1932,7 +1932,7 @@
 #65 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #66 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #67 {main}
-"} 
+"}
 [2025-05-24 03:06:52] local.ERROR: Class "App\Http\Controllers\Faq" not found {"exception":"[object] (Error(code: 0): Class \"App\\Http\\Controllers\\Faq\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\TeamsController.php:12)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\TeamsController->index()
@@ -1985,7 +1985,7 @@
 #47 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #48 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #49 {main}
-"} 
+"}
 [2025-05-24 03:07:05] local.ERROR: compact(): Undefined variable $teams {"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable $teams at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\TeamsController.php:13)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'compact(): Unde...', 'D:\\\\programs\\\\Git...', 13)
@@ -2041,8 +2041,8 @@
 #50 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #51 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #52 {main}
-"} 
-[2025-05-24 03:11:29] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 03:11:29] local.INFO: Total Seller Active: 2
 [2025-05-24 03:27:15] local.ERROR: Call to undefined method App\Http\Controllers\FaqController::index() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\FaqController::index() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\FaqController), 'index')
@@ -2096,7 +2096,7 @@
 #48 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #49 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #50 {main}
-"} 
+"}
 [2025-05-24 03:28:57] local.ERROR: Class "App\Http\Controllers\About" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"App\\Http\\Controllers\\About\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\FaqController.php:13)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\FaqController->index()
@@ -2151,7 +2151,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 03:29:13] local.ERROR: Class "App\Http\Controllers\Faqs" not found {"userId":1,"exception":"[object] (Error(code: 0): Class \"App\\Http\\Controllers\\Faqs\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\FaqController.php:13)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php(46): App\\Http\\Controllers\\FaqController->index()
@@ -2206,7 +2206,7 @@
 #49 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #50 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #51 {main}
-"} 
+"}
 [2025-05-24 03:29:17] local.ERROR: compact(): Undefined variable $faqs {"userId":1,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable $faqs at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\FaqController.php:14)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'compact(): Unde...', 'D:\\\\programs\\\\Git...', 14)
@@ -2264,7 +2264,7 @@
 #52 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #53 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #54 {main}
-"} 
+"}
 [2025-05-24 03:29:50] local.ERROR: Method Illuminate\Database\Eloquent\Collection::currentPage does not exist. (View: D:\programs\Github\project_cuanspace\resources\views\admin\faq\index.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Method Illuminate\\Database\\Eloquent\\Collection::currentPage does not exist. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\admin\\faq\\index.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Macroable\\Traits\\Macroable.php:115)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(BadMethodCallException), 1)
@@ -2389,7 +2389,7 @@
 #58 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #59 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #60 {main}
-"} 
+"}
 [2025-05-24 03:32:03] local.ERROR: Method Illuminate\Database\Eloquent\Collection::currentPage does not exist. (View: D:\programs\Github\project_cuanspace\resources\views\admin\faq\index.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Method Illuminate\\Database\\Eloquent\\Collection::currentPage does not exist. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\admin\\faq\\index.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Macroable\\Traits\\Macroable.php:115)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(BadMethodCallException), 1)
@@ -2514,7 +2514,7 @@
 #58 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #59 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #60 {main}
-"} 
+"}
 [2025-05-24 03:37:40] local.ERROR: SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause' (Connection: mysql, SQL: select count(*) as aggregate from `faqs` where `status` = Published) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S22): SQLSTATE[42S22]: Column not found: 1054 Unknown column 'status' in 'where clause' (Connection: mysql, SQL: select count(*) as aggregate from `faqs` where `status` = Published) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:822)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(776): Illuminate\\Database\\Connection->runQueryCallback('select count(*)...', Array, Object(Closure))
@@ -2642,7 +2642,7 @@
 #59 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #60 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #61 {main}
-"} 
+"}
 [2025-05-24 04:02:36] local.ERROR: imagejpeg(D:\programs\Github\project_cuanspace\storage\app/public/team_images/1748059356.jpg): Failed to open stream: No such file or directory {"userId":1,"exception":"[object] (ErrorException(code: 0): imagejpeg(D:\\programs\\Github\\project_cuanspace\\storage\\app/public/team_images/1748059356.jpg): Failed to open stream: No such file or directory at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\TeamsController.php:55)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'imagejpeg(D:\\\\pr...', 'D:\\\\programs\\\\Git...', 55)
@@ -2700,24 +2700,24 @@
 #52 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #53 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #54 {main}
-"} 
-[2025-05-24 06:15:55] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 06:15:55] local.INFO: Total Seller Active: 2
 [2025-05-24 06:56:53] local.ERROR: syntax error, unexpected token "=>" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"=>\" at D:\\programs\\Github\\project_cuanspace\\app\\Models\\Notification.php:44)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-05-24 06:56:53] local.ERROR: syntax error, unexpected token "=>" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"=>\" at D:\\programs\\Github\\project_cuanspace\\app\\Models\\Notification.php:44)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-05-24 06:57:29] local.ERROR: syntax error, unexpected token "=>" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"=>\" at D:\\programs\\Github\\project_cuanspace\\app\\Models\\Notification.php:44)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-05-24 06:58:28] local.ERROR: syntax error, unexpected token "=>" {"exception":"[object] (Symfony\\Component\\ErrorHandler\\Error\\FatalError(code: 0): syntax error, unexpected token \"=>\" at D:\\programs\\Github\\project_cuanspace\\app\\Models\\Notification.php:44)
 [stacktrace]
 #0 {main}
-"} 
+"}
 [2025-05-24 07:11:45] local.ERROR: SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'penerima' (Connection: mysql, SQL: alter table `notifications` add `penerima` varchar(255) not null default 'semua' after `pesan`) {"exception":"[object] (Illuminate\\Database\\QueryException(code: 42S21): SQLSTATE[42S21]: Column already exists: 1060 Duplicate column name 'penerima' (Connection: mysql, SQL: alter table `notifications` add `penerima` varchar(255) not null default 'semua' after `pesan`) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php:822)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Connection.php(776): Illuminate\\Database\\Connection->runQueryCallback('alter table `no...', Array, Object(Closure))
@@ -2795,7 +2795,7 @@
 #34 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1234): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #35 D:\\programs\\Github\\project_cuanspace\\artisan(16): Illuminate\\Foundation\\Application->handleCommand(Object(Symfony\\Component\\Console\\Input\\ArgvInput))
 #36 {main}
-"} 
+"}
 [2025-05-24 07:34:43] local.ERROR: Undefined variable $slug {"userId":1,"exception":"[object] (ErrorException(code: 0): Undefined variable $slug at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\ProductController.php:360)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'Undefined varia...', 'D:\\\\programs\\\\Git...', 360)
@@ -2852,7 +2852,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 07:36:40] local.ERROR: View [main.detail-product] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.detail-product] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.detail-pro...', Array)
@@ -2911,7 +2911,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 07:36:44] local.ERROR: View [main.detail-product] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.detail-product] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.detail-pro...', Array)
@@ -2970,7 +2970,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 07:37:24] local.ERROR: View [main.detail-produk] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.detail-produk] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.detail-pro...', Array)
@@ -3029,7 +3029,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 07:37:55] local.ERROR: compact(): Undefined variable $produk {"userId":1,"exception":"[object] (ErrorException(code: 0): compact(): Undefined variable $produk at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\ProductController.php:361)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Bootstrap\\HandleExceptions.php(256): Illuminate\\Foundation\\Bootstrap\\HandleExceptions->handleError(2, 'compact(): Unde...', 'D:\\\\programs\\\\Git...', 361)
@@ -3087,7 +3087,7 @@
 #52 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #53 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #54 {main}
-"} 
+"}
 [2025-05-24 07:40:52] local.ERROR: View [main.detail-produk] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.detail-produk] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.detail-pro...', Array)
@@ -3146,7 +3146,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 07:48:54] local.ERROR: Route [product.show] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.show] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -3268,7 +3268,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 07:50:29] local.ERROR: Undefined variable $item (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $item (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\e7198874098f784115e9b6dbb9c22d47.php:108)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -3390,7 +3390,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 07:56:03] local.ERROR: Target class [MainController] does not exist. {"userId":1,"exception":"[object] (Illuminate\\Contracts\\Container\\BindingResolutionException(code: 0): Target class [MainController] does not exist. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php:1019)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Container\\Container.php(890): Illuminate\\Container\\Container->build('MainController')
@@ -3509,7 +3509,7 @@
 #54 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #55 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #56 {main}
-"} 
+"}
 [2025-05-24 07:57:52] local.ERROR: Call to undefined method App\Http\Controllers\HomeController::showUserProduct() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\HomeController::showUserProduct() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\HomeController), 'showUserProduct')
@@ -3563,7 +3563,7 @@
 #48 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #49 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #50 {main}
-"} 
+"}
 [2025-05-24 07:58:50] local.ERROR: View [main.produk_detail] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.produk_detail] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.produk_det...', Array)
@@ -3622,7 +3622,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 07:59:11] local.ERROR: View [main.produk-detail] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.produk-detail] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.produk-det...', Array)
@@ -3681,7 +3681,7 @@
 #53 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #54 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #55 {main}
-"} 
+"}
 [2025-05-24 08:04:30] local.ERROR: Undefined variable $relatedProducts (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $relatedProducts (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\46a41895bcf4f4c32af341c0cf4bba67.php:156)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -3803,7 +3803,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 08:12:54] local.ERROR: View [main.products.detail] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.products.detail] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.products.d...', Array)
@@ -3860,7 +3860,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 08:17:41] local.ERROR: View [main.products.detail] not found. {"userId":1,"exception":"[object] (InvalidArgumentException(code: 0): View [main.products.detail] not found. at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php(78): Illuminate\\View\\FileViewFinder->findInPaths('main.products.d...', Array)
@@ -3917,7 +3917,7 @@
 #51 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #52 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #53 {main}
-"} 
+"}
 [2025-05-24 08:18:33] local.ERROR: View [partials.login-modal] not found. (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): View [partials.login-modal] not found. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(InvalidArgumentException), 1)
@@ -4040,10 +4040,10 @@
 #58 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #59 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #60 {main}
-"} 
-[2025-05-24 08:33:31] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
-[2025-05-24 08:33:45] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
-[2025-05-24 08:34:41] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
+"}
+[2025-05-24 08:33:31] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
+[2025-05-24 08:33:45] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
+[2025-05-24 08:34:41] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
 [2025-05-24 08:34:54] local.ERROR: Route [produk.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [produk.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4165,7 +4165,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 08:37:19] local.ERROR: Route [produk.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [produk.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4287,7 +4287,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 08:37:31] local.ERROR: Route [produk.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [produk.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4409,7 +4409,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 08:41:55] local.ERROR: Route [produk.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [produk.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4531,7 +4531,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 08:46:10] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4653,10 +4653,10 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
-[2025-05-24 08:46:42] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
-[2025-05-24 09:32:31] local.INFO: Total Seller Active: 2  
-[2025-05-24 09:34:00] local.INFO: Total Seller Active: 2  
+"}
+[2025-05-24 08:46:42] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
+[2025-05-24 09:32:31] local.INFO: Total Seller Active: 2
+[2025-05-24 09:34:00] local.INFO: Total Seller Active: 2
 [2025-05-24 09:49:29] local.ERROR: syntax error, unexpected token "use" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"use\" at D:\\programs\\Github\\project_cuanspace\\routes\\web.php:22)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(512): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\programs\\\\Git...')
@@ -4686,7 +4686,7 @@
 #24 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-05-24 09:49:29] local.ERROR: syntax error, unexpected token "use" {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"use\" at D:\\programs\\Github\\project_cuanspace\\routes\\web.php:22)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Router.php(512): Illuminate\\Routing\\RouteFileRegistrar->register('D:\\\\programs\\\\Git...')
@@ -4716,7 +4716,7 @@
 #24 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Console\\Kernel.php(195): Illuminate\\Foundation\\Console\\Kernel->bootstrap()
 #25 Command line code(1): Illuminate\\Foundation\\Console\\Kernel->handle(Object(Symfony\\Component\\Console\\Input\\ArgvInput), Object(Symfony\\Component\\Console\\Output\\ConsoleOutput))
 #26 {main}
-"} 
+"}
 [2025-05-24 09:49:37] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4838,7 +4838,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 09:49:45] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -4960,9 +4960,9 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
-[2025-05-24 09:50:07] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
-[2025-05-24 09:50:13] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
+"}
+[2025-05-24 09:50:07] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
+[2025-05-24 09:50:13] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
 [2025-05-24 09:58:42] local.ERROR: syntax error, unexpected token "public", expecting end of file {"exception":"[object] (ParseError(code: 0): syntax error, unexpected token \"public\", expecting end of file at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\DetailProductController.php:45)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\composer\\ClassLoader.php(427): Composer\\Autoload\\{closure}('D:\\\\programs\\\\Git...')
@@ -5001,11 +5001,11 @@
 #33 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #34 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #35 {main}
-"} 
-[2025-05-24 09:59:29] local.ERROR: Error saat mengambil detail produk: Call to undefined method App\Models\User::hasRole()  
-[2025-05-24 09:59:32] local.ERROR: Error saat mengambil detail produk: Call to undefined method App\Models\User::hasRole()  
-[2025-05-24 10:01:59] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
-[2025-05-24 10:02:04] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
+"}
+[2025-05-24 09:59:29] local.ERROR: Error saat mengambil detail produk: Call to undefined method App\Models\User::hasRole()
+[2025-05-24 09:59:32] local.ERROR: Error saat mengambil detail produk: Call to undefined method App\Models\User::hasRole()
+[2025-05-24 10:01:59] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
+[2025-05-24 10:02:04] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
 [2025-05-24 10:19:37] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -5127,8 +5127,8 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
-[2025-05-24 10:23:43] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.  
+"}
+[2025-05-24 10:23:43] local.ERROR: Error saat mengambil detail produk: View [product.detail] not found.
 [2025-05-24 10:45:22] local.ERROR: Attempt to read property "name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\admin.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\admin.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\admin.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\admin.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\1ea854da0473ab1b9cea40a23cf3db0b.php:63)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -5331,7 +5331,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 10:45:28] local.ERROR: Attempt to read property "name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\admin.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\admin.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\admin.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\admin.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\1ea854da0473ab1b9cea40a23cf3db0b.php:63)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -5534,7 +5534,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 12:42:43] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -5656,7 +5656,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 12:43:17] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -5778,7 +5778,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 12:44:06] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -5900,7 +5900,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 12:46:51] local.ERROR: Gagal menampilkan detail produk {"error":"Call to undefined relationship [user] on model [App\\Models\\Product].","trace":"#0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(938): Illuminate\\Database\\Eloquent\\RelationNotFoundException::make(Object(App\\Models\\Product), 'user')
 #1 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Relations\\Relation.php(119): Illuminate\\Database\\Eloquent\\Builder->Illuminate\\Database\\Eloquent\\{closure}()
 #2 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Database\\Eloquent\\Builder.php(934): Illuminate\\Database\\Eloquent\\Relations\\Relation::noConstraints(Object(Closure))
@@ -5962,7 +5962,7 @@
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\Application.php(1219): Illuminate\\Foundation\\Http\\Kernel->handle(Object(Illuminate\\Http\\Request))
 #59 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #60 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
-#61 {main}"} 
+#61 {main}"}
 [2025-05-24 13:03:54] local.ERROR: Call to undefined method App\Http\Controllers\ProductController::showUserProduct() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\ProductController::showUserProduct() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ProductController), 'showUserProduct')
@@ -6016,7 +6016,7 @@
 #48 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #49 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #50 {main}
-"} 
+"}
 [2025-05-24 13:06:50] local.ERROR: Call to undefined method App\Http\Controllers\ProductController::showUserProduct() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\ProductController::showUserProduct() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ProductController), 'showUserProduct')
@@ -6070,7 +6070,7 @@
 #48 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #49 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #50 {main}
-"} 
+"}
 [2025-05-24 13:10:03] local.ERROR: Route [product.detail] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\main\home.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [product.detail] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\home.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -6192,7 +6192,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 13:11:09] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":14,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -6395,7 +6395,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 13:19:17] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":14,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -6598,7 +6598,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 13:19:44] local.ERROR: Call to undefined method App\Http\Controllers\ProductDetailController::showUserProduct() {"userId":14,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\ProductDetailController::showUserProduct() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ProductDetailController), 'showUserProduct')
@@ -6652,7 +6652,7 @@
 #48 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #49 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #50 {main}
-"} 
+"}
 [2025-05-24 13:20:32] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":14,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -6855,7 +6855,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 13:20:39] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":14,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -7058,7 +7058,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 13:31:27] local.ERROR: Class "Controller" not found {"exception":"[object] (Error(code: 0): Class \"Controller\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\ProductDetailController.php:8)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\composer\\ClassLoader.php(576): include()
@@ -7098,7 +7098,7 @@
 #34 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #35 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #36 {main}
-"} 
+"}
 [2025-05-24 13:31:54] local.ERROR: Class "Controller" not found {"exception":"[object] (Error(code: 0): Class \"Controller\" not found at D:\\programs\\Github\\project_cuanspace\\app\\Http\\Controllers\\ProductDetailController.php:8)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\composer\\ClassLoader.php(576): include()
@@ -7138,7 +7138,7 @@
 #34 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #35 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #36 {main}
-"} 
+"}
 [2025-05-24 18:07:38] local.ERROR: Route [seller.produk.index] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk.index] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -7341,7 +7341,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 18:15:30] local.ERROR: Route [seller.produk.index] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk.index] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -7544,7 +7544,7 @@
 #67 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #68 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #69 {main}
-"} 
+"}
 [2025-05-24 18:42:55] local.ERROR: Undefined variable $products (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $products (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\46a41895bcf4f4c32af341c0cf4bba67.php:2)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -7666,7 +7666,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 18:46:32] local.ERROR: Call to undefined method App\Http\Controllers\ProductDetailController::showUserDetail() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\ProductDetailController::showUserDetail() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ProductDetailController), 'showUserDetail')
@@ -7718,7 +7718,7 @@
 #46 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #47 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #48 {main}
-"} 
+"}
 [2025-05-24 18:49:06] local.ERROR: Call to undefined method App\Http\Controllers\ProductDetailController::showUserDetail() {"userId":1,"exception":"[object] (Error(code: 0): Call to undefined method App\\Http\\Controllers\\ProductDetailController::showUserDetail() at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\ControllerDispatcher.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\Route.php(265): Illuminate\\Routing\\ControllerDispatcher->dispatch(Object(Illuminate\\Routing\\Route), Object(App\\Http\\Controllers\\ProductDetailController), 'showUserDetail')
@@ -7770,7 +7770,7 @@
 #46 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #47 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #48 {main}
-"} 
+"}
 [2025-05-24 19:01:40] local.ERROR: Undefined variable $products (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $products (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\46a41895bcf4f4c32af341c0cf4bba67.php:7)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -7892,7 +7892,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 19:05:37] local.ERROR: Undefined variable $kategoris (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Undefined variable $kategoris (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\46a41895bcf4f4c32af341c0cf4bba67.php:20)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(ErrorException), 1)
@@ -8014,7 +8014,7 @@
 #57 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #58 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #59 {main}
-"} 
+"}
 [2025-05-24 19:06:35] local.ERROR: View [partials.product-loop] not found. (View: D:\programs\Github\project_cuanspace\resources\views\main\detail_produk.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): View [partials.product-loop] not found. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\main\\detail_produk.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\FileViewFinder.php:138)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(InvalidArgumentException), 1)
@@ -8137,7 +8137,7 @@
 #58 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #59 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #60 {main}
-"} 
+"}
 [2025-05-24 19:07:22] local.ERROR: Route [seller.produk] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\seller\produk\edit.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\seller\\produk\\edit.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -8267,7 +8267,7 @@
 #61 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #62 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #63 {main}
-"} 
+"}
 [2025-05-24 19:07:59] local.ERROR: Route [seller.produk] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -8476,7 +8476,7 @@
 #69 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #70 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #71 {main}
-"} 
+"}
 [2025-05-24 19:09:47] local.ERROR: Route [seller.produk] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\seller\produk\edit.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\seller\\produk\\edit.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -8606,7 +8606,7 @@
 #61 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #62 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #63 {main}
-"} 
+"}
 [2025-05-24 19:15:10] local.ERROR: Route [seller.produk] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\seller\produk\edit.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\seller\\produk\\edit.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -8736,7 +8736,7 @@
 #61 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #62 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #63 {main}
-"} 
+"}
 [2025-05-24 19:16:01] local.ERROR: Route [seller.produk] not defined. (View: D:\programs\Github\project_cuanspace\resources\views\seller\produk\edit.blade.php) {"userId":1,"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Route [seller.produk] not defined. (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\seller\\produk\\edit.blade.php) at D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Routing\\UrlGenerator.php:526)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Symfony\\Component\\Routing\\Exception\\RouteNotFoundException), 1)
@@ -8866,7 +8866,7 @@
 #61 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #62 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #63 {main}
-"} 
+"}
 [2025-05-24 23:04:48] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -9063,7 +9063,7 @@
 #65 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #66 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #67 {main}
-"} 
+"}
 [2025-05-24 23:05:28] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -9260,7 +9260,7 @@
 #65 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #66 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #67 {main}
-"} 
+"}
 [2025-05-24 23:05:40] local.ERROR: Attempt to read property "brand_name" on null (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) (View: D:\programs\Github\project_cuanspace\resources\views\layouts\seller.blade.php) {"exception":"[object] (Illuminate\\View\\ViewException(code: 0): Attempt to read property \"brand_name\" on null (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) (View: D:\\programs\\Github\\project_cuanspace\\resources\\views\\layouts\\seller.blade.php) at D:\\programs\\Github\\project_cuanspace\\storage\\framework\\views\\4ae7251034aa06175da7a560c14b7870.php:46)
 [stacktrace]
 #0 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\View\\Engines\\PhpEngine.php(59): Illuminate\\View\\Engines\\CompilerEngine->handleViewException(Object(Illuminate\\View\\ViewException), 1)
@@ -9457,4 +9457,4 @@
 #65 D:\\programs\\Github\\project_cuanspace\\public\\index.php(20): Illuminate\\Foundation\\Application->handleRequest(Object(Illuminate\\Http\\Request))
 #66 D:\\programs\\Github\\project_cuanspace\\vendor\\laravel\\framework\\src\\Illuminate\\Foundation\\resources\\server.php(23): require_once('D:\\\\programs\\\\Git...')
 #67 {main}
-"} 
+"}

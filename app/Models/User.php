@@ -57,8 +57,4 @@ class User extends Authenticatable
         return $this->hasMany(Notification::class, 'seller_id');
     }
 
-     public function isAdmin(): bool
-    {
-        return $this->id === 1; // Asumsi admin memiliki id = 1
-    }
 }

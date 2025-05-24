@@ -48,7 +48,7 @@
                     <label class="form-label fw-bold">Penerima</label>
                     <select name="penerima" id="penerima" class="form-control @error('penerima') is-invalid @enderror" onchange="toggleKhususFields()" required>
                         <option value="semua" {{ old('penerima', $notification->penerima) == 'semua' ? 'selected' : '' }}>Semua</option>
-                        <option value="user" {{ old('penerima', $notification->penerima) == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="pengguna" {{ old('penerima', $notification->penerima) == 'pengguna' ? 'selected' : '' }}>Pengguna</option>
                         <option value="seller" {{ old('penerima', $notification->penerima) == 'seller' ? 'selected' : '' }}>Seller</option>
                         <option value="khusus" {{ old('penerima', $notification->penerima) == 'khusus' ? 'selected' : '' }}>Khusus</option>
                     </select>
@@ -57,44 +57,53 @@
                     @enderror
                 </div>
 
-                <div class="mb-3" id="khusus_type_section">
-                    <label class="form-label fw-bold">Pilih Khusus</label>
-                    <select name="khusus_type" id="khusus_type" class="form-control @error('khusus_type') is-invalid @enderror" onchange="toggleKhususFields()">
-                        <option value="">-- Pilih Khusus Type --</option>
-                        <option value="user" {{ old('khusus_type', $notification->khusus_type) == 'user' ? 'selected' : '' }}>User</option>
-                        <option value="seller" {{ old('khusus_type', $notification->khusus_type) == 'seller' ? 'selected' : '' }}>Seller</option>
-                    </select>
-                    @error('khusus_type')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
+                <div id="khusus_section" style="display: {{ $notification->penerima === 'khusus' ? 'block' : 'none' }};">
+                    <div class="mb-3">
+                        <label class="form-label fw-bold">Pilih Penerima Khusus</label>
+                        <select name="recipient_type" id="recipient_type" class="form-control" onchange="toggleRecipientFields()">
+                            <option value="">-- Pilih Tipe Penerima --</option>
+                            <option value="user" {{ old('recipient_type', $notification->user_id ? 'user' : ($notification->seller_id ? 'seller' : '')) == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="seller" {{ old('recipient_type', $notification->user_id ? 'user' : ($notification->seller_id ? 'seller' : '')) == 'seller' ? 'selected' : '' }}>Seller</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3" id="user_select" style="display: {{ $notification->user_id ? 'block' : 'none' }};">
+                        <label class="form-label fw-bold">Pilih User</label>
+                        <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
+                            <option value="">-- Pilih User --</option>
+                            @foreach($users as $user)
+                                <option value="{{ $user->id }}" {{ old('user_id', $notification->user_id) == $user->id ? 'selected' : '' }}>
+                                    {{ $user->name }} (ID: {{ $user->id }})
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('user_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
+
+                    <div class="mb-3" id="seller_select" style="display: {{ $notification->seller_id ? 'block' : 'none' }};">
+                        <label class="form-label fw-bold">Pilih Seller</label>
+                        <select name="seller_id" id="seller_id" class="form-control @error('seller_id') is-invalid @enderror">
+                            <option value="">-- Pilih Seller --</option>
+                            @foreach($sellers as $seller)
+                                <option value="{{ $seller->user->id }}" {{ old('seller_id', $notification->seller_id) == $seller->user->id ? 'selected' : '' }}>
+                                    {{ $seller->brand_name }} (ID: {{ $seller->user->id }})
+                                </option>
+                            @endforeach
+                        </select>
+                        @error('seller_id')
+                            <div class="invalid-feedback">{{ $message }}</div>
+                        @enderror
+                    </div>
                 </div>
 
-                <div class="mb-3" id="user_select">
-                    <label class="form-label fw-bold">Pilih User</label>
-                    <select name="user_id" id="user_id" class="form-control @error('user_id') is-invalid @enderror">
-                        <option value="">-- Pilih User --</option>
-                        @foreach($users as $user)
-                            <option value="{{ $user->id }}" {{ old('user_id', $notification->user_id) == $user->id ? 'selected' : '' }}>
-                                {{ $user->name }} (ID: {{ $user->id }})
-                            </option>
-                        @endforeach
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Status</label>
+                    <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
+                        <option value="terkirim" {{ old('status', $notification->status) == 'terkirim' ? 'selected' : '' }}>Terkirim</option>
                     </select>
-                    @error('user_id')
-                        <div class="invalid-feedback">{{ $message }}</div>
-                    @enderror
-                </div>
-
-                <div class="mb-3" id="seller_select">
-                    <label class="form-label fw-bold">Pilih Seller</label>
-                    <select name="seller_brand_name" id="seller_brand_name" class="form-control @error('seller_brand_name') is-invalid @enderror">
-                        <option value="">-- Pilih Seller --</option>
-                        @foreach($sellers as $seller)
-                            <option value="{{ $seller->brand_name }}" {{ old('seller_brand_name', $notification->seller_brand_name) == $seller->brand_name ? 'selected' : '' }}>
-                                {{ $seller->brand_name }}
-                            </option>
-                        @endforeach
-                    </select>
-                    @error('seller_brand_name')
+                    @error('status')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
@@ -110,20 +119,46 @@
 <script>
     function toggleKhususFields() {
         const penerima = document.getElementById('penerima').value;
-        const khususTypeSection = document.getElementById('khusus_type_section');
+        const khususSection = document.getElementById('khusus_section');
         const userSelect = document.getElementById('user_select');
         const sellerSelect = document.getElementById('seller_select');
-        const khususType = document.getElementById('khusus_type').value;
+        const userId = document.getElementById('user_id');
+        const sellerId = document.getElementById('seller_id');
+        const recipientType = document.getElementById('recipient_type');
 
-        khususTypeSection.style.display = penerima === 'khusus' ? 'block' : 'none';
-        userSelect.style.display = penerima === 'khusus' && khususType === 'user' ? 'block' : 'none';
-        sellerSelect.style.display = penerima === 'khusus' && khususType === 'seller' ? 'block' : 'none';
+        khususSection.style.display = penerima === 'khusus' ? 'block' : 'none';
+
+        if (penerima !== 'khusus') {
+            recipientType.value = '';
+            userSelect.style.display = 'none';
+            sellerSelect.style.display = 'none';
+            userId.value = '';
+            sellerId.value = '';
+        } else {
+            toggleRecipientFields();
+        }
+    }
+
+    function toggleRecipientFields() {
+        const recipientType = document.getElementById('recipient_type').value;
+        const userSelect = document.getElementById('user_select');
+        const sellerSelect = document.getElementById('seller_select');
+        const userId = document.getElementById('user_id');
+        const sellerId = document.getElementById('seller_id');
+
+        userSelect.style.display = recipientType === 'user' ? 'block' : 'none';
+        sellerSelect.style.display = recipientType === 'seller' ? 'block' : 'none';
+
+        if (recipientType === 'user') {
+            sellerId.value = '';
+        } else if (recipientType === 'seller') {
+            userId.value = '';
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
         toggleKhususFields();
-        document.getElementById('penerima').addEventListener('change', toggleKhususFields);
-        document.getElementById('khusus_type').addEventListener('change', toggleKhususFields);
+        toggleRecipientFields();
     });
 </script>
 @endsection

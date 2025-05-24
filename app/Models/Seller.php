@@ -30,9 +30,8 @@ class Seller extends Model
 
     public function transactions()
     {
-         return Transaction::whereHas('product', function ($query) {
-        $query->where('seller_id', $this->id);
-    });
+        return $this->hasManyThrough(Transaction::class, Product::class, 'seller_id', 'product_id', 'id', 'id')
+            ->whereIn('transactions.status', ['disetujui', 'paid']);
     }
 
     public function withdraws()
@@ -45,11 +44,19 @@ class Seller extends Model
         return $this->belongsTo(User::class);
     }
 
-    // Method untuk update balance
+    public function chats()
+    {
+        return $this->hasMany(Chat::class, 'seller_id', 'user_id');
+    }
+
+    public function notifications()
+    {
+        return $this->hasMany(Notification::class, 'seller_id', 'user_id');
+    }
+
     public function updateBalance()
     {
         $income = $this->transactions()
-            ->whereIn('status', ['disetujui', 'paid'])
             ->sum('amount');
 
         $withdrawn = $this->withdraws()
