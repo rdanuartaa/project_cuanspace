@@ -1,7 +1,6 @@
 @extends('layouts.main')
 
 @section('content')
-
     <body>
         <div class="wrappage">
             <div class="container agency-container v3 ">

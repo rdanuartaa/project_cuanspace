@@ -97,7 +97,6 @@
     </div>
     <div class="clearfix"></div>
 </div>
-
 <div class="product-standard product-grid">
     <div class="container container-42">
         <div class="tab-content">
@@ -106,13 +105,13 @@
                     @forelse($products as $product)
                         <div class="col-md-15 col-sm-3 col-xs-6 product-item">
                             <div class="product-images">
-                                <a href="#" class="hover-images effect">
+                                <a href="{{ route('product.detail', $product->id) }}" class="hover-images effect">
                                     @if($product->thumbnail)
                                         <img src="{{ asset('storage/thumbnails/' . $product->thumbnail) }}"
-                                             alt="{{ $product->name }}" class="img-reponsive" style="width: width: 443px; height: 400px; object-fit: cover; border-radius: 4px;">
+                                             alt="{{ $product->name }}" class="img-reponsive" style="width: 300px; height: 400px; object-fit: cover; border-radius: 4px;">
                                     @else
                                         <img src="{{ asset('img/products/placeholder.jpg') }}"
-                                             alt="{{ $product->name }}" class="img-reponsive" style="width: width: 443px; height: 400px; object-fit: cover; border-radius: 4px;">
+                                             alt="{{ $product->name }}" class="img-reponsive" style="width: 443px; height: 400px; object-fit: cover; border-radius: 4px;">
                                     @endif
                                 </a>
                                 @auth
@@ -122,7 +121,7 @@
                                 @endauth
 
                                 @auth
-                                    <a href="#" class="btn-quickview">VIEW DETAIL</a>
+                                    <a href="{{ route('product.detail', $product->id) }}" class="btn-quickview">VIEW DETAIL</a>
                                 @else
                                     <a href="javascript:void(0)" onclick="showLoginPrompt()" class="btn-quickview">VIEW DETAIL</a>
                                 @endauth
@@ -159,7 +158,7 @@
                                     @auth
                                         <a href="#" class="button add-to-cart">Checkout Now</a>
                                         <a href="#" class="button add-to-wishlist">Add to wishlist</a>
-                                        <a href="#" class="button add-view">Quick view</a>
+                                        <a href="{{ route('product.detail', $product->id) }}" class="button add-view">Quick view</a>
                                     @else
                                         <a href="javascript:void(0)" onclick="showLoginPrompt()" class="button add-to-cart">Checkout Now</a>
                                         <a href="javascript:void(0)" onclick="showLoginPrompt()" class="button add-to-wishlist">Add to wishlist</a>

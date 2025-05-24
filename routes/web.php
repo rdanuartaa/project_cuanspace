@@ -18,7 +18,7 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
-
+use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\HomeController; // Import HomeController
 use Maatwebsite\Excel\Facades\Excel;
@@ -34,6 +34,7 @@ Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'veri
 Route::get('/faq', [FaqController::class, 'showUserFaqs'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
 Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams');
+Route::get('/produk/{id}', [ProductDetailController::class, 'showUserDetail'])->name('product.detail');
 
 // ---------------- RUTE UNTUK USER ----------------
 
@@ -43,7 +44,8 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/seller-register', [SellerController::class, 'showRegistrationForm'])->name('seller.register');
-    Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit');
+    Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit'); // Untuk umum
+;
 });
 
 // ---------------- ADMIN ----------------
@@ -74,11 +76,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
         Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
         Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
-        
-        // Kelola kategori
         Route::resource('kategori', KategoriController::class)->except(['show']);
-        
-        // Kelola pengguna
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
@@ -92,8 +90,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
     ->name('seller.')
     ->group(function () {
         Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
-        Route::get('produk/dashboard', [ProductController::class, 'dashboard'])->name('produk.dashboard');
-        Route::get('produk', [ProductController::class, 'index'])->name('produk');
+        Route::get('produk', [ProductController::class, 'index'])->name('produk.index');
         Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
         Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
         Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');

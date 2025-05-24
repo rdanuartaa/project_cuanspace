@@ -10,19 +10,16 @@ class Notification extends Model
         'admin_id',
         'judul',
         'pesan',
-
         'penerima',
         'khusus_type',
         'user_id',            // foreign key ke users
         'seller_brand_name',  // foreign key ke sellers (berdasarkan brand_name)
-
         'pelaku',
         'status',
         'jadwal_kirim',
         'read',
         'chat_id',
         'seller_id',
-
     ];
 
     protected $casts = [
@@ -41,8 +38,7 @@ class Notification extends Model
     {
         return $this->belongsTo(Seller::class, 'seller_brand_name', 'brand_name');
 
-        'read' => 'boolean',
-    ];
+    }
 
     public function admin()
     {
