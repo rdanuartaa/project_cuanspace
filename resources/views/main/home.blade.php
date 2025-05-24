@@ -108,11 +108,11 @@
                             <div class="product-images">
                                 <a href="#" class="hover-images effect">
                                     @if($product->thumbnail)
-                                        <img src="{{ asset('storage/thumbnails/' . $product->thumbnail) }}" 
-                                             alt="{{ $product->name }}" class="img-reponsive">
+                                        <img src="{{ asset('storage/thumbnails/' . $product->thumbnail) }}"
+                                             alt="{{ $product->name }}" class="img-reponsive" style="width: width: 443px; height: 400px; object-fit: cover; border-radius: 4px;">
                                     @else
-                                        <img src="{{ asset('img/products/placeholder.jpg') }}" 
-                                             alt="{{ $product->name }}" class="img-reponsive">
+                                        <img src="{{ asset('img/products/placeholder.jpg') }}"
+                                             alt="{{ $product->name }}" class="img-reponsive" style="width: width: 443px; height: 400px; object-fit: cover; border-radius: 4px;">
                                     @endif
                                 </a>
                                 @auth
@@ -120,7 +120,7 @@
                                 @else
                                     <a href="javascript:void(0)" onclick="showLoginPrompt()" class="btn-add-wishlist ver2"><i class="icon-heart"></i></a>
                                 @endauth
-                                
+
                                 @auth
                                     <a href="#" class="btn-quickview">VIEW DETAIL</a>
                                 @else
@@ -218,11 +218,11 @@
         <h3 style="margin-bottom: 15px; color: #333;">Login Required</h3>
         <p style="margin-bottom: 20px; color: #666;">You must be logged in to view this product. Please log in to proceed.</p>
         <div style="display: flex; gap: 10px; justify-content: center;">
-            <button onclick="window.location.href='{{ route('login') }}'" 
+            <button onclick="window.location.href='{{ route('login') }}'"
                     style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                 Login
             </button>
-            <button onclick="closeModal()" 
+            <button onclick="closeModal()"
                     style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
                 Cancel
             </button>
@@ -259,7 +259,7 @@
     .product-category {
         margin-top: 10px;
     }
-    
+
     .badge {
         display: inline-block;
         padding: 0.25rem 0.5rem;
@@ -271,36 +271,36 @@
         vertical-align: baseline;
         border-radius: 0.25rem;
     }
-    
+
     .badge-secondary {
         color: #fff;
         background-color: #6c757d;
     }
-    
+
     .product-item {
         margin-bottom: 30px;
     }
-    
+
     .product-title a {
         color: #333;
         text-decoration: none;
     }
-    
+
     .product-title a:hover {
         color: #007bff;
     }
-    
+
     .text-muted {
         color: #6c757d !important;
     }
-    
+
     /* Responsive adjustments */
     @media (max-width: 768px) {
         .col-md-15 {
             width: 50%;
         }
     }
-    
+
     @media (max-width: 480px) {
         .col-md-15 {
             width: 100%;

@@ -119,7 +119,7 @@
                     <div class="col-xs-12 col-sm-12 col-md-12">
                         <div class="logo-mobile hidden-lg hidden-md">
                             <a href="{{ url('/') }}" title="home-logo">
-                                <img src="{{ asset('img/cosre.png') }}" alt="logo" class="img-reponsive">
+                                <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" class="img-reponsive">
                             </a>
                         </div>
                         <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse" data-target="#myNavbar">
@@ -138,7 +138,7 @@
                                         <a href="{{ url('/') }}">Home</a>
                                     </li>
                                     <li class="level1 active dropdown">
-                                        <a href="{{ route('teams.show') }}">Teams</a>
+                                        <a href="{{ route('teams') }}">Teams</a>
                                     </li>
                                     @guest
                                         <li class="level1 active dropdown">

@@ -7,64 +7,55 @@
     <div class="card">
         <div class="card-body">
             <h4 class="card-title">Edit Team</h4>
+
             <form action="{{ route('admin.teams.update', $team->id) }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 @method('PUT')
+
                 <div class="form-group">
                     <label for="name">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" value="{{ $team->name }}" required>
+                    <input type="text" class="form-control" id="name" name="name" value="{{ old('name', $team->name) }}" required>
                 </div>
 
                 <div class="form-group">
                     <label for="role">Role</label>
-                    <input type="text" class="form-control" id="role" name="role" value="{{ $team->role }}" required>
+                    <input type="text" class="form-control" id="role" name="role" value="{{ old('role', $team->role) }}" required>
                 </div>
 
                 <div class="form-group">
-                    <label for="image">Image</label>
-                    <input type="file" class="form-control custom-file-input" id="image" name="image">
-                    <img src="{{ asset('storage/' . $team->image) }}" alt="Image" width="100" class="mt-2">
+                    <label for="image">Image</label><br>
+                    @if ($team->image)
+                        <img src="{{ asset('storage/' . $team->image) }}" alt="Current Image" width="100" class="mb-2">
+                    @else
+                        <span class="text-muted d-block mb-2">Tidak ada foto</span>
+                    @endif
+                    <input type="file" class="form-control" id="image" name="image" accept="image/*" onchange="previewImage(event)">
                 </div>
 
-                <button type="submit" class="btn btn-outline-dark">Update Teams</button>
+                <!-- Preview Gambar Baru -->
+                <div class="form-group mt-3">
+                    <label>Preview Gambar Baru</label><br>
+                    <img id="preview" src="#" alt="Preview Image" style="display: none; max-height: 200px;" />
+                </div>
+
+                <button type="submit" class="btn btn-outline-dark">Update Team</button>
             </form>
         </div>
     </div>
 </div>
+
+@section('scripts')
+<script>
+    function previewImage(event) {
+        const reader = new FileReader();
+        reader.onload = function() {
+            const output = document.getElementById('preview');
+            output.src = reader.result;
+            output.style.display = 'block';
+        }
+        reader.readAsDataURL(event.target.files[0]);
+    }
+</script>
 @endsection
 
-@push('styles')
-<style>
-    /* Style for the custom file input button */
-    .custom-file-input {
-        border-radius: 20px;
-        padding: 8px 20px;
-        font-size: 14px;
-        color: #000;
-        background-color: #fff;
-        border: 1px solid #000;
-    }
-
-    .custom-file-input:hover {
-        background-color: #000;
-        color: #fff;
-    }
-
-    /* Style for the submit button (white background, black text) */
-    .btn-outline-dark {
-        color: #000;
-        border-color: #000;
-        background-color: #fff;
-        font-size: 14px;
-        border-radius: 20px;
-        padding: 10px 15px;
-        text-transform: uppercase;
-        transition: all 0.3s;
-    }
-
-    .btn-outline-dark:hover {
-        background-color: #000;
-        color: white;
-    }
-</style>
-@endpush
+@endsection
