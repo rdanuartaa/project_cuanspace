@@ -145,7 +145,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.notifications.index') }}">
                     <i class="menu-icon mdi mdi-voice"></i>
                     <span class="menu-title">Pemberitahuan</span>
                 </a>
