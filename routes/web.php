@@ -27,23 +27,13 @@ use Illuminate\Http\Request;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
-// Halaman utama (tanpa login) - gunakan HomeController
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Halaman utama (tanpa login) - gunakan HomeController
-Route::get('/', [HomeController::class, 'index'])->name('home');
-
-// Halaman setelah login user biasa - gunakan HomeController
 Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
-
-// Halaman setelah login user biasa - gunakan HomeController
-Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'verified'])->name('main.home');
-
-Route::get('/faq', [FaqController::class, 'index'])->name('faq');
+Route::get('/faq', [FaqController::class, 'showUserFaqs'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
-Route::get('/teams', [TeamsController::class, 'index'])->name('teams');
+Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams');
 
 // ---------------- RUTE UNTUK USER ----------------
-Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams.show');
 
 // Profil user biasa & daftar jadi seller
 Route::middleware('auth')->group(function () {
@@ -66,6 +56,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
         Route::resource('about', AboutController::class);
         Route::resource('teams', TeamsController::class);
+        Route::resource('faq', FaqController::class);
         // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
         Route::get('sellers/filter', [SellerController::class, 'filter'])->name('sellers.filter');
@@ -87,14 +78,6 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
-        Route::prefix('faq')->name('faq.')->group(function () {
-            Route::get('/', [FaqController::class, 'adminIndex'])->name('index');
-            Route::get('/create', [FaqController::class, 'create'])->name('create');
-            Route::post('/', [FaqController::class, 'store'])->name('store');
-            Route::get('/{faq}/edit', [FaqController::class, 'edit'])->name('edit');
-            Route::put('/{faq}', [FaqController::class, 'update'])->name('update');
-            Route::delete('/{faq}', [FaqController::class, 'destroy'])->name('destroy');
-        });
     });
 });
 
@@ -161,8 +144,5 @@ Route::get('/penghasilan/export', function (Request $request) {
 
     return Excel::download(new PenghasilanExport($transactions), 'laporan_penghasilan.xlsx');
 })->name('seller.penghasilan.export');
-
-// Impor rute autentikasi
-require __DIR__ . '/auth.php';
 // Impor rute autentikasi
 require __DIR__ . '/auth.php';

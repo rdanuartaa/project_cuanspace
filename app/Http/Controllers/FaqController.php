@@ -10,13 +10,7 @@ class FaqController extends Controller
 {
     public function index()
     {
-        $faqs = Faq::paginate(10);
-        return view('main.faq', compact('faqs'));
-    }
-
-    public function adminIndex()
-    {
-        $faqs = Faq::paginate(10);
+    $faqs = Faq::paginate(10); // <- FIXED
         return view('admin.faq.index', compact('faqs'));
     }
 
@@ -67,4 +61,11 @@ class FaqController extends Controller
         $faq->delete();
         return redirect()->route('admin.faq.index')->with('success', 'FAQ deleted successfully.');
     }
+
+    public function showUserFaqs()
+    {
+        $faqs = Faq::paginate(10); // bisa tambahkan filter jika ada status
+        return view('main.faq', compact('faqs'));
+    }
+
 }

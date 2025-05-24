@@ -49,11 +49,11 @@ class Seller extends Model
     public function updateBalance()
     {
         $income = $this->transactions()
-            ->whereIn('status', ['berhasil', 'paid'])
+            ->whereIn('status', ['disetujui', 'paid'])
             ->sum('amount');
 
         $withdrawn = $this->withdraws()
-            ->where('status', 'berhasil')
+            ->where('status', 'disetujui')
             ->sum('amount');
 
         $this->update([
