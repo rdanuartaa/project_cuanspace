@@ -55,7 +55,7 @@
                 </div>
             @endif
 
-            <form action="{{ route('admin.notifications.store') }}" method="POST" enctype="multipart/form-data">
+            <form action="{{ route('admin.notifications.store') }}" method="POST">
                 @csrf
                 <div class="mb-3">
                     <label class="form-label fw-bold">Judul</label>
@@ -77,7 +77,7 @@
                     <label class="form-label fw-bold">Penerima</label>
                     <select name="penerima" id="penerima" class="form-control @error('penerima') is-invalid @enderror" onchange="toggleKhususOptions()" required>
                         <option value="semua" {{ old('penerima') == 'semua' ? 'selected' : '' }}>Semua</option>
-                        <option value="user" {{ old('penerima') == 'user' ? 'selected' : '' }}>User</option>
+                        <option value="pengguna" {{ old('penerima') == 'pengguna' ? 'selected' : '' }}>Pengguna</option>
                         <option value="seller" {{ old('penerima') == 'seller' ? 'selected' : '' }}>Seller</option>
                         <option value="khusus" {{ old('penerima') == 'khusus' ? 'selected' : '' }}>Khusus</option>
                     </select>
@@ -88,14 +88,12 @@
 
                 <div id="khusus_section" style="display:none;">
                     <div class="mb-3">
-                        <label class="form-label fw-bold">Pilih Khusus</label>
-                        <select name="khusus_type" id="khusus_type" class="form-control @error('khusus_type') is-invalid @enderror" onchange="toggleKhususDropdowns()">
-                            <option value="user" {{ old('khusus_type') == 'user' ? 'selected' : '' }}>User</option>
-                            <option value="seller" {{ old('khusus_type') == 'seller' ? 'selected' : '' }}>Seller</option>
+                        <label class="form-label fw-bold">Pilih Penerima Khusus</label>
+                        <select name="recipient_type" id="recipient_type" class="form-control" onchange="toggleRecipientFields()">
+                            <option value="">-- Pilih Tipe Penerima --</option>
+                            <option value="user" {{ old('recipient_type') == 'user' ? 'selected' : '' }}>User</option>
+                            <option value="seller" {{ old('recipient_type') == 'seller' ? 'selected' : '' }}>Seller</option>
                         </select>
-                        @error('khusus_type')
-                            <div class="invalid-feedback">{{ $message }}</div>
-                        @enderror
                     </div>
 
                     <div class="mb-3" id="user_select" style="display:none;">
@@ -115,18 +113,28 @@
 
                     <div class="mb-3" id="seller_select" style="display:none;">
                         <label class="form-label fw-bold">Pilih Seller</label>
-                        <select name="seller_brand_name" id="seller_brand_name" class="form-control @error('seller_brand_name') is-invalid @enderror">
+                        <select name="seller_id" id="seller_id" class="form-control @error('seller_id') is-invalid @enderror">
                             <option value="">-- Pilih Seller --</option>
                             @foreach($sellers as $seller)
-                                <option value="{{ $seller->brand_name }}" {{ old('seller_brand_name') == $seller->brand_name ? 'selected' : '' }}>
-                                    {{ $seller->brand_name }}
+                                <option value="{{ $seller->user->id }}" {{ old('seller_id') == $seller->user->id ? 'selected' : '' }}>
+                                    {{ $seller->brand_name }} (ID: {{ $seller->user->id }})
                                 </option>
                             @endforeach
                         </select>
-                        @error('seller_brand_name')
+                        @error('seller_id')
                             <div class="invalid-feedback">{{ $message }}</div>
                         @enderror
                     </div>
+                </div>
+
+                <div class="mb-3">
+                    <label class="form-label fw-bold">Status</label>
+                    <select name="status" id="status" class="form-control @error('status') is-invalid @enderror" required>
+                        <option value="terkirim" {{ old('status') == 'terkirim' ? 'selected' : '' }}>Terkirim</option>
+                    </select>
+                    @error('status')
+                        <div class="invalid-feedback">{{ $message }}</div>
+                    @enderror
                 </div>
 
                 <div class="text-end">
@@ -142,17 +150,38 @@
         const penerima = document.getElementById('penerima').value;
         const khususSection = document.getElementById('khusus_section');
         khususSection.style.display = penerima === 'khusus' ? 'block' : 'none';
-        toggleKhususDropdowns();
+
+        // Reset field ketika penerima bukan khusus
+        if (penerima !== 'khusus') {
+            document.getElementById('recipient_type').value = '';
+            document.getElementById('user_select').style.display = 'none';
+            document.getElementById('seller_select').style.display = 'none';
+            document.getElementById('user_id').value = '';
+            document.getElementById('seller_id').value = '';
+        }
     }
 
-    function toggleKhususDropdowns() {
-        const khususType = document.getElementById('khusus_type').value;
-        document.getElementById('user_select').style.display = khususType === 'user' ? 'block' : 'none';
-        document.getElementById('seller_select').style.display = khususType === 'seller' ? 'block' : 'none';
+    function toggleRecipientFields() {
+        const recipientType = document.getElementById('recipient_type').value;
+        const userSelect = document.getElementById('user_select');
+        const sellerSelect = document.getElementById('seller_select');
+        const userId = document.getElementById('user_id');
+        const sellerId = document.getElementById('seller_id');
+
+        userSelect.style.display = recipientType === 'user' ? 'block' : 'none';
+        sellerSelect.style.display = recipientType === 'seller' ? 'block' : 'none';
+
+        // Reset field yang tidak dipilih
+        if (recipientType === 'user') {
+            sellerId.value = '';
+        } else if (recipientType === 'seller') {
+            userId.value = '';
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function() {
         toggleKhususOptions();
+        toggleRecipientFields();
     });
 </script>
 @endsection

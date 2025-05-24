@@ -1,8 +1,8 @@
 <?php
 
 namespace App\Http\Controllers\API;
-use App\Http\Controllers\Controller;
 
+use App\Http\Controllers\Controller;
 use App\Models\Notification;
 use App\Models\Seller;
 use Illuminate\Http\Request;
@@ -28,17 +28,19 @@ class NotificationController extends Controller
                 ->exists();
 
             $notificationsQuery = Notification::where(function ($query) use ($user, $isSeller) {
-                $query->where('pelaku', 'semua')
+                $query->where('penerima', 'semua')
                       ->orWhere(function ($q) use ($isSeller) {
-                          $q->where('pelaku', $isSeller ? 'seller' : 'pengguna');
+                          $q->where('penerima', $isSeller ? 'seller' : 'pengguna');
                       })
                       ->orWhere(function ($q) use ($user) {
-                          $q->where('pelaku', 'khusus')
-                            ->where('seller_id', $user->id);
+                          $q->where('penerima', 'khusus')
+                            ->where(function ($subQuery) use ($user) {
+                                $subQuery->where('user_id', $user->id)
+                                         ->orWhere('seller_id', $user->id);
+                            });
                       });
             })
-            ->where('pelaku', '!=', 'promo')
-            ->select('id', 'judul', 'pesan', 'pelaku', 'status', 'jadwal_kirim', 'read', 'chat_id', 'seller_id');
+            ->select('id', 'judul', 'pesan', 'penerima', 'status', 'read', 'chat_id', 'seller_id', 'user_id', 'created_at');
 
             $notifications = $notificationsQuery->paginate(20);
 
@@ -79,9 +81,9 @@ class NotificationController extends Controller
             $user = Auth::user();
             $isSeller = Seller::where('user_id', $user->id)->where('status', 'active')->exists();
 
-            if ($notification->pelaku !== 'semua' &&
-                $notification->pelaku !== ($isSeller ? 'seller' : 'pengguna') &&
-                !($notification->pelaku === 'khusus' && $notification->seller_id === $user->id)) {
+            if ($notification->penerima !== 'semua' &&
+                $notification->penerima !== ($isSeller ? 'seller' : 'pengguna') &&
+                !($notification->penerima === 'khusus' && ($notification->user_id === $user->id || $notification->seller_id === $user->id))) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Akses ditolak.',
@@ -105,20 +107,30 @@ class NotificationController extends Controller
     public function store(Request $request)
     {
         try {
-             $user = User::find(1);
-        if ($user && $user->isAdmin()) {
-            return response()->json([
-                'status' => 'error',
-                'message' => 'Akses ditolak. Hanya admin yang dapat membuat notifikasi.',
-            ], 403);
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Pengguna tidak terautentikasi.',
+                ], 401);
+            }
+
+            // Pastikan user adalah admin
+            $admin = \App\Models\Admin::where('email', $user->email)->first();
+            if (!$admin) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Akses ditolak. Hanya admin yang dapat membuat notifikasi.',
+                ], 403);
             }
 
             $validator = Validator::make($request->all(), [
                 'judul' => 'required|string|max:100',
                 'pesan' => 'required|string',
-                'pelaku' => 'required|in:semua,pengguna,seller',
-                'status' => 'required|in:terkirim,terjadwal,draft',
-                'jadwal_kirim' => 'required|date',
+                'penerima' => 'required|in:semua,pengguna,seller,khusus',
+                'status' => 'required|in:terkirim',
+                'user_id' => 'nullable|exists:users,id',
+                'seller_id' => 'nullable|exists:users,id',
             ]);
 
             if ($validator->fails()) {
@@ -128,13 +140,31 @@ class NotificationController extends Controller
                 ], 422);
             }
 
+            if ($request->penerima === 'khusus') {
+                if ($request->user_id && $request->seller_id) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Pilih hanya salah satu: user atau seller untuk notifikasi khusus.',
+                    ], 422);
+                }
+                if (!$request->user_id && !$request->seller_id) {
+                    return response()->json([
+                        'status' => 'error',
+                        'message' => 'Pilih user atau seller untuk notifikasi khusus.',
+                    ], 422);
+                }
+            } else {
+                $request->merge(['user_id' => null, 'seller_id' => null]);
+            }
+
             $notification = Notification::create([
-                'admin_id' => $user->id,
+                'admin_id' => $admin->id,
                 'judul' => $request->judul,
                 'pesan' => $request->pesan,
-                'pelaku' => $request->pelaku,
+                'penerima' => $request->penerima,
+                'user_id' => $request->user_id,
+                'seller_id' => $request->seller_id,
                 'status' => $request->status,
-                'jadwal_kirim' => $request->jadwal_kirim,
                 'read' => false,
             ]);
 
