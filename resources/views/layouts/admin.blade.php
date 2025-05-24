@@ -2,6 +2,7 @@
 <html lang="en">
 
 <head>
+
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Admin Space</title>
@@ -17,6 +18,7 @@
     <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
     <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
     <style>
+        /* Pastikan ini override semua kemungkinan class pembulatan */
         .thumbnail-img {
             width: 150px !important;
             height: auto !important;
@@ -27,13 +29,18 @@
             display: block !important;
             margin: auto !important;
         }
+
+        /* Override class auto seperti rounded-circle, img-xs, img-md */
         .thumbnail-img.rounded-circle,
         .thumbnail-img.img-xs,
         .thumbnail-img.img-md {
             border-radius: 4px !important;
         }
     </style>
+
+
 </head>
+<!-- partial:partials/_navbar.html -->
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
     <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start">
         <div class="me-3">
