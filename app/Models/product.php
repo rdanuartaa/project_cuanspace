@@ -29,6 +29,11 @@ class Product extends Model
         return $this->belongsTo(Seller::class);
     }
 
+    public function reviews()
+    {
+        return $this->hasMany(Review::class);
+    }
+
     // Relasi dengan penghapusan produk
     public function deletion()
     {
