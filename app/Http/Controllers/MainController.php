@@ -33,32 +33,51 @@ class MainController extends Controller
     }
 
     // Memproses checkout: membuat transaksi baru
-    public function processCheckout(Request $request, $productId)
-    {
-        $product = Product::findOrFail($productId);
+    public function processCheckout(Request $request, $id)
+{
+    $request->validate([
+        'email' => 'required|email',
+        'agree' => 'accepted',
+    ]);
 
-        // Cek apakah sudah ada transaksi pending sebelumnya
-        $existing = Transaction::where('user_id', Auth::id())
-            ->where('product_id', $product->id)
-            ->where('status', 'pending')
-            ->first();
+    $product = Product::findOrFail($id);
 
-        if ($existing) {
-            return redirect()->route('main.checkout', $product->id)
-                ->with('warning', 'Kamu sudah memiliki transaksi yang belum dikonfirmasi.');
-        }
+    // Simpan transaksi ke database (status = pending)
+    $transaction = \App\Models\Transaction::create([
+        'user_id' => auth()->id(),
+        'product_id' => $product->id,
+        'email' => $request->email,
+        'note' => $request->note,
+        'status' => 'pending',
+        'total_price' => $product->price,
+    ]);
 
-        $transaction = Transaction::create([
-            'user_id' => Auth::id(),
-            'product_id' => $product->id,
-            'transaction_code' => 'TRX-' . strtoupper(Str::random(8)),
-            'amount' => $product->price,
-            'status' => 'pending',
-        ]);
+    // Buat payload Snap Midtrans
+    $params = [
+        'transaction_details' => [
+            'order_id' => 'ORDER-' . $transaction->id . '-' . time(),
+            'gross_amount' => $product->price,
+        ],
+        'customer_details' => [
+            'first_name' => auth()->user()->name,
+            'email' => $request->email,
+        ],
+        'item_details' => [[
+            'id' => $product->id,
+            'price' => $product->price,
+            'quantity' => 1,
+            'name' => $product->name
+        ]],
+    ];
 
-        return redirect()->route('main.checkout', $product->id)
-            ->with('success', 'Silakan lakukan pembayaran dan klik konfirmasi jika sudah.');
-    }
+    // Simpan order_id ke transaksi
+    $transaction->update(['midtrans_order_id' => $params['transaction_details']['order_id']]);
+
+    // Ambil Snap token dari Midtrans
+    $snapToken = Snap::getSnapToken($params);
+
+    return view('main.payment', compact('snapToken'));
+}
 
     // Konfirmasi pembayaran
     public function confirmPayment(Request $request, $transactionId)

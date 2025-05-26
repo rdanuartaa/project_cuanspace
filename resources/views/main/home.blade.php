@@ -25,8 +25,7 @@
                 @endforeach
             </ul>
         </div>
-    </div>
-
+    </div> 
     <div class="wrap-filter">
         <div class="wrap-filter-box wrap-filter-number">
             <ul class="pagination">

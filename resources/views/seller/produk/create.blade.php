@@ -32,7 +32,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Deskripsi</label>
                     <textarea name="description" class="form-control" rows="4" placeholder="Masukkan deskripsi produk" required>{{ old('description') }}</textarea>
@@ -40,7 +40,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Harga</label>
                     <div class="input-group">
@@ -51,7 +51,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Kategori</label>
                     <select name="kategori_id" class="form-select" required>
@@ -66,7 +66,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Thumbnail</label>
                     <input type="file" name="thumbnail" class="form-control" accept="image/*" required>
@@ -74,14 +74,14 @@
                     @error('thumbnail')
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
-                    
+
                     {{-- Thumbnail Preview --}}
                     <div id="thumbnailPreview" class="mt-2" style="display:none;">
-                        <img src="" alt="Thumbnail Preview" 
+                        <img src="" alt="Thumbnail Preview"
                              style="max-width: 200px; max-height: 200px; object-fit: cover; border-radius: 4px;">
                     </div>
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">File Digital</label>
                     <input type="file" name="digital_file" class="form-control" required>
@@ -90,7 +90,7 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="mb-3">
                     <label class="form-label fw-bold">Status</label>
                     <select name="status" class="form-select" required>
@@ -102,9 +102,9 @@
                         <span class="text-danger">{{ $message }}</span>
                     @enderror
                 </div>
-                
+
                 <div class="text-end">
-                    <a href="{{ route('seller.produk') }}" class="btn btn-outline-secondary btn-sm">Batal</a>
+                    <a href="{{ route('seller.produk.index') }}" class="btn btn-outline-secondary btn-sm">Batal</a>
                     <button type="submit" class="btn btn-outline-primary btn-sm" id="btnSubmit">Simpan</button>
                 </div>
             </form>
