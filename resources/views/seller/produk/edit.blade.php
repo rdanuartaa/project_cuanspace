@@ -129,7 +129,7 @@
                 </div>
 
                 <div class="text-end">
-                    <a href="{{ route('seller.produk') }}" class="btn btn-outline-secondary btn-sm">Batal</a>
+                    <a href="{{ route('seller.produk.index') }}" class="btn btn-outline-secondary btn-sm">Batal</a>
                     <button type="submit" class="btn btn-outline-primary btn-sm" id="btnSubmit">Update</button>
                 </div>
             </form>

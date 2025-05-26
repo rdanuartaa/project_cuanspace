@@ -18,14 +18,15 @@ use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminSaldoController;
 use App\Http\Controllers\TransaksiController;
-use App\Http\Controllers\ProductDetailController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\MainController;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\PenghasilanExport;
 use App\Http\Controllers\Auth\DashboardController;
 use App\Models\Transaction;
 use Illuminate\Http\Request;
+use App\Http\Controllers\MidtransController;
 
 // ---------------- HALAMAN DEPAN / USER ----------------
 
@@ -34,8 +35,7 @@ Route::get('/home', [HomeController::class, 'index'])->middleware(['auth', 'veri
 Route::get('/faq', [FaqController::class, 'showUserFaqs'])->name('faq');
 Route::get('/about', [AboutController::class, 'showUserAbout'])->name('about');
 Route::get('/teams', [TeamsController::class, 'showUserTeams'])->name('teams');
-Route::get('/produk/{id}', [ProductDetailController::class, 'showUserDetail'])->name('product.detail');
-
+Route::post('/midtrans/callback', [MidtransController::class, 'callback']);
 // ---------------- RUTE UNTUK USER ----------------
 
 // Profil user biasa & daftar jadi seller
@@ -44,7 +44,14 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::get('/seller-register', [SellerController::class, 'showRegistrationForm'])->name('seller.register');
-    Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit'); // Untuk umum
+    Route::post('/seller-register', [SellerController::class, 'register'])->name('seller.register.submit');
+    Route::get('/produk/{id}', [ProductController::class, 'show'])->name('public.produk.show');
+    Route::get('/checkout/{product}', [MainController::class, 'checkout'])->name('main.checkout');
+    Route::post('/checkout/{product}', [MainController::class, 'processCheckout'])->name('main.processCheckout');
+    Route::post('/confirm-payment/{transaction}', [MainController::class, 'confirmPayment'])->name('main.confirmPayment');
+    Route::get('/downloads', [MainController::class, 'downloads'])->name('main.downloads');
+    Route::get('/download/{product}', [MainController::class, 'download'])->name('main.download');
+ // Untuk umum
 ;
 });
 
@@ -94,12 +101,7 @@ Route::middleware(['auth', \App\Http\Middleware\SellerMiddleware::class])
     ->name('seller.')
     ->group(function () {
         Route::get('dashboard', [SellerController::class, 'dashboard'])->name('dashboard.index');
-        Route::get('produk', [ProductController::class, 'index'])->name('produk.index');
-        Route::get('produk/create', [ProductController::class, 'create'])->name('produk.create');
-        Route::post('produk', [ProductController::class, 'store'])->name('produk.store');
-        Route::get('produk/{produk}/edit', [ProductController::class, 'edit'])->name('produk.edit');
-        Route::put('produk/{produk}', [ProductController::class, 'update'])->name('produk.update');
-        Route::delete('produk/{produk}', [ProductController::class, 'destroy'])->name('produk.destroy');
+        Route::resource('produk', ProductController::class);
         Route::resource('penjualan', PenjualanController::class)->only(['index', 'show']);
         Route::get('/saldo', [SaldoController::class, 'index'])->name('saldo.index');
         Route::post('/saldo/tarik', [SaldoController::class, 'tarikSaldo'])->name('saldo.tarik');

@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Kategori;
+use App\Models\Review;
+use App\Models\Transaction;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -66,7 +68,7 @@ class ProductController extends Controller
             $kategoris = Kategori::all();
 
             if ($kategoris->isEmpty()) {
-                return redirect()->route('seller.produk')
+                return redirect()->route('seller.produk.index')
                     ->with('error', 'Tidak ada kategori tersedia. Hubungi admin untuk menambahkan kategori.');
             }
 
@@ -95,15 +97,14 @@ class ProductController extends Controller
                 'thumbnail' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
                 'digital_file' => 'required|file|mimes:zip,rar,pdf,doc,docx,xls,xlsx,ppt,pptx|max:10240',
                 'status' => 'required|in:draft,published,archived',
-            ],[
-            'name.max' => 'Nama produk maksimal 100 karakter',
-            'price.max' => 'Harga terlalu besar. Maksimal 9.999.999,99',
-            'thumbnail.max' => 'Thumbnail maksimal 2MB',
-            'thumbnail.mimes' => 'Thumbnail harus berupa gambar (jpeg, png, jpg, gif)',
-            'digital_file.max' => 'File digital maksimal 10MB',
-            'digital_file.mimes' => 'File digital harus berupa PDF, ZIP, atau RAR'
-        
-        ]);
+            ], [
+                'name.max' => 'Nama produk maksimal 100 karakter',
+                'price.max' => 'Harga terlalu besar. Maksimal 9.999.999,99',
+                'thumbnail.max' => 'Thumbnail maksimal 2MB',
+                'thumbnail.mimes' => 'Thumbnail harus berupa gambar (jpeg, png, jpg, gif)',
+                'digital_file.max' => 'File digital maksimal 10MB',
+                'digital_file.mimes' => 'File digital harus berupa PDF, ZIP, atau RAR'
+            ]);
 
             DB::beginTransaction();
 
@@ -147,12 +148,12 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return redirect()->route('seller.produk')
+            return redirect()->route('seller.produk.index')
                 ->with('success', 'Produk berhasil ditambahkan!');
 
         } catch (\Illuminate\Validation\ValidationException $e) {
             DB::rollBack();
-            
+
             // Log validation errors
             Log::error('Validation errors', [
                 'errors' => $e->errors()
@@ -165,7 +166,7 @@ class ProductController extends Controller
 
         } catch (\Exception $e) {
             DB::rollBack();
-            
+
             // Log error terperinci
             Log::error('Gagal menyimpan produk', [
                 'error' => $e->getMessage(),
@@ -193,7 +194,7 @@ class ProductController extends Controller
             return view('seller.produk.edit', compact('product', 'kategoris'));
         } catch (\Exception $e) {
             Log::error('Error pada method edit: ' . $e->getMessage());
-            return redirect()->route('seller.produk')
+            return redirect()->route('seller.produk.index')
                 ->with('error', 'Produk tidak ditemukan atau Anda tidak memiliki akses.');
         }
     }
@@ -237,10 +238,10 @@ class ProductController extends Controller
 
                 // Generate unique filename
                 $thumbnailName = Str::uuid() . '.' . $request->file('thumbnail')->getClientOriginalExtension();
-                
+
                 // Simpan thumbnail baru
                 $request->file('thumbnail')->storeAs('thumbnails', $thumbnailName, 'public');
-                
+
                 // Update nama file thumbnail
                 $product->thumbnail = $thumbnailName;
             }
@@ -254,10 +255,10 @@ class ProductController extends Controller
 
                 // Generate unique filename
                 $digitalFileName = Str::uuid() . '.' . $request->file('digital_file')->getClientOriginalExtension();
-                
+
                 // Simpan file digital baru
                 $request->file('digital_file')->storeAs('digital_files', $digitalFileName, 'public');
-                
+
                 // Update nama file digital
                 $product->digital_file = $digitalFileName;
             }
@@ -266,7 +267,7 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return redirect()->route('seller.produk')
+            return redirect()->route('seller.produk.index')
                 ->with('success', 'Produk berhasil diperbarui!');
 
         } catch (\Exception $e) {
@@ -310,49 +311,72 @@ class ProductController extends Controller
 
             DB::commit();
 
-            return redirect()->route('seller.produk')
+            return redirect()->route('seller.produk.index')
                 ->with('success', 'Produk berhasil dihapus!');
 
         } catch (\Exception $e) {
             DB::rollBack();
             Log::error('Error saat menghapus produk: ' . $e->getMessage());
-            
-            return redirect()->route('seller.produk')
+
+            return redirect()->route('seller.produk.index')
                 ->with('error', 'Gagal menghapus produk: ' . $e->getMessage());
         }
     }
 
-    /**
-     * Display the dashboard for products.
-     */
-    public function dashboard()
-    {
-        $this->checkSeller();
+        public function show($id)
+{
+    try {
+        // Ambil produk utama beserta relasi kategori dan penjual
+        $product = Product::with(['kategori', 'seller.user'])->findOrFail($id);
 
-        try {
-            $products = Product::where('seller_id', Auth::user()->seller->id)->get();
-            $productCount = $products->count();
-            $publishedCount = $products->where('status', 'published')->count();
-            $draftCount = $products->where('status', 'draft')->count();
-            $archivedCount = $products->where('status', 'archived')->count();
+        // Hitung jumlah produk terjual
+        $jumlahTerjual = Transaction::where('product_id', $product->id)
+            ->where('status', 'paid')
+            ->count();
 
-            // Get recent products
-            $recentProducts = Product::where('seller_id', Auth::user()->seller->id)
-                ->orderBy('created_at', 'desc')
-                ->take(5)
-                ->get();
+        // Ambil ulasan produk
+        $reviews = Review::with('user')->where('product_id', $product->id)->latest()->get();
 
-            return view('seller.produk.dashboard', compact(
-                'productCount',
-                'publishedCount',
-                'draftCount',
-                'archivedCount',
-                'recentProducts'
-            ));
-        } catch (\Exception $e) {
-            Log::error('Error pada method dashboard: ' . $e->getMessage());
-            return redirect()->route('seller.produk')
-                ->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
-        }
+        // Hitung rata-rata rating produk utama
+        $averageRating = $reviews->isNotEmpty() ? round($reviews->avg('rating'), 1) : 0;
+        $fullStarsMain = floor($averageRating);
+        $halfStarMain = $averageRating - $fullStarsMain >= 0.5;
+
+        // Ambil produk terkait dengan eager loading reviews
+        $relatedProducts = Product::with('reviews')
+            ->where('kategori_id', $product->kategori_id)
+            ->where('id', '!=', $product->id)
+            ->where('status', 'published')
+            ->take(5)
+            ->get()
+            ->map(function ($related) {
+                // Hitung average rating
+                $average = $related->reviews->avg('rating') ?? 0;
+                $fullStars = floor($average);
+                $halfStar = $average - $fullStars >= 0.5;
+
+                // Tambahkan atribut custom ke model
+                $related->average_rating = round($average, 1);
+                $related->full_stars = $fullStars;
+                $related->has_half_star = $halfStar;
+                return $related;
+            });
+
+        // Cek apakah pengguna adalah penjual produk utama
+        $isSeller = Auth::check() && $product->seller && Auth::user()->id === $product->seller->user_id;
+
+        return view('main.detail_produk', compact(
+            'product',
+            'jumlahTerjual',
+            'relatedProducts',
+            'reviews',
+            'averageRating',
+            'isSeller'
+        ));
+
+    } catch (\Exception $e) {
+        \Log::error('Error saat mengambil detail produk: ' . $e->getMessage());
+        return redirect()->route('home')->with('error', 'Produk tidak ditemukan atau sedang tidak tersedia.');
     }
+}
 }
