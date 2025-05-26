@@ -152,6 +152,12 @@
                 </a>
             </li>
             <li class="nav-item">
+                <a class="nav-link" href="#">
+                    <i class="menu-icon mdi mdi-star"></i>
+                    <span class="menu-title">Kelola Ulasan</span>
+                </a>
+            </li>
+            <li class="nav-item">
                 <a class="nav-link" href="{{ route('admin.notifications.index') }}">
                     <i class="menu-icon mdi mdi-voice"></i>
                     <span class="menu-title">Pemberitahuan</span>
@@ -174,12 +180,6 @@
                 <a class="nav-link" href="{{ route('admin.teams.index') }}">
                     <i class="menu-icon mdi mdi-account-multiple-outline"></i>
                     <span class="menu-title">Teams</span>
-                </a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" href="#">
-                    <i class="menu-icon mdi mdi-settings"></i>
-                    <span class="menu-title">Pengaturan Platform</span>
                 </a>
             </li>
         </ul>
