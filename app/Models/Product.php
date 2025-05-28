@@ -15,6 +15,8 @@ class Product extends Model
         'thumbnail',
         'digital_file',
         'status',
+        'view_count',
+        'purchase_count'
     ];
 
     // Relasi dengan kategori
