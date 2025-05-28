@@ -375,7 +375,7 @@ class ProductController extends Controller
         ));
 
     } catch (\Exception $e) {
-        \Log::error('Error saat mengambil detail produk: ' . $e->getMessage());
+        Log::error('Error saat mengambil detail produk: ' . $e->getMessage());
         return redirect()->route('home')->with('error', 'Produk tidak ditemukan atau sedang tidak tersedia.');
     }
 }

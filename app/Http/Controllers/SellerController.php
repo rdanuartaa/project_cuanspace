@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\Seller;
+use App\Models\Product;
+use App\Models\Kategori;
 use Illuminate\Validation\ValidationException;
 
 class SellerController extends Controller
@@ -98,16 +100,59 @@ class SellerController extends Controller
      * Show seller dashboard.
      */
     public function dashboard()
-    {
-        $user = Auth::user();
-        $seller = $user->seller;
+{
+    $user = Auth::user();
+    $seller = $user->seller;
 
-        return view('seller.dashboard.index', compact('seller'));
+    if (!$seller) {
+        return redirect()->route('main.home')->with('error', 'Anda belum terdaftar sebagai seller.');
     }
 
-    /**
-     * Admin: Show all sellers
-     */
+    $totalProduk = Product::where('seller_id', $seller->id)
+                    ->where('status', 'published')
+                    ->count();
+
+    $totalTransaksiBerhasil = DB::table('transactions')
+        ->join('products', 'transactions.product_id', '=', 'products.id')
+        ->where('products.seller_id', $seller->id)
+        ->where('transactions.status', 'paid')
+        ->count();
+
+    $ratingToko = DB::table('reviews')
+        ->join('products', 'reviews.product_id', '=', 'products.id')
+        ->where('products.seller_id', $seller->id)
+        ->avg('rating');
+
+    // Produk terbaru yang dipublish (limit 5)
+    $produkBaru = Product::where('seller_id', $seller->id)
+                ->where('status', 'published')
+                ->latest('created_at')
+                ->take(5)
+                ->get();
+
+    $totalPenghasilan = DB::table('transactions')
+                ->join('products', 'transactions.product_id', '=', 'products.id')
+                ->where('products.seller_id', $seller->id)
+                ->where('transactions.status', 'paid')
+                ->sum('transactions.amount');
+
+   $totalSaldo = $seller->balance ?? 0;
+
+
+    // Data penjualan per bulan tetap seperti sebelumnya ...
+    // (atau bisa tetap kamu sertakan di sini)
+
+    return view('seller.dashboard.index', compact(
+        'seller',
+        'totalProduk',
+        'totalTransaksiBerhasil',
+        'ratingToko',
+        'produkBaru',
+        'totalSaldo',
+        'totalPenghasilan',
+    ));
+}
+
     public function index(Request $request)
     {
         $query = Seller::query();
