@@ -5,10 +5,9 @@
             <img src="img/headerbg_2.jpg" alt="" class="img-reponsive">
             <div class="heading-content text-center">
                 <div class="container container-42">
-                    <h1 class="page-title white">Shop</h1>
+                    <h1 class="page-title white">Wellcome to Cuan Space</h1>
                     <ul class="breadcrumb white">
                         <li><a href="">home</a></li>
-                        <li><a href="">Shop All Products</a></li>
                     </ul>
                 </div>
             </div>
@@ -25,7 +24,7 @@
                 @endforeach
             </ul>
         </div>
-    </div> 
+    </div>
     <div class="wrap-filter">
         <div class="wrap-filter-box wrap-filter-number">
             <ul class="pagination">
@@ -92,12 +91,16 @@
             <a class="list" href="#" onClick="return false;"><span class="icon-list-img"></span></a>
         </div>
         <div class="wrap-filter-box wrap-filter-sorting">
-            <button class="dropdown-toggle" type="button" data-toggle="dropdown" id="menu2">Sort by newness</button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="menu2">
-                <li><a href="#" title="">Sort by newness</a></li>
-                <li><a href="#" title="">Best Selling</a></li>
-                <li><a href="#" title="">Price Low to High</a></li>
-            </ul>
+            <div class="topbar-center">
+                <div class="topbar-option">
+                    <form action="{{ route('home') }}" method="GET" class="topbar-search">
+                        <div class="input-group">
+                            <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+                                placeholder="Cari produk..." style="width: 200px;">
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
         <div class="clearfix"></div>
     </div>
@@ -146,19 +149,19 @@
                                         </div>
                                     </div>
                                     <div class="rating-star text-warning d-flex align-items-center my-2">
-                                    @for ($i = 1; $i <= 5; $i++)
-                                        @if ($i <= $product->full_stars)
-                                            ★
-                                        @elseif ($product->has_half_star && $i == $product->full_stars + 1)
-                                            ½★
-                                        @else
-                                            ☆
-                                        @endif
-                                    @endfor
-                                    <small class="text-muted ml-2">
-                                        ({{ $product->reviews->count() }} ulasan)
-                                    </small>
-                                </div>
+                                        @for ($i = 1; $i <= 5; $i++)
+                                            @if ($i <= $product->full_stars)
+                                                ★
+                                            @elseif ($product->has_half_star && $i == $product->full_stars + 1)
+                                                ½★
+                                            @else
+                                                ☆
+                                            @endif
+                                        @endfor
+                                        <small class="text-muted ml-2">
+                                            ({{ $product->reviews->count() }} ulasan)
+                                        </small>
+                                    </div>
                                     <p class="product-desc">
                                         {{ \Illuminate\Support\Str::limit($product->description, 100) }}</p>
                                     <div class="product-price">

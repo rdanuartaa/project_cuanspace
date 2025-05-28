@@ -46,11 +46,10 @@
                 </div>
             </div>
         </div>
-
         {{-- Produk Baru --}}
         <div class="col-lg-6">
             <div class="card h-100 shadow-sm">
-                <div class="card-header">
+                <div class="card-body">
                     <h5 class="mb-0">Produk Baru Dipublish</h5>
                 </div>
                 <div class="card-body p-2">

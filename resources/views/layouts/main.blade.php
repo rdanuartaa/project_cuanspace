@@ -13,37 +13,12 @@
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-slider.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    
+
 
     <!-- Styles khusus dari child view -->
     @yield('styles')
 </head>
 <body>
-    <div class="modal fade" id="myModal" role="dialog">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">SEARCH HERE</h4>
-                </div>
-                <div class="modal-body">
-                    <div class="input-group">
-                        <form method="get" class="searchform" action="/search" role="search">
-                            <input type="hidden" name="type" value="product">
-                            <input type="text" name="q" class="form-control control-search">
-                            <span class="input-group-btn">
-                                <button class="btn btn-default button_search" type="button">
-                                    <i data-toggle="dropdown" class="fa fa-search"></i>
-                                </button>
-                            </span>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--END Modal content-->
-
     <header id="header" class="header-v1">
         <div class="sticky-header text-center hidden-xs hidden-sm">
             <div class="text">
@@ -64,6 +39,9 @@
                                     <ul class="dropdown-menu menu-level-1">
                                         <li class="level2">
                                             <a href="{{ route('profile.edit') }}" title="Edit Profil">Edit Profil</a>
+                                        </li>
+                                        <li class="level2">
+                                            <a href="{{ route('main.order.history') }}" title="Order History">Order History</a>
                                         </li>
                                         <li class="level2">
                                             <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="lost-password">
@@ -99,10 +77,8 @@
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-option">
-                        <div class="topbar-search">
-                            <div class="search-popup dropdown" data-toggle="modal" data-target="#myModal">
-                                <a href="#"><i class="icon-magnifier f-15"></i></a>
-                            </div>
+                         <div class="topbar-currency dropdown">
+                              <span>IDR</span>
                         </div>
                     </div>
                 </div>

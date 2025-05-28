@@ -10,7 +10,7 @@ class ProfileController extends Controller
     {
         // Mengecek apakah pengguna adalah admin atau user biasa
         if (Auth::guard('admin')->check()) {
-            return view('admin.profile.edit', [
+            return view('profile.edit', [
                 'user' => $request->user(),
             ]);
         }

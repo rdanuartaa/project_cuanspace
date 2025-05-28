@@ -32,7 +32,7 @@ class PenjualanController extends Controller
         }
 
         // Pagination
-        $transactions = $query->latest()->paginate(10)->withQueryString();
+        $transactions = $query->latest()->paginate(15)->withQueryString();
 
         // Ambil semua kategori untuk dropdown filter
         $kategoris = Kategori::all();

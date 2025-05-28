@@ -2,34 +2,77 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 use App\Helpers\MidtransHelper;
 use Midtrans\Notification;
 use App\Models\Transaction;
-
+use Illuminate\Support\Facades\Log;
 
 class MidtransController extends Controller
 {
     public function callback(Request $request)
     {
-        MidtransHelper::config();
-        $notification = new Notification();
+        try {
+            // Set konfigurasi Midtrans
+            MidtransHelper::config();
 
-        $status = $notification->transaction_status;
-        $orderId = $notification->order_id;
+            // Terima notifikasi dari Midtrans
+            $notification = new Notification();
 
-        $transaction = Transaction::where('transaction_code', $orderId)->first();
+            $status = $notification->transaction_status;
+            $orderId = $notification->order_id;
 
-        if (!$transaction) return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
+            // Simpan notifikasi ke log
+            Log::info("Callback Midtrans diterima", [
+                'order_id' => $orderId,
+                'transaction_status' => $status,
+                'raw_data' => json_encode($notification),
+            ]);
 
-        if ($status == 'capture' || $status == 'settlement') {
-            $transaction->update(['status' => 'paid']);
-        } elseif ($status == 'pending') {
-            $transaction->update(['status' => 'pending']);
-        } elseif ($status == 'cancel' || $status == 'expire' || $status == 'deny') {
-            $transaction->update(['status' => 'failed']);
+            // Cari transaksi berdasarkan kode transaksi
+            $transaction = Transaction::where('transaction_code', $orderId)->first();
+
+            if (!$transaction) {
+                Log::warning("Transaksi tidak ditemukan", ['order_id' => $orderId]);
+                return response()->json(['message' => 'Transaksi tidak ditemukan'], 404);
+            }
+
+            // Mapping status dari Midtrans
+            $newStatus = match ($status) {
+                'settlement', 'capture' => 'paid',
+                'pending' => 'pending',
+                'expire' => 'expired',
+                'cancel' => 'cancelled',
+                'deny' => 'failed',
+                default => 'unknown',
+            };
+
+            // Update transaksi
+            $transaction->update([
+                'status' => $newStatus,
+                'payment_type' => $notification->payment_type ?? null,
+                'payment_time' => $notification->transaction_time ?? null,
+                'midtrans_response' => json_encode($notification),
+            ]);
+
+            // 🔁 Update balance seller jika transaksi sukses
+            if ($newStatus === 'paid') {
+                if ($transaction->product && $transaction->product->seller) {
+                    $transaction->product->seller->updateBalance();
+                    Log::info("Saldo seller diperbarui", [
+                        'seller_id' => $transaction->product->seller->id,
+                        'amount' => $transaction->amount,
+                        'transaction_code' => $orderId,
+                    ]);
+                }
+            }
+
+            return response()->json(['message' => 'Notifikasi diproses']);
+
+        } catch (\Exception $e) {
+            Log::error("Error saat memproses callback Midtrans: " . $e->getMessage());
+            return response()->json(['message' => 'Gagal memproses notifikasi'], 500);
         }
-        return response()->json(['message' => 'Notifikasi diproses']);
     }
 }

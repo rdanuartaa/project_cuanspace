@@ -49,12 +49,15 @@ Route::middleware('auth')->group(function () {
     Route::get('/checkout/{product}', [MainController::class, 'checkout'])->name('main.checkout');
     Route::post('/checkout/{product}', [MainController::class, 'processCheckout'])->name('main.processCheckout');
     Route::post('/confirm-payment/{transaction}', [MainController::class, 'confirmPayment'])->name('main.confirmPayment');
-    Route::get('/downloads', [MainController::class, 'downloads'])->name('main.downloads');
-    Route::get('/download/{product}', [MainController::class, 'download'])->name('main.download');
+    Route::get('/download-sekarang/{productId}', [MainController::class, 'downloadNow'])->name('main.download.now');
+    Route::get('/download/{productId}', [MainController::class, 'download'])->name('main.download');
+    Route::get('/download-agree/{productId}', [MainController::class, 'showAgreePage'])->name('main.download.agree');
+    Route::post('/download-accept/{productId}', [MainController::class, 'acceptAgreement'])->name('main.download.accept');
+    Route::get('/order-history', [MainController::class, 'orderHistory'])->name('main.order.history');
+    Route::post('/review/{product}', [MainController::class, 'submitReview'])->name('main.review.store');
  // Untuk umum
 ;
 });
-
 // ---------------- ADMIN ----------------
 Route::prefix('admin')->name('admin.')->group(function () {
     // Login & logout admin

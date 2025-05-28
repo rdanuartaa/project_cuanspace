@@ -1,21 +1,24 @@
 @extends('layouts.main')
 @section('title', 'Login')
 @section('content')
-<div class="main-content space-padding-tb-70">
-    <div class="container">
-        <div class="row">
-            <div class="col-xs-12 col-sm-12">
-                <div class="customer-page">
-                    <div class="title-page">
-                        <h3>Login</h3>
-                    </div>
+    <div class="main-content">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12">
+                    <div class="customer-page">
+                        <div class="product-related">
+                            <div class="container container-42">
+                                <h3 class="title text-center">Login</h3>
+                            </div>
+                        </div>
                         <form method="POST" action="{{ route('login') }}" class="form-customer form-login">
                             @csrf
 
                             <!-- Email Address -->
                             <div class="form-group">
                                 <label for="email">Username or email address *</label>
-                                <input type="email" class="form-control form-account" id="email" name="email" :value="old('email')" required autofocus autocomplete="username" />
+                                <input type="email" class="form-control form-account" id="email" name="email"
+                                    :value="old('email')" required autofocus autocomplete="username" />
                                 @error('email')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -24,7 +27,8 @@
                             <!-- Password -->
                             <div class="form-group">
                                 <label for="password">Password *</label>
-                                <input type="password" class="form-control form-account" id="password" name="password" required autocomplete="current-password" />
+                                <input type="password" class="form-control form-account" id="password" name="password"
+                                    required autocomplete="current-password" />
                                 @error('password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
@@ -45,11 +49,12 @@
                             </div>
                         </form>
 
-                    <span class="divider"></span>
-                    <a href="{{ route('register') }}" class="btn link-button create-account hover-black">Create an account</a>
+                        <span class="divider"></span>
+                        <a href="{{ route('register') }}" class="btn link-button create-account hover-black">Create an
+                            account</a>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 @endsection
