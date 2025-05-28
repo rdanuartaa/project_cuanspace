@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Product;
 use App\Models\Kategori;
 use Illuminate\Support\Facades\Auth;
-use App\Models\Review; // Tambahkan model Review
+use App\Models\Review;
 
 class HomeController extends Controller
 {
@@ -21,6 +21,11 @@ class HomeController extends Controller
             ->whereHas('seller', function($q) {
                 $q->where('status', 'active');
             });
+
+        // 🔍 Tambahkan pencarian berdasarkan nama produk
+        if ($request->filled('search')) {
+            $query->where('name', 'like', '%' . $request->search . '%');
+        }
 
         // Filter berdasarkan kategori jika ada
         if ($request->filled('kategori') && $request->kategori != 'all') {

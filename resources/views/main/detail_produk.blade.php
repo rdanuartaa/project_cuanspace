@@ -26,15 +26,10 @@
             margin-bottom: 1rem;
         }
     </style>
-    <div class="container container-42 mt-5">
-        <!-- Breadcrumb -->
-        <ul class="breadcrumb">
-            <li><a href="{{ route('home') }}">Home</a></li>
-            @if (optional($product->seller)->brand_name)
-                <li><a href="#">{{ optional($product->seller)->brand_name }}</a></li>
-            @endif
-            <li class="active"><a href="#">{{ $product->name }}</a></li>
-        </ul>
+    <div class="product-related">
+        <div class="container container-42">
+            <h3 class="title text-center">Detail Produk</h3>
+        </div>
     </div>
     <!-- Product Detail Section -->
     <div class="container">
@@ -79,7 +74,7 @@
 
                         <!-- Form Aksi -->
                         @if (!$isSeller)
-                            <form action="{{ route('main.processCheckout', $product->id) }}" method="POST">
+                            <form action="{{ route('main.checkout', $product->id) }}" method="GET">
                                 @csrf
                                 <div class="action v3">
                                     <button type="submit" class="link-ver1 add-cart">Checkout Sekarang</button>
@@ -151,20 +146,20 @@
             <!-- Produk Terjual -->
             <li class="info-center text-center">
                 <span>Produk Terjual :</span>
-                <a href="#">{{ $jumlahTerjual }}</a> Kali
+                <a>{{ $jumlahTerjual }}</a> Kali
             </li>
 
             <!-- Kategori Produk -->
             <li class="info-center bd-rl text-center">
                 <span>Kategori Produk :</span>
-                <a href="#">
+                <a>
                     {{ optional($product->kategori)->nama_kategori ?? 'Uncategorized' }}
                 </a>
             </li>
 
             <!-- Penjual -->
             <li class="info-center text-center">
-                <span>Profile Penjual :</span>
+                <span>Penjual :</span>
                 <a href="#">
                     {{ optional($product->seller)->brand_name ?? 'Unknown Seller' }}
                 </a>
@@ -200,7 +195,7 @@
                                 <div class="product-price">Rp{{ number_format($related->price, 0, ',', '.') }}</div>
                                 <div class="product-after-button">
                                     @auth
-                                        <a href="{{ route('main.processCheckout', $related->id) }}" class="addcart">CHEKOUT
+                                        <a href="{{ route('main.checkout', $related->id) }}" class="addcart">CHEKOUT
                                             NOW</a>
                                     @else
                                         <a href="javascript:void(0)" onclick="showLoginPrompt()" class="addcart">CHEKOUT

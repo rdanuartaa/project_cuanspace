@@ -1,8 +1,8 @@
 @extends('layouts.main')
 
 @section('content')
-    <body>
-        <div class="wrappage">
+    <div>
+        <div class="main-content">
             <div class="container agency-container v3 ">
                 <div class="about-shop-ver1">
                     <div class="row">
@@ -50,5 +50,5 @@
                 </div>
             </div>
         </div>
-    </body>
+    </div>
 @endsection

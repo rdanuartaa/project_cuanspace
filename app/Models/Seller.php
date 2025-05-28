@@ -30,7 +30,7 @@ class Seller extends Model
 
     public function transactions()
     {
-        return $this->hasManyThrough(Transaction::class, Product::class, 'seller_id', 'product_id', 'id', 'id') 
+        return $this->hasManyThrough(Transaction::class, Product::class, 'seller_id', 'product_id', 'id', 'id')
             ->whereIn('transactions.status', ['disetujui', 'paid']);
     }
 

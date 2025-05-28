@@ -15,6 +15,8 @@ class Transaction extends Model
         'transaction_code',
         'amount',
         'status',
+        'snap_token',
+        'download_count',
     ];
 
     // Relasi ke user (pembeli)
@@ -28,7 +30,7 @@ class Transaction extends Model
     {
         return $this->belongsTo(Product::class);
     }
-    
+
     public function getThumbnailUrlAttribute()
     {
         // Pastikan file ada di storage
