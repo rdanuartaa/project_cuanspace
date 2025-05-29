@@ -2,7 +2,7 @@
 @section('content')
     <div class="page-heading">
         <div class="banner-heading">
-            <img src="img/headerbg_2.jpg" alt="" class="img-reponsive">
+            <img src="{{ asset('img/cuanspacebanner.png') }}" alt="" class="img-reponsive">
             <div class="heading-content text-center">
                 <div class="container container-42">
                     <h1 class="page-title white">Wellcome to Cuan Space</h1>

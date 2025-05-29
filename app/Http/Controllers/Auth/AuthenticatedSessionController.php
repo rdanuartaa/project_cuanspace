@@ -34,7 +34,7 @@ class AuthenticatedSessionController extends Controller
             // Jika admin, coba login dengan guard 'admin'
             if (Auth::guard('admin')->attempt($credentials)) {
                 $request->session()->regenerate();
-                return redirect()->intended(route('admin.dashboard')); // Redirect ke dashboard admin
+                return redirect()->intended(route('admin.dashboard.index')); // Redirect ke dashboard admin
             }
         } else {
             // Jika user biasa, coba login dengan guard 'web'

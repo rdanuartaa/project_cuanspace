@@ -110,9 +110,9 @@
                                     <div class="form-check mb-3">
                                         <input class="form-check-input" type="checkbox" name="agree" id="agreeCheck"
                                             required>
-                                        <label class="form-check-label" for="agreeCheck">
+                                        <h5 class="form-check-label" for="agreeCheck">
                                             Saya menyetujui bahwa produk digital tidak dapat direfund setelah pembelian.
-                                        </label>
+                                        </h5>
                                     </div>
 
                                     <button type="submit" class="link-ver1 add-cart">Bayar Sekarang</button>

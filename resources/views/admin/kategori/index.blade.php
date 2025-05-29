@@ -1,7 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-<div class="container">
     @if (session('success'))
         <div class="alert alert-success rounded fade show" role="alert" style="transition: opacity 1s;">
             {{ session('success') }}
@@ -62,5 +61,4 @@
             </div>
         </div>
     </div>
-</div>
 @endsection

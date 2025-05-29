@@ -4,19 +4,29 @@
 
 @section('content')
 <div class="container">
+    <div class="row g-3 mb-4">
+        @php
+            $stats = [
+                ['title' => 'Total Produk Diterbitkan', 'value' => $totalProduk ?? 0],
+                ['title' => 'Total Transaksi Berhasil', 'value' => $totalTransaksiBerhasil ?? 0],
+                ['title' => 'Rating Toko', 'value' => number_format($ratingToko ?? 0, 2)],
+                ['title' => 'Total Saldo', 'value' => number_format($totalSaldo ?? 0, 0, ',', '.')],
+                ['title' => 'Total Penghasilan', 'value' => number_format($totalPenghasilan ?? 0, 0, ',', '.')],
+                ['title' => 'Penghasilan Pending', 'value' => 'Rp' . number_format($totalPenghasilanPending ?? 0, 0, ',', '.')],
+            ];
+        @endphp
 
-    {{-- Total Saldo dan Penghasilan (tanpa card) --}}
-    <div class="d-flex justify-content-end mb-3 gap-4">
-        <div>
-            <p class="mb-1 fw-semibold">Total Saldo Saat Ini</p>
-            <h4 class="text-success">Rp {{ number_format($totalSaldo ?? 0, 0, ',', '.') }}</h4>
+        @foreach($stats as $stat)
+        <div class="col-md-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body text-center">
+                    <p class="mb-1 fw-semibold">{{ $stat['title'] }}</p>
+                    <h3 class="mb-0">{{ $stat['value'] }}</h3>
+                </div>
+            </div>
         </div>
-        <div>
-            <p class="mb-1 fw-semibold">Total Penghasilan</p>
-            <h4 class="text-primary">Rp {{ number_format($totalPenghasilan ?? 0, 0, ',', '.') }}</h4>
-        </div>
+        @endforeach
     </div>
-
     {{-- Baris sejajar Status Akun Seller dan Produk Baru --}}
     <div class="row g-4 mb-4">
 
@@ -81,26 +91,5 @@
     </div> {{-- end row --}}
 
     {{-- Statistik lain bisa kamu letakkan di sini --}}
-    <div class="row g-3">
-        @php
-            $stats = [
-                ['title' => 'Total Produk Diterbitkan', 'value' => $totalProduk ?? 0],
-                ['title' => 'Total Transaksi Berhasil', 'value' => $totalTransaksiBerhasil ?? 0],
-                ['title' => 'Rating Toko', 'value' => number_format($ratingToko ?? 0, 2)],
-            ];
-        @endphp
-
-        @foreach($stats as $stat)
-        <div class="col-md-4">
-            <div class="card h-100 shadow-sm">
-                <div class="card-body text-center">
-                    <p class="mb-1 fw-semibold">{{ $stat['title'] }}</p>
-                    <h3 class="mb-0">{{ $stat['value'] }}</h3>
-                </div>
-            </div>
-        </div>
-        @endforeach
-    </div>
-
 </div>
 @endsection

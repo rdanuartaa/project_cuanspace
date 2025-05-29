@@ -131,40 +131,65 @@
 
                             <!-- Modal Detail -->
                             <!-- Modal Detail -->
+                            <!-- Modal -->
                             <div class="modal fade" id="detailModal{{ $item->id }}" tabindex="-1"
                                 aria-labelledby="detailModalLabel{{ $item->id }}" aria-hidden="true">
-                                <div class="modal-dialog">
+                                <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
-                                        <div class="modal-header">
+                                        <div class="modal-header bg-primary text-white">
                                             <h5 class="modal-title" id="detailModalLabel{{ $item->id }}">Detail
                                                 Penarikan</h5>
-                                            <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>Tanggal:</strong> {{ $item->created_at->format('d M Y H:i') }}</p>
-                                            <p><strong>Jumlah:</strong> Rp{{ number_format($item->amount, 0, ',', '.') }}
-                                            </p>
-                                            <p><strong>Status:</strong> {{ ucfirst($item->status) }}</p>
-
-                                            @if ($item->status === 'success')
-                                                <p class="text-success fw-semibold">Penarikan berhasil. Dana sudah masuk ke
-                                                    rekening Anda.</p>
-                                            @endif
-
-                                            @if ($item->admin_note)
-                                                <p class="mt-3 text-info">
-                                                    <strong>Catatan Admin:</strong> {{ $item->admin_note }}
+                                            <div class="mb-3">
+                                                <p><strong>Tanggal:</strong> {{ $item->created_at->format('d M Y H:i') }}
                                                 </p>
-                                            @else
-                                                <p class="mt-3 text-info">
-                                                    Penarikan berhasil. Dana sudah masuk ke
-                                                    rekening Anda.
-                                                </p>
-                                            @endif
+                                                <p><strong>Jumlah:</strong>
+                                                    Rp{{ number_format($item->amount, 0, ',', '.') }}</p>
+                                                <p><strong>Status:</strong> {{ ucfirst($item->status) }}</p>
+                                            </div>
+
+                                            <!-- Nomor Rekening Seller -->
+                                            <div class="mb-3">
+                                                <p><strong>Nomor Rekening:</strong>
+                                                    {{ $item->seller->bank_account ?? 'Tidak tersedia' }}</p>
+                                            </div>
+
+                                            <!-- Catatan Admin -->
+                                            <div class="mb-3">
+                                                @if ($item->status === 'success')
+                                                    <p class="text-success fw-semibold">Penarikan berhasil. Dana sudah masuk
+                                                        ke rekening Anda.</p>
+                                                @endif
+                                                @if ($item->admin_note)
+                                                    <p class="mt-3 text-info"><strong>Catatan Admin:</strong>
+                                                        {{ $item->admin_note }}</p>
+                                                @else
+                                                    <p class="mt-3 text-info">Penarikan berhasil. Dana sudah masuk ke
+                                                        rekening Anda.</p>
+                                                @endif
+                                            </div>
+
+                                            <!-- Konfirmasi Pengiriman Dana -->
+                                            <div class="mb-3">
+                                                @if ($item->status === 'success')
+                                                    <p class="text-success fw-semibold">Konfirmasi Pengiriman:</p>
+                                                    <ul>
+                                                        <li><strong>Nama Bank:</strong>
+                                                            {{ $item->bank_name ?? 'Tidak tersedia' }}</li>
+                                                        <li><strong>No. Referensi:</strong>
+                                                            {{ $item->transaction_reference ?? 'Tidak tersedia' }}</li>
+                                                        <li><strong>Tanggal Transfer:</strong>
+                                                            {{ $item->transfer_date->format('d M Y H:i') ?? 'Tidak tersedia' }}
+                                                        </li>
+                                                    </ul>
+                                                @endif
+                                            </div>
                                         </div>
                                         <div class="modal-footer">
-                                            <button type="button" class="btn btn-outline-info btn-sm"
+                                            <button type="button" class="btn btn-outline-secondary"
                                                 data-bs-dismiss="modal">Tutup</button>
                                         </div>
                                     </div>

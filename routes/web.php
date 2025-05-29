@@ -17,6 +17,7 @@ use App\Http\Controllers\PenghasilanController;
 use App\Http\Controllers\SaldoController;
 use App\Http\Controllers\AdminProductController;
 use App\Http\Controllers\AdminSaldoController;
+use App\Http\Controllers\AdminUlasanController;
 use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\NotificationsController;
 use App\Http\Controllers\HomeController;
@@ -67,12 +68,11 @@ Route::prefix('admin')->name('admin.')->group(function () {
 
     // Route admin harus auth admin
     Route::middleware('auth:admin')->group(function () {
-        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard');
+        Route::get('dashboard', [DashboardController::class, 'index'])->name('dashboard.index');
         Route::resource('about', AboutController::class);
         Route::resource('teams', TeamsController::class);
         Route::resource('faq', FaqController::class);
         Route::resource('notifications', NotificationsController::class);
-        // Kelola seller
         Route::get('sellers', [SellerController::class, 'index'])->name('sellers.index');
         Route::get('sellers/filter', [SellerController::class, 'filter'])->name('sellers.filter');
         Route::post('sellers/{id}/verify', [SellerController::class, 'verify'])->name('sellers.verify');
@@ -86,15 +86,14 @@ Route::prefix('admin')->name('admin.')->group(function () {
         Route::get('saldo-seller', [AdminSaldoController::class, 'index'])->name('saldo.index');
         Route::post('saldo-seller/setujui/{id}', [AdminSaldoController::class, 'approve'])->name('saldo.approve');
         Route::post('saldo-seller/tolak/{id}', [AdminSaldoController::class, 'reject'])->name('saldo.reject');
-
-        // Kelola kategori
+        Route::get('/ulasan', [AdminUlasanController::class, 'index'])->name('ulasan.index');
+        Route::delete('/ulasan/{id}', [AdminUlasanController::class, 'destroy'])->name('ulasan.destroy');
         Route::resource('kategori', KategoriController::class)->except(['show']);
-
-        // Kelola pengguna
         Route::get('users', [UserController::class, 'index'])->name('users.index');
         Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
         Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
         Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');
+        Route::get('/saldo/export-pdf', [AdminSaldoController::class, 'exportWithdrawalsPdf'])->name('saldo.exportPdf');
     });
 });
 

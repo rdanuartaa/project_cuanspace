@@ -6,8 +6,10 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card">
             <div class="card-body">
-                <h4 class="card-title">Manage Teams</h4>
-                <a href="{{ route('admin.teams.create') }}" class="btn btn-outline-primary mb-3">Add New Team</a>
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <h4 class="card-title">Kelola Teams</h4>
+                    <a href="{{ route('admin.teams.create') }}" class="btn btn-outline-success btn-sm">Tambah Team</a>
+                </div>
                 <div class="table-responsive">
                     <table class="table">
                         <thead>
@@ -34,12 +36,12 @@
                                     <td>{{ $team->role }}</td>
                                     <td>
                                         <a href="{{ route('admin.teams.edit', $team->id) }}"
-                                            class="btn btn-outline-dark btn-sm">Edit</a>
+                                            class="btn btn-outline-info btn-sm">Edit</a>
                                         <form action="{{ route('admin.teams.destroy', $team->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-outline-dark btn-sm">Delete</button>
+                                            <button type="submit" class="btn btn-outline-danger btn-sm">Hapus</button>
                                         </form>
                                     </td>
                                 </tr>

@@ -21,7 +21,7 @@
     <!-- inject:css -->
     <link rel="stylesheet" href="{{ asset('vendors_template/css/vertical-layout-light/style.css') }}">
     <!-- endinject -->
-    <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('img/logocuanspace.png') }}" />
 </head>
 <!-- partial:partials/_navbar.html -->
 <nav class="navbar default-layout col-lg-12 col-12 p-0 fixed-top d-flex align-items-top flex-row">
@@ -33,10 +33,10 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="#">
-                <img src="{{ asset('images/logo.svg') }}" alt="svg" />
+                <img src="{{ asset('images/sellerspace.svg') }}" alt="svg" />
             </a>
             <a class="navbar-brand brand-logo-mini" href="#">
-                <img src="{{ asset('images/logo-mini.svg') }}" alt="logo" />
+                <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" />
             </a>
         </div>
     </div>

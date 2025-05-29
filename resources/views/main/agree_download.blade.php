@@ -58,13 +58,12 @@
                     </h3>
                     <!-- Deskripsi Syarat & Ketentuan -->
                     <p>Anda harus membaca dan menyetujui syarat berikut sebelum dapat mendownload produk ini:</p>
-                    <ul>
+                    <ul class="product-desc">
                         <li>Produk hanya boleh digunakan untuk tujuan pribadi/non-komersial.</li>
                         <li>Tidak diperbolehkan menyebarluaskan file tanpa izin dari penjual.</li>
                         <li>Penjual tidak bertanggung jawab atas kerusakan atau kesalahan dalam produk.</li>
-                        <li>Batas maksimum download adalah 3x per pembelian.</li>
                     </ul>
-
+                    <p >Batas maksimum download adalah 3x per pembelian.</p>
                     <!-- Form Persetujuan -->
                     <form action="{{ route('main.download.accept', $product->id) }}" method="POST">
                         @csrf
