@@ -6,8 +6,10 @@
 
     <div class="card">
         <div class="card-body">
-            <h4 class="card-title mb-4">Kelola Saldo Seller</h4>
-
+            <div class="d-flex justify-content-between align-items-center mb-3">
+                <h4 class="card-title mb-4">Kelola Saldo Seller</h4>
+                <a href="{{ route('admin.saldo.exportPdf') }}" class="btn btn-outline-success btn-sm">Ekspor ke PDF</a>
+            </div>
             <!-- Ringkasan Saldo -->
             <div class="row g-3 mb-4">
                 <div class="col-md-12">
@@ -19,8 +21,6 @@
                     </div>
                 </div>
             </div>
-            <!-- Tabel Permintaan Penarikan -->
-            <!-- Tabel Permintaan Penarikan -->
             <h5 class="mt-4">Permintaan Penarikan Saldo</h5>
             <div class="table-responsive">
                 <table class="table">
@@ -45,11 +45,11 @@
                                 <td>{{ $withdraw->created_at->format('d M Y') }}</td>
                                 <td>
                                     @if ($withdraw->status === 'pending')
-                                        <span class="badge bg-warning text-dark">{{ ucfirst($withdraw->status) }}</span>
+                                        <span class="badge bg-warning text-white">{{ ucfirst($withdraw->status) }}</span>
                                     @elseif ($withdraw->status === 'disetujui')
-                                        <span class="badge bg-success">{{ ucfirst($withdraw->status) }}</span>
+                                        <span class="badge bg-success text-white">{{ ucfirst($withdraw->status) }}</span>
                                     @else
-                                        <span class="badge bg-danger">{{ ucfirst($withdraw->status) }}</span>
+                                        <span class="badge bg-danger text-white">{{ ucfirst($withdraw->status) }}</span>
                                     @endif
                                 </td>
                                 <td>
@@ -57,12 +57,12 @@
                                         <form action="{{ route('admin.saldo.approve', $withdraw->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
-                                            <button class="btn btn-success btn-sm">Setujui</button>
+                                            <button class="btn btn-outline-info btn-sm">Setujui</button>
                                         </form>
                                         <form action="{{ route('admin.saldo.reject', $withdraw->id) }}" method="POST"
                                             class="d-inline">
                                             @csrf
-                                            <button class="btn btn-danger btn-sm">Tolak</button>
+                                            <button class="btn btn-outline-danger btn-sm">Tolak</button>
                                         </form>
                                     @else
                                         <span class="text-muted">Sudah Diproses</span>

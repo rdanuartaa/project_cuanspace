@@ -15,8 +15,8 @@
     <link rel="stylesheet" href="{{ asset('vendors_template/vendors/datatables.net-bs4/dataTables.bootstrap4.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors_template/js/select.dataTables.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendors_template/css/vertical-layout-light/style.css') }}">
-    <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
-    <link rel="shortcut icon" href="{{ asset('vendors_template/images/favicon.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('img/logocuanspace.png') }}" />
+    <link rel="shortcut icon" href="{{ asset('img/logocuanspace.png') }}" />
     <style>
         /* Pastikan ini override semua kemungkinan class pembulatan */
         .thumbnail-img {
@@ -50,17 +50,18 @@
         </div>
         <div>
             <a class="navbar-brand brand-logo" href="index.html">
-                <img src="{{ asset('images/logo.svg') }}" alt="logo" />
+                <img src="{{ asset('images/adminspace.svg') }}" alt="logo" />
             </a>
             <a class="navbar-brand brand-logo-mini" href="index.html">
-                <img src="{{ asset('images/logo-mini.svg') }}" alt="logo" />
+                <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" />
             </a>
         </div>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-top">
         <ul class="navbar-nav">
             <li class="nav-item font-weight-semibold d-none d-lg-block ms-0">
-                <h1 class="welcome-text">Hallo, <span class="text-black fw-bold">{{ auth()->guard('admin')->user()->name }}</p></span></h1>
+                <h1 class="welcome-text">Hallo, <span
+                        class="text-black fw-bold">{{ auth()->guard('admin')->user()->name }}</p></span></h1>
                 <h3 class="welcome-sub-text">Ayo kembangkan platformmu dan raih cuan maksimal!</h3>
             </li>
         </ul>
@@ -75,25 +76,23 @@
             </li>
             <li class="nav-item dropdown d-none d-lg-block user-dropdown">
                 <a class="nav-link" id="UserDropdown" href="#" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img class="img-xs rounded-circle" src="{{ asset('vendors_template/images/faces/face8.jpg') }}"
-                        alt="Profile image"> </a>
+                    <i class="mdi mdi-account-circle-outline mdi-36px"></i>
+                </a>
                 <div class="dropdown-menu dropdown-menu-right navbar-dropdown" aria-labelledby="UserDropdown">
                     <div class="dropdown-header text-center">
-                        <img class="img-md rounded-circle" src="{{ asset('vendors_template/images/faces/face8.jpg') }}"
-                            alt="Profile image">
+                        <!-- Ganti img dengan ikon -->
+                        <i class="mdi mdi-account-circle-outline mdi-36px"></i>
+
                         @if (auth()->guard('admin')->check())
-                            <p class="mb-1 mt-3 font-weight-semibold">{{ auth()->guard('admin')->user()->name }}</p>
+                            <p class="mb-1 mt-2 font-weight-semibold">{{ auth()->guard('admin')->user()->name }}</p>
                             <p class="fw-light text-muted mb-0">{{ auth()->guard('admin')->user()->email }}</p>
                         @else
-                            <p class="text-danger">Belum login sebagai admin</p>
+                            <p class="fw-light text-danger">Belum login sebagai admin</p>
                         @endif
                     </div>
-                    <a class="dropdown-item"><i
-                            class="dropdown-item-icon mdi mdi-account-outline text-primary me-2"></i> My Profile <span
-                            class="badge badge-pill badge-danger"></span></a>
-                    <form method="POST" action="{{ route('logout') }}">
+                    <form method="POST" action="{{ route('logout') }}" class="m-0 p-0">
                         @csrf
-                        <button type="submit" class="dropdown-item">
+                        <button type="submit" class="dropdown-item w-100 text-start">
                             <i class="dropdown-item-icon mdi mdi-power text-primary me-2"></i>Keluar
                         </button>
                     </form>
@@ -110,7 +109,7 @@
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
         <ul class="nav">
             <li class="nav-item">
-                <a class="nav-link" href="{{ route('admin.dashboard') }}">
+                <a class="nav-link" href="{{ route('admin.dashboard.index') }}">
                     <i class="mdi mdi-grid-large menu-icon"></i>
                     <span class="menu-title">Dashboard</span>
                 </a>
@@ -152,7 +151,7 @@
                 </a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="{{ route('admin.ulasan.index') }}">
                     <i class="menu-icon mdi mdi-star"></i>
                     <span class="menu-title">Kelola Ulasan</span>
                 </a>
@@ -220,4 +219,5 @@
 <script src="{{ asset('/vendors_template/js/Chart.roundedBarCharts.js') }}"></script>
 <!-- End custom js for this page-->
 </body>
+
 </html>

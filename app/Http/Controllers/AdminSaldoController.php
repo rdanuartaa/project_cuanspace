@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Withdraw;
 use App\Models\Seller;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class AdminSaldoController extends Controller
 {
@@ -50,6 +51,19 @@ class AdminSaldoController extends Controller
         $withdraw->save();
 
         return back()->with('success', 'Penarikan ditolak dan saldo dikembalikan.');
+    }
+
+    public function exportWithdrawalsPdf()
+    {
+        // Ambil semua penarikan seller
+        $withdrawals = Withdraw::with('seller')->where('status', 'disetujui')->get();
+
+        $totalWithdrawn = $withdrawals->sum('amount');
+
+        // Load view PDF dari folder exports
+        $pdf = Pdf::loadView('exports.laporan_penarikan_pdf', compact('withdrawals', 'totalWithdrawn'));
+
+        return $pdf->download('laporan_penarikan_seller.pdf');
     }
 }
 

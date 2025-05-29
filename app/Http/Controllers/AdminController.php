@@ -83,6 +83,6 @@ class AdminController extends Controller
     $admin = Auth::guard('admin')->user(); // atau Auth::user('admin')
 
     // Kirim ke view
-    return view('admin.dashboard', compact('sellers', 'topSellers', 'admin'));
+    return view('admin.dashboard.index', compact('sellers', 'topSellers', 'admin'));
 }
 }

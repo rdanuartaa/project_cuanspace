@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card shadow-lg">
+    <div class="card">
         <div class="card-body">
             <div class="d-flex justify-content-between align-items-center mb-4">
                 <h4 class="card-title text-dark font-weight-bold">Kelola Pengguna</h4>

@@ -11,11 +11,11 @@
                 <h4 class="card-title">Seller Management</h4>
 
                 <!-- Filter Status -->
-                <div class="mb-3">
-                    <div>
+                <div class="row mb-4">
+                    <div class="col-md-3">
                         <label for="status" class="form-label">Filter Status</label>
                         <select name="status" id="status" class="form-select">
-                            <option value="">All</option>
+                            <option value="">Semua Status</option>
                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>
                             <option value="active" {{ request('status') == 'active' ? 'selected' : '' }}>Active</option>
                             <option value="inactive" {{ request('status') == 'inactive' ? 'selected' : '' }}>Inactive
@@ -23,7 +23,6 @@
                         </select>
                     </div>
                 </div>
-
                 <!-- Tabel Seller -->
                 <div class="table-responsive">
                     <table class="table" id="seller-table">
@@ -46,10 +45,10 @@
                                         <span
                                             class="badge
                                         {{ $seller->status == 'pending'
-                                            ? 'badge-opacity-warning'
+                                            ? 'bg-warning'
                                             : ($seller->status == 'active'
-                                                ? 'badge-opacity-success'
-                                                : 'badge-opacity-danger') }}">
+                                                ? 'bg-success'
+                                                : 'bg-danger') }}">
                                             {{ ucfirst($seller->status) }}
                                         </span>
                                     </td>

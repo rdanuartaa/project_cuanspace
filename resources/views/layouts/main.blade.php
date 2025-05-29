@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,7 +9,7 @@
     <link rel="stylesheet" href="{{ asset('css/slick.css') }}">
     <link rel="stylesheet" href="{{ asset('css/slick-theme.css') }}">
     <link rel="stylesheet" href="{{ asset('css/owl.carousel.min.css') }}">
-    <link rel="shortcut icon" href="{{ asset('img/favicon.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('img/logocuanspace.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('css/owl.theme.default.min.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap-slider.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}">
@@ -18,11 +19,13 @@
     <!-- Styles khusus dari child view -->
     @yield('styles')
 </head>
+
 <body>
     <header id="header" class="header-v1">
         <div class="sticky-header text-center hidden-xs hidden-sm">
             <div class="text">
-                <a class="show-login js-showlogin" href="{{ route('seller.register') }}">Seller Space</a> yuk gabung dan jual produk digitalmu
+                <a class="show-login js-showlogin" href="{{ route('seller.register') }}">Seller Space</a> yuk gabung dan
+                jual produk digitalmu
             </div>
         </div>
         <div class="topbar">
@@ -32,7 +35,8 @@
                         <div class="topbar-account">
                             @auth
                                 <li class="level1 active dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <i class="icon-user f-15"></i>
                                     </a>
                                     <span class="plus js-plus-icon"></span>
@@ -41,22 +45,27 @@
                                             <a href="{{ route('profile.edit') }}" title="Edit Profil">Edit Profil</a>
                                         </li>
                                         <li class="level2">
-                                            <a href="{{ route('main.order.history') }}" title="Order History">Order History</a>
+                                            <a href="{{ route('main.order.history') }}" title="Order History">Order
+                                                History</a>
                                         </li>
                                         <li class="level2">
-                                            <a href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();" class="lost-password">
+                                            <a href="#"
+                                                onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                                class="lost-password">
                                                 Keluar
                                             </a>
                                         </li>
                                     </ul>
-                                    <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    <form id="logout-form" action="{{ route('logout') }}" method="POST"
+                                        style="display: none;">
                                         @csrf
                                     </form>
                                 </li>
                             @endauth
                             @guest
                                 <li class="level1 active dropdown">
-                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         <i class="icon-user f-15"></i>
                                     </a>
                                     <span class="plus js-plus-icon"></span>
@@ -72,13 +81,13 @@
                 </div>
                 <div class="logo hidden-xs hidden-sm">
                     <a href="{{ url('/') }}" title="home-logo">
-                        <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" class="img-reponsive">
+                        <img src="{{ asset('img/cuanspace.png') }}" alt="logo" class="img-reponsive">
                     </a>
                 </div>
                 <div class="topbar-right">
                     <div class="topbar-option">
-                         <div class="topbar-currency dropdown">
-                              <span>IDR</span>
+                        <div class="topbar-currency dropdown">
+                            <span>IDR</span>
                         </div>
                     </div>
                 </div>
@@ -93,7 +102,8 @@
                                 <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" class="img-reponsive">
                             </a>
                         </div>
-                        <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse" data-target="#myNavbar">
+                        <button type="button" class="navbar-toggle icon-mobile" data-toggle="collapse"
+                            data-target="#myNavbar">
                             <span class="icon-menu"></span>
                         </button>
                         <nav class="navbar main-menu">
@@ -116,8 +126,10 @@
                                             <a href="#">Masuk</a>
                                             <span class="plus js-plus-icon"></span>
                                             <ul class="dropdown-menu menu-level-1">
-                                                <li class="level2"><a href="{{ route('login') }}" title="Login">Login</a></li>
-                                                <li class="level2"><a href="{{ route('register') }}" title="Register">Register</a></li>
+                                                <li class="level2"><a href="{{ route('login') }}"
+                                                        title="Login">Login</a></li>
+                                                <li class="level2"><a href="{{ route('register') }}"
+                                                        title="Register">Register</a></li>
                                             </ul>
                                         </li>
                                     @endguest
@@ -126,7 +138,8 @@
                                             <a href="#">Gabung</a>
                                             <span class="plus js-plus-icon"></span>
                                             <ul class="dropdown-menu menu-level-1">
-                                                <li class="level2"><a href="{{ route('seller.register') }}" title="Seller Register">Gabung sebagai Seller</a></li>
+                                                <li class="level2"><a href="{{ route('seller.register') }}"
+                                                        title="Seller Register">Gabung sebagai Seller</a></li>
                                             </ul>
                                         </li>
                                     @endauth
@@ -169,40 +182,28 @@
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                     <div class="menu-footer">
                         <ul>
-                            <li><a href="#">Shipping</a></li>
-                            <li><a href="#">Terms & Conditions</a></li>
-                            <li><a href="#">Privacy Policy</a></li>
+                            <li><a href="{{ route('faq') }}">FAQ</a></li>
+                            <li><a href="{{ route('about') }}">Tentang Cuan Space</a></li>
+                            <li><a href="{{ route('teams') }}">Tim Pengembang</a></li>
                         </ul>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-6 col-lg-4">
                     <div class="newletter-form">
-                        <h3 class="footer-title text-center">Newsletter</h3>
-                        <form action="#">
-                            <input type="text" name="s" placeholder="Email Adress..." class="form-control">
-                            <button type="submit" class="btn btn-submit">
-                                <i class="fa fa-angle-right"></i>
-                            </button>
-                        </form>
+                        <h3 class="footer-title text-center">Dikembangkan untuk Berkembang</h3>
+                        <div class="text-center mt-4">
+                            <hr style="max-width: 300px; ">
+                            <p class="mt-3 mb-0">&copy; 2025 <strong>Cuan Space</strong>. All Rights Reserved.</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-4">
-                    <div class="social">
-                        <a href="#" title="twitter">
-                            <i class="fa fa-twitter"></i>
-                        </a>
-                        <a href="#" title="facebook">
-                            <i class="fa fa-facebook"></i>
-                        </a>
-                        <a href="#" title="google plus">
-                            <i class="fa fa-google-plus"></i>
-                        </a>
-                        <a href="#" title="Pinterest">
-                            <i class="fa fa-pinterest-p"></i>
-                        </a>
-                        <a href="#" title="rss">
-                            <i class="fa fa-rss"></i>
-                        </a>
+                    <div class="menu-footer text-end" style="text-align: right;">
+                        <ul>
+                            <li><a href="https://www.instagram.com/namoyteam">Namoy Team</a></li>
+                            <li><a href="https://laravel.com/">Laravel Framework</a></li>
+                            <li><a href="https://docs.midtrans.com/">Midtrans</a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -236,4 +237,5 @@
     <!-- Scripts khusus dari child view -->
     @yield('scripts')
 </body>
+
 </html>
