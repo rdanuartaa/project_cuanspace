@@ -11,19 +11,18 @@ class APISellerController extends Controller
     public function show($id)
     {
         try {
-            $seller = Seller::where('user_id', $id)->first();
-
+            $seller = Seller::find($id); // Gunakan id seller
             if (!$seller) {
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Seller tidak ditemukan.',
                 ], 404);
             }
-
             return response()->json([
                 'status' => 'success',
                 'data' => [
                     'id' => $seller->id,
+                    'user_id' => $seller->user_id, // Tambahkan user_id
                     'brand_name' => $seller->brand_name,
                     'description' => $seller->description,
                     'address' => $seller->address ?? '',

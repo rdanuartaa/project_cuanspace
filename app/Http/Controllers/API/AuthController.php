@@ -20,15 +20,13 @@ class AuthController extends Controller
             'password' => 'required|string|min:8|confirmed',
         ]);
 
-        // Membuat user baru
         $user = User::create([
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
         ]);
 
-        // Membuat token dengan kemampuan (abilities) opsional dan waktu kedaluwarsa (opsional)
-        $token = $user->createToken('auth_token', ['*'])->plainTextToken;
+        $token = $user->createToken('auth_token', ['*'], now()->addDays(7))->plainTextToken;
 
         return response()->json([
             'status' => 'success',
@@ -39,54 +37,54 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
-        $credentials = $request->validate([
+        $request->validate([
             'email' => 'required|email',
             'password' => 'required',
         ]);
-
-        if (!Auth::attempt($credentials)) {
+        try {
+            $user = User::where('email', $request->email)->first();
+            if (!$user || !Hash::check($request->password, $user->password)) {
+                Log::warning("Login failed for email: {$request->email}, invalid credentials");
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Kredensial tidak valid.',
+                ], 401);
+            }
+            $user->tokens()->delete();
+            $token = $user->createToken('auth_token', ['*'], now()->addDays(7))->plainTextToken;
+            Log::info("Login berhasil untuk user_id: {$user->id}, token: $token");
+            $seller = Seller::where('user_id', $user->id)->first();
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Successfully logged in',
+                'data' => [
+                    'user' => [
+                        'id' => $user->id,
+                        'name' => $user->name,
+                        'email' => $user->email,
+                        'role' => $user->role,
+                    ],
+                    'token' => $token,
+                    'token_type' => 'Bearer',
+                ],
+                'is_seller' => !!$seller,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error("Login error: " . $e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'message' => 'The provided credentials are incorrect'
-            ], 401);
+                'message' => 'Terjadi kesalahan saat login: ' . $e->getMessage(),
+            ], 500);
         }
-
-        $user = Auth::user();
-        $user->tokens()->delete();
-        $token = $user->createToken('auth_token', ['*'])->plainTextToken;
-        $isSeller = Seller::where('user_id', $user->id)->where('status', 'active')->exists();
-
-        Log::info('Login response: ' . json_encode([
-            'user' => $user,
-            'is_seller' => $isSeller,
-            'token' => $token
-        ]));
-
-        return response()->json([
-            'status' => 'success',
-            'message' => 'Successfully logged in',
-            'data' => [
-                'user' => [
-                    'id' => $user->id,
-                    'name' => $user->name,
-                    'email' => $user->email,
-                    'role' => $user->role ?? 'user', // Ensure role is included
-                ],
-                'token' => $token,
-                'token_type' => 'Bearer'
-            ],
-            'is_seller' => $isSeller
-        ], 200);
     }
 
     public function logout(Request $request)
     {
-        // Mendapatkan pengguna yang sedang login
         $user = Auth::user();
-
-        // Menghapus semua token Sanctum pengguna
-        $user->tokens()->delete();
-
+        if ($user) {
+            $user->tokens()->delete();
+            Log::info("Logout berhasil untuk user_id: {$user->id}");
+        }
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged out',

@@ -13,6 +13,9 @@ use App\Http\Controllers\API\APIReviewController;
 use App\Http\Controllers\API\ChatController;
 use App\Http\Controllers\API\APISellerController;
 use App\Http\Controllers\API\FaqController;
+use App\Http\Controllers\API\TransactionController;
+
+
 // Route tanpa autentikasi
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
@@ -31,6 +34,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('products', [ProductController::class, 'store']);
     Route::get('/faqs', [FaqController::class, 'index']);
     Route::get('/products/{id}/reviews', [APIReviewController::class, 'getReviews']);
+    Route::post('/transactions', [TransactionController::class, 'create']);
+    Route::get('/transactions/{transactionCode}/download', [TransactionController::class, 'download']);
 
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);

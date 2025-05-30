@@ -64,7 +64,7 @@ class HomeController extends Controller
 }
     public function trending(Request $request)
 {
-    $sortBy = $request->query('sort_by', 'views'); // Default to 'views'
+    $sortBy = $request->query('sort_by', 'views');
     $limit = $request->query('limit', 10); // Default limit to 10
     $user = $request->user(); // Pengguna yang sedang login
 
