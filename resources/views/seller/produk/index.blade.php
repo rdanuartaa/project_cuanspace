@@ -1,3 +1,4 @@
+{{-- resources/views/seller/produk/index.blade.php --}}
 @extends('layouts.seller')
 @section('title', 'Produk Saya')
 @section('content')
@@ -21,7 +22,7 @@
                     </div>
                     <!-- Modal Alasan Penghapusan -->
                     <div class="modal fade" id="deletionReasonModal" tabindex="-1">
-                        <div class="modal-dialog">
+                        <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
                                 <div class="modal-header bg-danger text-white">
                                     <h5 class="modal-title">Alasan Penghapusan Produk</h5>
@@ -130,7 +131,7 @@
                                                     <!-- Modal Alasan Penghapusan -->
                                                     <div class="modal fade" id="deletionReasonModal{{ $product->id }}"
                                                         tabindex="-1">
-                                                        <div class="modal-dialog">
+                                                        <div class="modal-dialog modal-dialog-centered">
                                                             <div class="modal-content">
                                                                 <div class="modal-header bg-danger text-white">
                                                                     <h5 class="modal-title">Alasan Penghapusan Produk</h5>
@@ -195,6 +196,40 @@
                                                         data-bs-target="#deleteModal{{ $product->id }}">
                                                         Hapus
                                                     </button>
+
+                                                    <!-- Modal Konfirmasi Hapus -->
+                                                    <div class="modal fade" id="deleteModal{{ $product->id }}"
+                                                        tabindex="-1" aria-labelledby="deleteModalLabel{{ $product->id }}"
+                                                        aria-hidden="true">
+                                                        <div class="modal-dialog modal-dialog-centered modal-md">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header bg-danger text-white">
+                                                                    <h5 class="modal-title"
+                                                                        id="deleteModalLabel{{ $product->id }}">Konfirmasi
+                                                                        Penghapusan</h5>
+                                                                    <button type="button" class="btn-close btn-close-white"
+                                                                        data-bs-dismiss="modal" aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                    <p class="text-wrap">Apakah Anda yakin ingin menghapus produk
+                                                                        <strong>{{ $product->name }}</strong>? Tindakan ini
+                                                                        tidak dapat dibatalkan.</p>
+                                                                </div>
+                                                                <div class="modal-footer">
+                                                                    <button type="button" class="btn btn-secondary"
+                                                                        data-bs-dismiss="modal">Batal</button>
+                                                                    <form
+                                                                        action="{{ route('seller.produk.destroy', $product->id) }}"
+                                                                        method="POST" style="display:inline;">
+                                                                        @csrf
+                                                                        @method('DELETE')
+                                                                        <button type="submit"
+                                                                            class="btn btn-danger">Hapus</button>
+                                                                    </form>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 @endif
                                             </td>
                                         </tr>
@@ -254,6 +289,29 @@
         .modal .modal-header.bg-danger {
             background-color: #dc3545 !important;
         }
+
+        /* Perbaikan untuk teks di modal agar tidak melebihi box */
+        .modal-body p.text-wrap {
+            word-wrap: break-word; /* Membungkus teks agar tidak melebihi batas */
+            white-space: normal; /* Memastikan teks tidak berada dalam satu baris */
+            overflow-wrap: break-word; /* Membungkus teks panjang */
+        }
+
+        /* Menyesuaikan lebar modal untuk kenyamanan */
+        .modal-dialog.modal-md {
+            max-width: 600px; /* Lebar modal sedikit lebih besar */
+        }
+
+        /* Menghapus scroll pada modal */
+        .modal-content {
+            overflow: hidden; /* Menghapus scroll */
+        }
+
+        .modal-body {
+            max-height: none; /* Menghapus batasan tinggi yang menyebabkan scroll */
+            overflow-y: hidden; /* Menghapus scroll vertikal */
+            padding: 1rem; /* Memberikan padding yang cukup */
+        }
     </style>
 @endpush
 @push('scripts')
@@ -307,6 +365,14 @@
             @php
                 session()->forget('seller_product_deleted');
             @endphp
+
+            // Notifikasi setelah penghapusan
+            @if (session('success'))
+                alert('{{ session('success') }}');
+            @endif
+            @if (session('error'))
+                alert('{{ session('error') }}');
+            @endif
         });
     </script>
 @endpush
