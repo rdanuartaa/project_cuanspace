@@ -13,7 +13,10 @@ use App\Http\Controllers\API\ExploreController;  // ExploreController di namespa
 // Controller Api (namespace Api dengan huruf kecil 'p')
 use App\Http\Controllers\Api\KategoriController;
 use App\Http\Controllers\Api\ProductController;
-use App\Http\Controllers\Api\ExploreController as ApiExploreController; // untuk eksplor kategori
+use App\Http\Controllers\API\NotificationController;
+use App\Http\Controllers\API\ChatController;
+use App\Http\Controllers\API\APISellerController;
+use App\Http\Controllers\API\FaqController;
 
 // Route tanpa autentikasi
 Route::post('/register', [AuthController::class, 'register']);
@@ -38,4 +41,17 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('kategoris', [KategoriController::class, 'index']);
     Route::get('products', [ProductController::class, 'index']);
     Route::post('products', [ProductController::class, 'store']);
+    Route::get('/faqs', [FaqController::class, 'index']);
+
+
+    // Rute untuk notifikasi
+    Route::get('/notifications', [NotificationController::class, 'index']);
+    Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
+    Route::post('/notifications', [NotificationController::class, 'store']);
+
+    // Rute untuk chat
+    Route::post('/chats/start', [ChatController::class, 'startChat']); // Rute baru untuk memulai percakapan
+    Route::get('/chats', [ChatController::class, 'index']);
+    Route::get('/chats/{id}/messages', [ChatController::class, 'messages']);
+    Route::post('/chats/{id}/messages', [ChatController::class, 'sendMessage']);
 });
