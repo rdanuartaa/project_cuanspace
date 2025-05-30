@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\Seller;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
 
@@ -42,7 +44,6 @@ class AuthController extends Controller
             'password' => 'required',
         ]);
 
-        // Mencoba melakukan autentikasi menggunakan kredensial
         if (!Auth::attempt($credentials)) {
             return response()->json([
                 'status' => 'error',
@@ -51,21 +52,30 @@ class AuthController extends Controller
         }
 
         $user = Auth::user();
-
-        // Hapus semua token lama
         $user->tokens()->delete();
-
-        // Membuat token baru dengan kemampuan dan waktu kedaluwarsa (opsional)
         $token = $user->createToken('auth_token', ['*'])->plainTextToken;
+        $isSeller = Seller::where('user_id', $user->id)->where('status', 'active')->exists();
+
+        Log::info('Login response: ' . json_encode([
+            'user' => $user,
+            'is_seller' => $isSeller,
+            'token' => $token
+        ]));
 
         return response()->json([
             'status' => 'success',
             'message' => 'Successfully logged in',
             'data' => [
-                'user' => $user,
+                'user' => [
+                    'id' => $user->id,
+                    'name' => $user->name,
+                    'email' => $user->email,
+                    'role' => $user->role ?? 'user', // Ensure role is included
+                ],
                 'token' => $token,
                 'token_type' => 'Bearer'
-            ]
+            ],
+            'is_seller' => $isSeller
         ], 200);
     }
 

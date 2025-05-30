@@ -3,6 +3,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Log;
 
 class Product extends Model
 {
@@ -44,15 +45,17 @@ class Product extends Model
 
     // Accessor untuk URL thumbnail dengan fallback ke placeholder
     public function getThumbnailUrlAttribute()
-    {
-        // Cek apakah thumbnail ada dan file exists
-        if ($this->thumbnail && Storage::disk('public')->exists('thumbnails/' . $this->thumbnail)) {
-            return asset('storage/thumbnails/' . $this->thumbnail);
-        }
+{
+    $path = $this->thumbnail ? 'thumbnails/' . $this->thumbnail : null;
 
-        // Fallback ke placeholder online
-        return "https://via.placeholder.com/300x200/e9ecef/6c757d?text=" . urlencode('Product Image');
+    if ($path && Storage::disk('public')->exists($path)) {
+        Log::info('Thumbnail ditemukan', ['path' => $path]);
+        return asset('storage/' . $path);
     }
+
+    Log::warning('Thumbnail tidak ditemukan', ['path' => $path]);
+    return "https://via.placeholder.com/300x200/e9ecef/6c757d?text=" . urlencode('Product Image');
+}
 
     // Accessor untuk URL digital file
     public function getDigitalFileUrlAttribute()

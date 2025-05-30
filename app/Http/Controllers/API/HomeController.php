@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\About;
 use App\Models\Product;
+use App\Models\Seller;
 
 class HomeController extends Controller
 {
@@ -19,8 +20,8 @@ class HomeController extends Controller
     public function index(Request $request)
     {
         $users = User::where('id', '!=', $request->user()->id)
-                     ->select('id', 'name', 'email')
-                     ->get();
+            ->select('id', 'name', 'email')
+            ->get();
 
         return response()->json([
             'status' => 'success',
@@ -36,24 +37,64 @@ class HomeController extends Controller
     }
 
     // Fetch trending products
-    public function trending(Request $request)
-    {
-        $sortBy = $request->query('sort_by', 'views'); // Default to 'views'
-        $limit = $request->query('limit', 10); // Default limit to 10
 
-        $query = Product::select('id', 'name', 'image', 'view_count', 'purchase_count');
+    public function products(Request $request)
+{
+    $user = $request->user(); // Pengguna yang sedang login
 
-        if ($sortBy === 'purchases') {
-            $query->orderBy('purchase_count', 'desc');
-        } else {
-            $query->orderBy('view_count', 'desc');
+    $query = Product::select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status', 'view_count', 'purchase_count')
+                    ->where('status', 'published') // Hanya produk yang published
+                    ->withActiveSeller() // Hanya produk dari seller aktif
+                    ->with('kategori'); // Sertakan relasi kategori
+
+    // Jika pengguna adalah seller, jangan tampilkan produk mereka sendiri
+    if ($user->role === 'seller') {
+        $seller = Seller::where('user_id', $user->id)->first();
+        if ($seller) {
+            $query->where('seller_id', '!=', $seller->id);
         }
-
-        $products = $query->take($limit)->get();
-
-        return response()->json([
-            'status' => 'success',
-            'data' => $products,
-        ]);
     }
+
+    $products = $query->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $products,
+    ]);
+}
+    public function trending(Request $request)
+{
+    $sortBy = $request->query('sort_by', 'views'); // Default to 'views'
+    $limit = $request->query('limit', 10); // Default limit to 10
+    $user = $request->user(); // Pengguna yang sedang login
+
+    $query = Product::select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status', 'view_count', 'purchase_count')
+                    ->where('status', 'published') // Hanya produk yang published
+                    ->withActiveSeller() // Hanya produk dari seller aktif
+                    ->with('kategori'); // Sertakan relasi kategori
+
+    // Jika pengguna adalah seller, jangan tampilkan produk mereka sendiri
+    if ($user->role === 'seller') {
+        $seller = Seller::where('user_id', $user->id)->first();
+        if ($seller) {
+            $query->where('seller_id', '!=', $seller->id);
+        }
+    }
+
+    // Urutkan berdasarkan parameter sortBy
+    if ($sortBy === 'purchases') {
+        $query->orderBy('purchase_count', 'desc');
+    } else {
+        $query->orderBy('view_count', 'desc');
+    }
+
+    $products = $query->take($limit)->get();
+
+    return response()->json([
+        'status' => 'success',
+        'data' => $products,
+
+
+    ]);
+}
 }
