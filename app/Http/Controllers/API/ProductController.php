@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
@@ -13,7 +14,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'seller_id' => 'required|exists:users,id',
+            'seller_id' => 'required|exists:sellers,id', // Validasi ke sellers
             'kategori_id' => 'required|exists:kategoris,id',
             'name' => 'required|string|max:100',
             'description' => 'required|string',
@@ -22,30 +23,23 @@ class ProductController extends Controller
             'digital_file' => 'required|file|mimes:pdf,zip,doc,docx|max:10240',
             'status' => 'required|in:draft,published,archived',
         ]);
-
         try {
-            // Simpan thumbnail di thumbnails/
             $thumbnailPath = $request->file('thumbnail')->store('thumbnails', 'public');
-            // Simpan digital file di files/
             $digitalFilePath = $request->file('digital_file')->store('files', 'public');
-
             Log::info('File disimpan', [
                 'thumbnail' => $thumbnailPath,
                 'digital_file' => $digitalFilePath
             ]);
-
-            // Buat produk
             $product = Product::create([
                 'seller_id' => $request->seller_id,
                 'kategori_id' => $request->kategori_id,
                 'name' => $request->name,
                 'description' => $request->description,
                 'price' => $request->price,
-                'thumbnail' => basename($thumbnailPath), // Simpan nama file tanpa path
+                'thumbnail' => basename($thumbnailPath),
                 'digital_file' => $digitalFilePath,
                 'status' => $request->status,
             ]);
-
             return response()->json([
                 'success' => true,
                 'message' => 'Produk berhasil dibuat.',
@@ -61,40 +55,40 @@ class ProductController extends Controller
     }
 
     public function index()
-{
-    try {
-        $user = Auth::user();
-        if (!$user) {
+    {
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Pengguna tidak terautentikasi.',
+                ], 401);
+            }
+
+            $query = Product::where('status', 'published')
+                ->select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status')
+                ->with('kategori:id,nama_kategori');
+
+            // Filter produk agar tidak menampilkan produk milik seller yang login
+            if ($user->role === 'seller') {
+                $seller = Seller::where('user_id', $user->id)->first();
+                if ($seller) {
+                    $query->where('seller_id', '!=', $seller->id);
+                }
+            }
+
+            $products = $query->get();
+
+            return response()->json([
+                'success' => true,
+                'data' => $products,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error("Kesalahan saat mengambil produk: " . $e->getMessage());
             return response()->json([
                 'status' => 'error',
-                'message' => 'Pengguna tidak terautentikasi.',
-            ], 401);
+                'message' => 'Terjadi kesalahan saat mengambil produk: ' . $e->getMessage(),
+            ], 500);
         }
-
-        $query = Product::where('status', 'published')
-            ->select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status')
-            ->with('kategori:id,nama_kategori');
-
-        // Filter produk agar tidak menampilkan produk milik seller yang login
-        if ($user->role === 'seller') {
-            $seller = Seller::where('user_id', $user->id)->first();
-            if ($seller) {
-                $query->where('seller_id', '!=', $seller->id);
-            }
-        }
-
-        $products = $query->get();
-
-        return response()->json([
-            'success' => true,
-            'data' => $products,
-        ], 200);
-    } catch (\Exception $e) {
-        Log::error("Kesalahan saat mengambil produk: " . $e->getMessage());
-        return response()->json([
-            'status' => 'error',
-            'message' => 'Terjadi kesalahan saat mengambil produk: ' . $e->getMessage(),
-        ], 500);
     }
-}
 }

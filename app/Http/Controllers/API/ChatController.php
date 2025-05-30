@@ -20,52 +20,48 @@ class ChatController extends Controller
         try {
             $user = Auth::user();
             if (!$user) {
+                Log::warning('Unauthenticated user attempted to start chat');
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Pengguna tidak terautentikasi.',
                 ], 401);
             }
-
             $validator = Validator::make($request->all(), [
-                'seller_id' => 'required|exists:users,id',
+                'seller_id' => 'required|exists:sellers,id',
             ]);
-
             if ($validator->fails()) {
+                Log::warning('Validation failed: ' . $validator->errors()->first());
                 return response()->json([
                     'status' => 'error',
                     'message' => $validator->errors()->first(),
                 ], 422);
             }
-
             $sellerId = $request->input('seller_id');
             Log::info("Mencoba memulai percakapan dengan seller_id: $sellerId");
-
-            $seller = Seller::where('user_id', $sellerId)->first();
+            $seller = Seller::find($sellerId);
             if (!$seller) {
-                Log::warning("Tidak ada penjual ditemukan untuk user_id: $sellerId");
+                Log::warning("Tidak ada penjual ditemukan untuk seller_id: $sellerId");
                 return response()->json([
                     'status' => 'error',
-                    'message' => 'Pengguna yang dipilih bukan penjual.',
+                    'message' => 'Penjual tidak ditemukan.',
                 ], 404);
             }
-
             $chat = Chat::where('user_id', $user->id)
-                ->where('seller_id', $sellerId)
+                ->where('seller_id', $seller->user_id)
                 ->first();
-
             if (!$chat) {
                 $chat = Chat::create([
                     'user_id' => $user->id,
-                    'seller_id' => $sellerId,
+                    'seller_id' => $seller->user_id,
                 ]);
+                Log::info("Chat created: chat_id={$chat->id}, user_id={$user->id}, seller_user_id={$seller->user_id}");
             }
-
             return response()->json([
                 'status' => 'success',
                 'message' => 'Percakapan berhasil dimulai.',
                 'data' => [
                     'chat_id' => $chat->id,
-                    'seller_id' => $chat->seller_id,
+                    'seller_id' => $seller->id,
                     'seller_name' => $seller->brand_name ?? 'Penjual Tidak Diketahui',
                 ],
             ], 201);
@@ -130,27 +126,33 @@ class ChatController extends Controller
     {
         try {
             $user = Auth::user();
+            if (!$user) {
+                Log::warning('Unauthenticated user attempted to fetch messages for chat_id: ' . $id);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Pengguna tidak terautentikasi.',
+                ], 401);
+            }
             $chat = Chat::find($id);
-
             if (!$chat) {
+                Log::warning("Chat tidak ditemukan untuk chat_id: $id");
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Percakapan tidak ditemukan.',
                 ], 404);
             }
-
-            if ($chat->user_id !== $user->id && $chat->seller_id !== $user->id) {
+            $seller = Seller::where('user_id', $chat->seller_id)->first();
+            if (!$seller || ($chat->user_id !== $user->id && $chat->seller_id !== $user->id)) {
+                Log::warning("Akses ditolak untuk chat_id: $id, user_id: {$user->id}, seller_id: {$chat->seller_id}");
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Akses ditolak.',
                 ], 403);
             }
-
             $messages = Message::where('chat_id', $id)
                 ->select('id', 'sender_id', 'content', 'created_at')
                 ->orderBy('created_at', 'asc')
                 ->get();
-
             return response()->json([
                 'status' => 'success',
                 'data' => $messages->map(function ($message) {
@@ -174,28 +176,38 @@ class ChatController extends Controller
     public function sendMessage(Request $request, $id)
     {
         try {
-            $validator = Validator::make($request->all(), [
-                'content' => 'required|string',
-            ]);
+            $user = Auth::user();
+            if (!$user) {
+                Log::warning('Unauthenticated user attempted to send message for chat_id: ' . $id);
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Pengguna tidak terautentikasi.',
+                ], 401);
+            }
 
+            $validator = Validator::make($request->all(), [
+                'content' => 'required|string|max:1000',
+            ]);
             if ($validator->fails()) {
+                Log::warning('Validation failed: ' . $validator->errors()->first());
                 return response()->json([
                     'status' => 'error',
                     'message' => $validator->errors()->first(),
                 ], 422);
             }
 
-            $user = Auth::user();
             $chat = Chat::find($id);
-
             if (!$chat) {
+                Log::warning("Chat tidak ditemukan untuk chat_id: $id");
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Percakapan tidak ditemukan.',
                 ], 404);
             }
 
-            if ($chat->user_id !== $user->id && $chat->seller_id !== $user->id) {
+            $seller = Seller::where('user_id', $chat->seller_id)->first();
+            if (!$seller || ($chat->user_id !== $user->id && $chat->seller_id !== $user->id)) {
+                Log::warning("Akses ditolak untuk chat_id: $id, user_id: {$user->id}, seller_id: {$chat->seller_id}");
                 return response()->json([
                     'status' => 'error',
                     'message' => 'Akses ditolak.',
@@ -205,22 +217,29 @@ class ChatController extends Controller
             $message = Message::create([
                 'chat_id' => $id,
                 'sender_id' => $user->id,
-                'content' => $request->content,
+                'content' => $request->input('content'),
             ]);
 
-            $recipientId = $chat->user_id === $user->id ? $chat->seller_id : $chat->user_id;
-            $isRecipientSeller = Seller::where('user_id', $recipientId)->exists();
-            Notification::create([
-                'admin_id' => 1,
-                'judul' => 'Pesan Baru',
-                'pesan' => 'Anda menerima pesan baru dari ' . $user->name,
-                'penerima' => 'khusus',
-                'status' => 'terkirim',
-                'read' => false,
-                'chat_id' => $chat->id,
-                'seller_id' => $isRecipientSeller ? $recipientId : null,
-                'user_id' => $isRecipientSeller ? null : $recipientId,
-            ]);
+            Log::info("Message sent: chat_id={$id}, sender_id={$user->id}, content={$request->input('content')}");
+
+            try {
+                $recipientId = $chat->user_id === $user->id ? $chat->seller_id : $chat->user_id;
+                $recipient = User::find($recipientId);
+                if ($recipient) {
+                    Notification::create([
+                        'judul' => 'Pesan Baru',
+                        'pesan' => "Anda menerima pesan baru dari {$user->name}",
+                        'penerima' => $chat->user_id === $user->id ? 'seller' : 'pengguna',
+                        'status' => 'terkirim',
+                        'chat_id' => $id,
+                        'user_id' => $chat->user_id === $user->id ? null : $recipient->id,
+                        'seller_id' => $chat->user_id === $user->id ? $recipient->id : null,
+                    ]);
+                    Log::info("Notification created for recipient_id: {$recipient->id}");
+                }
+            } catch (\Exception $e) {
+                Log::warning("Gagal buat notifikasi untuk chat_id: {$id}, error: {$e->getMessage()}");
+            }
 
             return response()->json([
                 'status' => 'success',
