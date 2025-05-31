@@ -32,10 +32,10 @@
             </button>
         </div>
         <div>
-            <a class="navbar-brand brand-logo" href="#">
+            <a class="navbar-brand brand-logo" href="{{ route('seller.dashboard.index') }}">
                 <img src="{{ asset('images/sellerspace.svg') }}" alt="svg" />
             </a>
-            <a class="navbar-brand brand-logo-mini" href="#">
+            <a class="navbar-brand brand-logo-mini" href="{{ route('seller.dashboard.index') }}">
                 <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" />
             </a>
         </div>

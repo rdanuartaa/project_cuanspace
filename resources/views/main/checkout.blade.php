@@ -118,7 +118,7 @@
                                     <button type="submit" class="link-ver1 add-cart">Bayar Sekarang</button>
                                 </form>
                             @elseif($transaction->status == 'pending')
-                                <p>Status: <strong>Menunggu Pembayaran</strong></p>
+                                <p>Status: <strong>Pembayaran Berhasil</strong></p>
                                 <form action="{{ route('main.confirmPayment', $transaction->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" class="link-ver1 add-cart">Saya Sudah Bayar</button>
