@@ -4,10 +4,10 @@ namespace App\Http\Controllers\API;
 
 use Illuminate\Routing\Controller;
 use Illuminate\Http\Request;
-use App\Models\User;
-use App\Models\About;
 use App\Models\Product;
-use App\Models\Seller;
+use App\Models\Kategori;
+use App\Models\Review;
+use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
@@ -16,85 +16,64 @@ class HomeController extends Controller
         $this->middleware('auth:sanctum');
     }
 
-    // Fetch users except current
+    /**
+     * Menampilkan daftar produk seperti di Web HomeController@index
+     */
     public function index(Request $request)
     {
-        $users = User::where('id', '!=', $request->user()->id)
-            ->select('id', 'name', 'email')
-            ->get();
+        try {
+            // Ambil semua kategori untuk filter
+            $kategoris = Kategori::select('id', 'nama_kategori')->get();
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $users,
-        ]);
-    }
+            // Query dasar: hanya produk published dan seller aktif
+            $query = Product::where('status', 'published')
+                ->with(['kategori', 'seller.user'])
+                ->whereHas('seller', function ($q) {
+                    $q->where('status', 'active');
+                });
 
-    // Show about data (for front end)
-    public function showAbout()
-    {
-        $about = About::where('status', 'published')->first();
-        return view('main.about', compact('about'));
-    }
+            // 🔍 Tambahkan pencarian berdasarkan nama produk
+            if ($request->filled('search')) {
+                $query->where('name', 'like', '%' . $request->search . '%');
+            }
 
-    // Fetch trending products
+            // Filter berdasarkan kategori jika ada
+            if ($request->filled('kategori') && $request->kategori != 'all') {
+                $query->where('kategori_id', $request->kategori);
+            }
 
-    public function products(Request $request)
-{
-    $user = $request->user(); // Pengguna yang sedang login
+            // Pagination
+            $perPage = $request->input('per_page', 12); // Default 12 per halaman
+            $products = $query->latest()->paginate($perPage);
 
-    $query = Product::select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status', 'view_count', 'purchase_count')
-                    ->where('status', 'published') // Hanya produk yang published
-                    ->withActiveSeller() // Hanya produk dari seller aktif
-                    ->with('kategori'); // Sertakan relasi kategori
+            // Hitung rating bintang dinamis untuk setiap produk
+            $products->getCollection()->transform(function ($product) {
+                $averageRating = $product->reviews->avg('rating') ?? 0;
+                $fullStars = floor($averageRating);
+                $halfStar = $averageRating - $fullStars >= 0.5;
+                $product->review_count = $product->reviews->count();
 
-    // Jika pengguna adalah seller, jangan tampilkan produk mereka sendiri
-    if ($user->role === 'seller') {
-        $seller = Seller::where('user_id', $user->id)->first();
-        if ($seller) {
-            $query->where('seller_id', '!=', $seller->id);
+                // Tambahkan atribut custom ke objek produk
+                $product->average_rating = round($averageRating, 1);
+                $product->review_count = $product->reviews->count();
+                $product->full_stars = $fullStars;
+                $product->has_half_star = $halfStar;
+
+                return $product;
+            });
+
+            return response()->json([
+                'status' => 'success',
+                'data' => [
+                    'products' => $products,
+                    'kategoris' => $kategoris,
+                ],
+            ], 200);
+        } catch (\Exception $e) {
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Terjadi kesalahan saat mengambil data: ' . $e->getMessage(),
+            ], 500);
         }
     }
-
-    $products = $query->get();
-
-    return response()->json([
-        'status' => 'success',
-        'data' => $products,
-    ]);
-}
-    public function trending(Request $request)
-{
-    $sortBy = $request->query('sort_by', 'views');
-    $limit = $request->query('limit', 10); // Default limit to 10
-    $user = $request->user(); // Pengguna yang sedang login
-
-    $query = Product::select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status', 'view_count', 'purchase_count')
-                    ->where('status', 'published') // Hanya produk yang published
-                    ->withActiveSeller() // Hanya produk dari seller aktif
-                    ->with('kategori'); // Sertakan relasi kategori
-
-    // Jika pengguna adalah seller, jangan tampilkan produk mereka sendiri
-    if ($user->role === 'seller') {
-        $seller = Seller::where('user_id', $user->id)->first();
-        if ($seller) {
-            $query->where('seller_id', '!=', $seller->id);
-        }
-    }
-
-    // Urutkan berdasarkan parameter sortBy
-    if ($sortBy === 'purchases') {
-        $query->orderBy('purchase_count', 'desc');
-    } else {
-        $query->orderBy('view_count', 'desc');
-    }
-
-    $products = $query->take($limit)->get();
-
-    return response()->json([
-        'status' => 'success',
-        'data' => $products,
-
-
-    ]);
-}
 }

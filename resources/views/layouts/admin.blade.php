@@ -49,10 +49,10 @@
             </button>
         </div>
         <div>
-            <a class="navbar-brand brand-logo" href="index.html">
+            <a class="navbar-brand brand-logo" href="{{ route('admin.dashboard.index') }}">
                 <img src="{{ asset('images/adminspace.svg') }}" alt="logo" />
             </a>
-            <a class="navbar-brand brand-logo-mini" href="index.html">
+            <a class="navbar-brand brand-logo-mini" href="{{ route('admin.dashboard.index') }}">
                 <img src="{{ asset('img/logocuanspace.png') }}" alt="logo" />
             </a>
         </div>

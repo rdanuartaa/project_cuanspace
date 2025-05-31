@@ -36,7 +36,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/products/{id}/reviews', [APIReviewController::class, 'getReviews']);
     Route::post('/transactions', [TransactionController::class, 'create']);
     Route::get('/transactions/{transactionCode}/download', [TransactionController::class, 'download']);
-
     Route::get('/notifications', [NotificationController::class, 'index']);
     Route::post('/notifications/{id}/read', [NotificationController::class, 'markAsRead']);
     Route::post('/notifications', [NotificationController::class, 'store']);
@@ -44,4 +43,11 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/chats', [ChatController::class, 'index']);
     Route::get('/chats/{id}/messages', [ChatController::class, 'messages']);
     Route::post('/chats/{id}/messages', [ChatController::class, 'sendMessage']);
+    Route::get('/checkout/{productId}', [MainController::class, 'checkout']);
+    Route::post('/process-checkout/{productId}', [MainController::class, 'processCheckout']);
+    Route::get('/download-now/{productId}', [MainController::class, 'downloadNow']);
+    Route::post('/accept-agree/{productId}', [MainController::class, 'acceptAgreement']);
+    Route::get('/download/{productId}', [MainController::class, 'download']);
+    Route::get('/order-history', [MainController::class, 'orderHistory']);
+    Route::post('/submit-review/{productId}', [MainController::class, 'submitReview']);
 });
