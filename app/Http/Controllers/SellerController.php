@@ -332,7 +332,7 @@ class SellerController extends Controller
 
         $products = $query->orderByRaw('CASE WHEN deleted_at IS NOT NULL THEN 1 ELSE 0 END DESC')
             ->latest()
-            ->paginate(10);
+            ->paginate(15);
 
         $kategoris = Kategori::all();
 

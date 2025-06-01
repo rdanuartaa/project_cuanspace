@@ -25,7 +25,7 @@ class UlasanController extends Controller
         }
 
         // Ambil data reviews dengan pagination
-        $reviews = $query->latest()->paginate(10);
+        $reviews = $query->latest()->paginate(15);
 
         // Hitung total rating dan jumlah ulasan
         $totalRating = $reviews->sum('rating');

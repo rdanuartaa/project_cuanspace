@@ -210,7 +210,6 @@ class MainController extends Controller
             'data' => $transactions
         ]);
     }
-
     // 7. Konfirmasi Pembayaran Manual
     public function confirmPayment(Request $request, $transactionId)
     {

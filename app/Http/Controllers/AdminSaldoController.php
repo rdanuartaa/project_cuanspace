@@ -13,7 +13,7 @@ class AdminSaldoController extends Controller
     {
         $withdrawRequests = Withdraw::with('seller')
             ->latest()
-            ->paginate(10);
+            ->paginate(15);
 
         $sellerBalances = Seller::select('id', 'brand_name as name', 'balance')->get();
 

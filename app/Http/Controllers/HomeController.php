@@ -33,7 +33,7 @@ class HomeController extends Controller
         }
 
         // Pagination
-        $products = $query->latest()->paginate(12);
+        $products = $query->latest()->paginate(15);
 
         // Hitung rating bintang dinamis untuk setiap produk
         $products->getCollection()->transform(function ($product) {

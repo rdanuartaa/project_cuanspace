@@ -133,7 +133,7 @@
                                 </div>
                                 <div class="product-info-ver2">
                                     <h3 class="product-title">
-                                        <a href="#">{{ \Illuminate\Support\Str::limit($product->name, 25) }}</a>
+                                        <a href="{{ route('public.produk.show', $product->id) }}">{{ \Illuminate\Support\Str::limit($product->name, 25) }}</a>
                                     </h3>
                                     <div class="product-after-switch">
                                         <div class="product-price">Rp{{ number_format($product->price, 0, ',', '.') }}
@@ -239,13 +239,13 @@
             <h3 style="margin-bottom: 15px; color: #333;">Login Required</h3>
             <p style="margin-bottom: 20px; color: #666;">You must be logged in to view this product. Please log in to
                 proceed.</p>
-            <div style="display: flex; gap: 10px; justify-content: center;">
+            <div class="form-check">
                 <button onclick="window.location.href='{{ route('login') }}'"
-                    style="background: #007bff; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    class="btn-login link-button create-account hover-white">
                     Login
                 </button>
                 <button onclick="closeModal()"
-                    style="background: #6c757d; color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer;">
+                    class="btn link-button create-account hover-black">
                     Cancel
                 </button>
             </div>

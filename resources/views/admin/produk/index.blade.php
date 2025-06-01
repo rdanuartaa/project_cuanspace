@@ -6,33 +6,34 @@
     <div class="col-lg-12 grid-margin stretch-card">
         <div class="card ">
             <div class="card-body">
-                <h4 class="m-0">Kelola Produk</h4>
-
-                    <div class="row mb-4">
-                        <div class="col-md-3">
-                            <form method="GET" action="{{ route('admin.produk.index') }}" class="d-flex">
-                                <select name="kategori" class="form-select form-select-sm me-2" style="width: 200px;"
-                                    onchange="this.form.submit()">
-                                    <option value="">Semua Kategori</option>
-                                    @foreach ($kategoris as $kategori)
-                                        <option value="{{ $kategori->id }}"
-                                            {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
-                                            {{ $kategori->nama_kategori }}
-                                        </option>
-                                    @endforeach
-                                </select>
-                                <select name="status" class="form-select form-select-sm" style="width: 200px;"
-                                    onchange="this.form.submit()">
-                                    <option value="">Semua Status</option>
-                                    <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
-                                    <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published
-                                    </option>
-                                    <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived
-                                    </option>
-                                </select>
-                            </form>
-                        </div>
+                <div class="d-flex justify-content-between align-items-center mb-4">
+                    <h3>Kelola Produk</h3>
+                </div>
+                <form method="GET" action="{{ route('admin.produk.index') }}" class="row my-2 g-2 align-items-center">
+                    <div class="col-md-3">
+                        <select name="kategori" class="form-select"
+                            onchange="this.form.submit()">
+                            <option value="">Semua Kategori</option>
+                            @foreach ($kategoris as $kategori)
+                                <option value="{{ $kategori->id }}"
+                                    {{ request('kategori') == $kategori->id ? 'selected' : '' }}>
+                                    {{ $kategori->nama_kategori }}
+                                </option>
+                            @endforeach
+                        </select>
                     </div>
+                    <div class="col-md-3">
+                        <select name="status" class="form-select"
+                            onchange="this.form.submit()">
+                            <option value="">Semua Status</option>
+                            <option value="draft" {{ request('status') == 'draft' ? 'selected' : '' }}>Draft</option>
+                            <option value="published" {{ request('status') == 'published' ? 'selected' : '' }}>Published
+                            </option>
+                            <option value="archived" {{ request('status') == 'archived' ? 'selected' : '' }}>Archived
+                            </option>
+                        </select>
+                    </div>
+                </form>
                 <div class="card-body p-0">
                     @if (session('success'))
                         <div class="alert alert-success alert-dismissible fade show m-3" role="alert">

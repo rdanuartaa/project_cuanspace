@@ -32,7 +32,7 @@ class PenghasilanController extends Controller
         }
 
         // Pagination
-        $penghasilan = $baseQuery->latest()->paginate(10);
+        $penghasilan = $baseQuery->latest()->paginate(15);
 
         // Total penghasilan sesuai filter
         $total = $baseQuery->sum('amount');

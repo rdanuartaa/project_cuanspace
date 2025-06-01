@@ -9,11 +9,9 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title">Seller Management</h4>
-
                 <!-- Filter Status -->
                 <div class="row mb-4">
                     <div class="col-md-3">
-                        <label for="status" class="form-label">Filter Status</label>
                         <select name="status" id="status" class="form-select">
                             <option value="">Semua Status</option>
                             <option value="pending" {{ request('status') == 'pending' ? 'selected' : '' }}>Pending</option>

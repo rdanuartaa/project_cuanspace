@@ -27,7 +27,7 @@ class SaldoController extends Controller
         // Riwayat penarikan
         $withdrawHistory = Withdraw::where('seller_id', $seller->id)
             ->latest()
-            ->paginate(10);
+            ->paginate(15);
 
         return view('seller.saldo.index', compact(
             'currentBalance',

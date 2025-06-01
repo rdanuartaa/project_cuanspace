@@ -46,7 +46,7 @@ class ProductController extends Controller
                 $query->where('status', $request->status);
             }
 
-            $products = $query->latest()->paginate(10);
+            $products = $query->latest()->paginate(15);
             $kategoris = Kategori::all();
 
             return view('seller.produk.index', compact('products', 'kategoris'));
