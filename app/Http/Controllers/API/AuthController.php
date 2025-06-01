@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Seller;
+use App\Models\UserDetail; // Tambahkan impor
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -24,6 +25,18 @@ class AuthController extends Controller
             'name' => $validated['name'],
             'email' => $validated['email'],
             'password' => Hash::make($validated['password']),
+        ]);
+
+        // Buat entri default untuk userDetail
+        UserDetail::create([
+            'user_id' => $user->id,
+            'phone' => null,
+            'address' => null,
+            'gender' => null,
+            'date_of_birth' => null,
+            'religion' => null,
+            'status' => null,
+            'profile_photo' => null,
         ]);
 
         $token = $user->createToken('auth_token', ['*'], now()->addDays(7))->plainTextToken;
