@@ -6,13 +6,57 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
 
 class UserController extends Controller
 {
     public function getUser(Request $request)
     {
-        $user = $request->user()->load('userDetail');
-        return response()->json($user);
+        try {
+            $user = $request->user();
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pengguna tidak ditemukan.',
+                ], 401);
+            }
+            $user->load('userDetail');
+            return response()->json([
+                'success' => true,
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error("Error fetching user: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil data pengguna: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    // Tambahkan fungsi profile untuk endpoint /api/user/profile
+    public function profile(Request $request)
+    {
+        try {
+            $user = $request->user();
+            if (!$user) {
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pengguna tidak ditemukan.',
+                ], 401);
+            }
+            $user->load('userDetail');
+            return response()->json([
+                'success' => true,
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error("Error fetching user profile: " . $e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Terjadi kesalahan saat mengambil profil pengguna: ' . $e->getMessage(),
+            ], 500);
+        }
     }
 
     public function updateProfile(Request $request)
