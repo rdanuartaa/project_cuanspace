@@ -67,7 +67,8 @@ class ProductController extends Controller
 
             $query = Product::where('status', 'published')
                 ->select('id', 'seller_id', 'kategori_id', 'name', 'description', 'price', 'thumbnail', 'digital_file', 'status')
-                ->with('kategori:id,nama_kategori');
+                ->with('kategori:id,nama_kategori')
+                ->with('reviews'); // Sertakan relasi reviews
 
             // Filter produk agar tidak menampilkan produk milik seller yang login
             if ($user->role === 'seller') {
@@ -77,7 +78,21 @@ class ProductController extends Controller
                 }
             }
 
-            $products = $query->get();
+            $products = $query->get()->map(function ($product) {
+                $product->thumbnail = $product->thumbnail_url;
+
+                // Hitung rata-rata rating dan jumlah ulasan
+                $reviews = $product->reviews;
+                $reviewCount = $reviews->count();
+                $averageRating = $reviewCount > 0
+                    ? $reviews->avg('rating')
+                    : 0.0;
+
+                $product->average_rating = $averageRating;
+                $product->review_count = $reviewCount;
+
+                return $product;
+            });
 
             return response()->json([
                 'success' => true,
