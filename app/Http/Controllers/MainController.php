@@ -99,7 +99,7 @@ class MainController extends Controller
         } catch (\Illuminate\Validation\ValidationException $e) {
             return response()->json(['error' => $e->getMessage()], 422);
         } catch (\Exception $e) {
-            \Log::error("Error saat checkout: " . $e->getMessage());
+            Log::error("Error saat checkout: " . $e->getMessage());
             return response()->json(['error' => 'Gagal memproses checkout. Silakan coba lagi.'], 500);
         }
     }
@@ -241,5 +241,5 @@ class MainController extends Controller
         ]);
         return redirect()->back()->with('success', 'Ulasan berhasil dikirim!');
     }
-    
+
 }

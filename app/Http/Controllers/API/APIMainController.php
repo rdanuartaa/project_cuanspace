@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
@@ -10,15 +11,110 @@ use App\Models\Transaction;
 use App\Models\Review;
 use App\Helpers\MidtransHelper;
 use Midtrans\Snap;
+use Midtrans\Transaction as MidtransTransaction;
 use Exception;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Arr;
 
-class MainController extends Controller
+class APIMainController extends Controller
 {
     // 1. Checkout - Cek apakah sudah pernah beli
+
+    public function checkTransactionStatus(Request $request, $transactionCode)
+    {
+        try {
+            $user = Auth::user();
+            if (!$user) {
+                Log::warning("User not authenticated for status check", ['transaction_code' => $transactionCode]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Pengguna tidak terautentikasi.',
+                ], 401);
+            }
+
+            $transaction = Transaction::where('transaction_code', $transactionCode)
+                ->where('user_id', $user->id)
+                ->first();
+
+            if (!$transaction) {
+                Log::warning("Transaksi tidak ditemukan", [
+                    'transaction_code' => $transactionCode,
+                    'user_id' => $user->id,
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Transaksi tidak ditemukan.',
+                ], 404);
+            }
+
+            if ($transaction->status === 'paid') {
+                return response()->json([
+                    'success' => true,
+                    'status' => 'paid',
+                    'message' => 'Transaksi sudah dibayar.',
+                ], 200);
+            }
+
+            // Check status with Midtrans
+            MidtransHelper::config();
+            $midtransStatus = (object) MidtransTransaction::status($transactionCode);
+
+            Log::info("Midtrans status check", [
+                'transaction_code' => $transactionCode,
+                'midtrans_status' => $midtransStatus,
+            ]);
+
+            $newStatus = match ($midtransStatus->transaction_status) {
+                'settlement', 'capture' => 'paid',
+                'pending' => 'pending',
+                'expire' => 'expired',
+                'cancel' => 'cancelled',
+                'deny' => 'failed',
+                default => 'unknown',
+            };
+
+            if ($newStatus !== $transaction->status) {
+                $transaction->update([
+                    'status' => $newStatus,
+                    'payment_type' => $midtransStatus->payment_type ?? null,
+                    'payment_time' => $midtransStatus->transaction_time ?? null,
+                    'midtrans_response' => json_encode($midtransStatus),
+                ]);
+
+                Log::info("Status transaksi diperbarui dari Midtrans", [
+                    'transaction_code' => $transactionCode,
+                    'new_status' => $newStatus,
+                ]);
+
+                if ($newStatus === 'paid' && $transaction->product && $transaction->product->seller) {
+                    $transaction->product->seller->updateBalance();
+                    Log::info("Saldo seller diperbarui", [
+                        'seller_id' => $transaction->product->seller->id,
+                        'amount' => $transaction->amount,
+                        'transaction_code' => $transactionCode,
+                    ]);
+                }
+            }
+
+            return response()->json([
+                'success' => true,
+                'status' => $newStatus,
+                'message' => 'Status transaksi diperiksa.',
+            ], 200);
+        } catch (\Exception $e) {
+            Log::error("Error saat memeriksa status transaksi: " . $e->getMessage(), [
+                'transaction_code' => $transactionCode,
+                'stack' => $e->getTraceAsString(),
+            ]);
+            return response()->json([
+                'success' => false,
+                'message' => 'Gagal memeriksa status transaksi: ' . $e->getMessage(),
+            ], 500);
+        }
+    }
     public function checkout(Request $request, $productId)
     {
         try {
@@ -64,117 +160,125 @@ class MainController extends Controller
     public function processCheckout(Request $request, $productId)
     {
         try {
-            Log::info("Memulai processCheckout untuk product_id: {$productId}");
-
             $request->validate([
                 'email' => 'required|email',
                 'agree' => 'accepted',
-                'quantity' => 'required|integer|min:1',
             ]);
 
-            $user = Auth::user();
-            if (!$user) {
-                Log::warning("Pengguna tidak terautentikasi di processCheckout");
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Pengguna tidak terautentikasi.',
-                ], 401);
-            }
-
-            $product = Product::find($productId);
-            if (!$product) {
-                Log::warning("Produk tidak ditemukan", ['product_id' => $productId]);
-                return response()->json([
-                    'success' => false,
-                    'message' => 'Produk tidak ditemukan.',
-                ], 404);
-            }
+            $product = Product::findOrFail($productId);
 
             $existing = Transaction::where([
-                'user_id' => $user->id,
+                'user_id' => Auth::id(),
                 'product_id' => $product->id,
-                'status' => 'pending'
-            ])->exists();
-
+                'status' => 'pending',
+            ])->first();
             if ($existing) {
-                $pendingTransaction = Transaction::where([
-                    'user_id' => $user->id,
-                    'product_id' => $product->id,
-                    'status' => 'pending'
-                ])->first();
-                Log::warning("Transaksi pending sudah ada untuk user_id: {$user->id}, product_id: {$product->id}");
+                Log::info("Pending transaction found", [
+                    'code' => $existing->transaction_code,
+                    'snap_token' => $existing->snap_token,
+                ]);
                 return response()->json([
                     'success' => false,
-                    'message' => 'Kamu sudah memiliki transaksi yang belum diselesaikan.',
+                    'error' => 'Kamu sudah memiliki transaksi yang belum diselesaikan.',
                     'data' => [
-                        'transaction_code' => $pendingTransaction->transaction_code,
-                        'snap_token' => $pendingTransaction->snap_token
-                    ]
+                        'snap_token' => $existing->snap_token,
+                        'transaction_code' => $existing->transaction_code,
+                    ],
                 ], 400);
             }
 
             $transactionCode = 'CSP-' . strtoupper(Str::random(8));
-            $amount = $product->price * $request->quantity;
-
             $transaction = Transaction::create([
-                'user_id' => $user->id,
+                'user_id' => Auth::id(),
                 'product_id' => $product->id,
                 'transaction_code' => $transactionCode,
-                'amount' => $amount,
+                'amount' => $product->price,
                 'status' => 'pending',
             ]);
 
             $params = [
                 'transaction_details' => [
-                    'order_id' => $transaction->transaction_code,
-                    'gross_amount' => $amount,
+                    'order_id' => $transactionCode,
+                    'gross_amount' => $product->price,
                 ],
                 'customer_details' => [
-                    'first_name' => $user->name,
+                    'first_name' => Auth::user()->name,
                     'email' => $request->email,
                 ],
                 'item_details' => [[
                     'id' => $product->id,
                     'price' => $product->price,
-                    'quantity' => $request->quantity,
+                    'quantity' => 1,
                     'name' => Str::limit($product->name, 20),
                 ]],
-                'enabled_payments' => ['qris'], // Sesuaikan dengan metode pembayaran yang diinginkan
             ];
 
-            Log::info("Mencoba mendapatkan snap token untuk transaction_code: {$transactionCode}");
             $snapToken = MidtransHelper::getSnapToken($params);
             $transaction->update(['snap_token' => $snapToken]);
 
-            Log::info("Transaksi berhasil dibuat", [
-                'transaction_code' => $transactionCode,
+            Log::info("New transaction created", [
+                'code' => $transactionCode,
                 'snap_token' => $snapToken,
             ]);
-
             return response()->json([
                 'success' => true,
-                'message' => 'Transaksi berhasil dibuat.',
                 'data' => [
-                    'transaction_code' => $transactionCode,
                     'snap_token' => $snapToken,
+                    'transaction_code' => $transactionCode,
                 ],
-            ], 201);
-        } catch (ValidationException $e) {
+            ], 200);
+        } catch (\Illuminate\Validation\ValidationException $e) {
+            Log::error("Validation error in processCheckout: " . $e->getMessage(), [
+                'errors' => $e->errors(),
+            ]);
             return response()->json([
-                'success' => false,
-                'message' => $e->getMessage(),
-                'errors' => $e->errors()
+                'error' => 'Validasi gagal: ' . implode(', ', Arr::flatten($e->errors())),
             ], 422);
         } catch (\Exception $e) {
-            Log::error("Error saat processCheckout: " . $e->getMessage());
+            Log::error("Checkout error: " . $e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+            ]);
             return response()->json([
                 'success' => false,
-                'message' => 'Gagal memproses checkout. Silakan coba lagi.'
+                'error' => 'Gagal memproses checkout: ' . $e->getMessage(),
             ], 500);
         }
     }
 
-    // 3. Download Now - Info download
+    public function downloadByTransactionCode(Request $request, $transactionCode)
+    {
+        try {
+            $transaction = Transaction::where('transaction_code', $transactionCode)
+                ->where('user_id', Auth::id())
+                ->where('status', 'paid')
+                ->firstOrFail();
+
+            $maxDownload = 3;
+            if ($transaction->download_count >= $maxDownload) {
+                return response()->json(['success' => false, 'message' => 'Batas maksimum download tercapai'], 403);
+            }
+
+            $product = $transaction->product;
+            if (!$product->digital_file || !Storage::disk('public')->exists('digital_files/' . $product->digital_file)) {
+                return response()->json(['success' => false, 'message' => 'File tidak ditemukan'], 404);
+            }
+
+            $hasAgreed = session("download_agreed_{$product->id}", false);
+            if (!$hasAgreed) {
+                return response()->json(['success' => false, 'message' => 'Persetujuan diperlukan'], 403);
+            }
+
+            $transaction->increment('download_count');
+            session()->forget("download_agreed_{$product->id}");
+
+            $fileUrl = asset('storage/digital_files/' . $product->digital_file);
+            return response()->json(['success' => true, 'file_url' => $fileUrl]);
+        } catch (\Exception $e) {
+            Log::error("Error saat download file: " . $e->getMessage());
+            return response()->json(['success' => false, 'message' => 'Gagal mengunduh file: ' . $e->getMessage()], 500);
+        }
+    }
+
     public function downloadNow($productId)
     {
         try {
@@ -247,7 +351,7 @@ class MainController extends Controller
     }
 
     // 5. Download File (berdasarkan productId)
-    public function download(Request $request, $productId)
+    public function download1(Request $request, $productId)
     {
         try {
             $user = Auth::user();
@@ -332,6 +436,7 @@ class MainController extends Controller
         try {
             $user = Auth::user();
             if (!$user) {
+                Log::warning("User not authenticated for download", ['transaction_code' => $transactionCode]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Pengguna tidak terautentikasi.',
@@ -344,9 +449,11 @@ class MainController extends Controller
                 ->first();
 
             if (!$transaction) {
-                Log::warning("Transaksi tidak ditemukan atau belum dibayar", [
+                Log::warning("Transaction check failed", [
                     'transaction_code' => $transactionCode,
-                    'user_id' => $user->id
+                    'user_id' => $user->id,
+                    'transaction_exists' => Transaction::where('transaction_code', $transactionCode)->exists(),
+                    'transaction_status' => Transaction::where('transaction_code', $transactionCode)->first()?->status,
                 ]);
                 return response()->json([
                     'success' => false,
@@ -392,7 +499,10 @@ class MainController extends Controller
                 'file_url' => $fileUrl,
             ], 200);
         } catch (\Exception $e) {
-            Log::error("Error saat mengunduh file: " . $e->getMessage());
+            Log::error("Error saat mengunduh file: " . $e->getMessage(), [
+                'transaction_code' => $transactionCode,
+                'stack' => $e->getTraceAsString(),
+            ]);
             return response()->json([
                 'success' => false,
                 'message' => 'Gagal mengunduh file: ' . $e->getMessage(),
@@ -401,11 +511,12 @@ class MainController extends Controller
     }
 
     // 7. Riwayat Pesanan
-    public function orderHistory()
+    public function orderHistoried()
     {
         try {
             $user = Auth::user();
             if (!$user) {
+                Log::warning("Pengguna tidak terautentikasi untuk riwayat pesanan", ['user_id' => null]);
                 return response()->json([
                     'success' => false,
                     'message' => 'Pengguna tidak terautentikasi.',
@@ -414,8 +525,15 @@ class MainController extends Controller
 
             $transactions = Transaction::where('user_id', $user->id)
                 ->where('status', 'paid')
+                ->with('product')
                 ->latest()
                 ->get();
+
+            Log::info("Mengambil riwayat pesanan", [
+                'user_id' => $user->id,
+                'transaction_count' => $transactions->count(),
+                'transactions' => $transactions->toArray(),
+            ]);
 
             $mappedTransactions = $transactions->map(function ($transaction) {
                 $product = $transaction->product;
@@ -442,23 +560,21 @@ class MainController extends Controller
                     'status' => $transaction->status,
                     'download_count' => $transaction->download_count,
                     'has_reviewed' => $hasReviewed,
+                    'snap_token' => $transaction->snap_token,
                 ];
-            })->filter();
-
-            Log::info("Riwayat pesanan berhasil diambil", [
-                'user_id' => $user->id,
-                'transactions_count' => $mappedTransactions->count()
-            ]);
+            })->filter()->values();
 
             return response()->json([
                 'success' => true,
-                'data' => $mappedTransactions->values(),
+                'data' => $mappedTransactions,
             ], 200);
-        } catch (\Exception $e) {
-            Log::error("Error fetching order history: " . $e->getMessage());
+        } catch (Exception $e) {
+            Log::error("Error saat mengambil riwayat pesanan: " . $e->getMessage(), [
+                'stack' => $e->getTraceAsString(),
+            ]);
             return response()->json([
                 'success' => false,
-                'message' => 'Terjadi kesalahan saat mengambil riwayat pesanan: ' . $e->getMessage(),
+                'message' => 'Terjadi kesalahan saat mengambil riwayat: ' . $e->getMessage(),
             ], 500);
         }
     }

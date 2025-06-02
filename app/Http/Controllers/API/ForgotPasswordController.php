@@ -5,59 +5,55 @@ namespace App\Http\Controllers\API;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
+use App\Mail\SendOtpMail;
+use Illuminate\Support\Facades\Mail;
 
 class ForgotPasswordController extends Controller
 {
-    public function sendResetLinkEmail(Request $request): \Illuminate\Http\JsonResponse
+    public function sendResetLinkEmail(Request $request)
     {
-        try {
-            // Validasi email
-            $request->validate([
-                'email' => ['required', 'email'],
+        $request->validate([
+            'email' => 'required|email',
+        ]);
+
+        $user = \App\Models\User::where('email', $request->email)->first();
+        if (!$user) {
+            throw ValidationException::withMessages([
+                'email' => ['Email tidak ditemukan.'],
             ]);
+        }
 
-            // Generate OTP
-            $otp = rand(100000, 999999); // 6-digit OTP
-            $expiresAt = now()->addMinutes(10);
+        // Generate OTP
+        $otp = rand(100000, 999999);
+        $otpExpiresAt = now()->addMinutes(10); // OTP berlaku 10 menit
 
-            // Simpan OTP ke database
-            DB::table('password_reset_tokens')->updateOrInsert(
-                ['email' => $request->email],
-                [
-                    'otp' => $otp,
-                    'otp_expires_at' => $expiresAt,
-                    'created_at' => now(),
-                ]
-            );
+        // Hapus token lama untuk email ini
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
 
-            // Kirim email OTP
-            Mail::raw("Kode OTP Anda adalah: $otp. Kode ini berlaku selama 10 menit.", function ($message) use ($request) {
-                $message->to($request->email)
-                        ->subject('Kode OTP untuk Reset Password')
-                        ->from(env('MAIL_FROM_ADDRESS'), env('MAIL_FROM_NAME'));
-            });
+        // Simpan OTP dan token baru
+        DB::table('password_reset_tokens')->insert([
+            'email' => $request->email,
+            'token' => Str::random(60), // Generate token unik
+            'otp' => $otp,
+            'otp_expires_at' => $otpExpiresAt,
+            'created_at' => now(),
+        ]);
 
-            return response()->json([
-                'message' => 'Kode OTP telah dikirim ke email Anda.',
-                'status' => 200
-            ], 200);
-
-        } catch (ValidationException $e) {
-            // Tangani error validasi khusus
-            return response()->json([
-                'message' => 'Validasi gagal.',
-                'errors' => $e->errors(),
-                'status' => 422
-            ], 422);
-
+        // Kirim OTP ke email pengguna
+        try {
+            Mail::to($request->email)->send(new SendOtpMail($otp));
         } catch (\Exception $e) {
-            // Tangani error lainnya
             return response()->json([
-                'message' => $e->getMessage(),
-                'status' => 500
+                'message' => 'Gagal mengirim email. Silakan coba lagi nanti.',
+                'error' => $e->getMessage(),
             ], 500);
         }
+
+        // Kembalikan respons tanpa OTP untuk keamanan
+        return response()->json([
+            'message' => 'Permintaan reset kata sandi telah dikirim. Silakan cek email Anda untuk kode OTP.',
+        ], 200);
     }
-}
+}   
